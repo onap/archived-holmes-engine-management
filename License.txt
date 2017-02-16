@@ -1,0 +1,1005 @@
+    
+<!DOCTYPE html>
+<html>
+<head>
+                            <title>License.txt - Release - Open-O Wiki</title>
+    
+        
+
+                        
+    
+                        
+    
+
+                
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=IE7">
+<meta charset="UTF-8">
+<meta id="confluence-context-path" name="confluence-context-path" content="">
+<meta id="confluence-base-url" name="confluence-base-url" content="https://wiki.open-o.org">
+
+<meta id="atlassian-token" name="atlassian-token" content="29a809c96f2d20022847123982e496d7d75180e5">
+
+
+<meta id="confluence-space-key" name="confluence-space-key" content="REL">
+<script type="text/javascript">
+        var contextPath = '';
+</script>
+
+    
+
+    <meta name="confluence-request-time" content="1486457275445">
+        
+    
+        
+            <meta name="ajs-show-space-welcome-dialog" content="true">
+            <style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+            <meta name="ajs-use-keyboard-shortcuts" content="true">
+            <meta name="ajs-discovered-plugin-features" content="{&quot;com.atlassian.confluence.plugins.confluence-dashboard&quot;:[&quot;transition-saved-for-later&quot;],&quot;com.atlassian.confluence.plugins.confluence-jira-metadata&quot;:[&quot;linked-issues-dropdown&quot;]}">
+            <meta name="stp-license-product-name" content="Confluence"/> <meta name="stp-license-days-to-expiry" content="282"/> <meta name="stp-license-is-admin" content="false"/> <meta name="stp-license-should-keep-banner-hidden" content="true"/>
+            <meta name="ajs-keyboardshortcut-hash" content="ff0b7903f2a500c206d819d34388a39f">
+            <meta id="team-calendars-has-jira-link" content="true">
+            <meta name="ajs-team-calendars-display-time-format" content="displayTimeFormat12">
+            <meta id="team-calendars-display-week-number" content="false">
+            <meta id="team-calendars-show-timezone-setup" content="true">
+            <meta id="team-calendars-user-timezone" content="UTC">
+            <script type="text/x-template" id="team-calendars-messages" title="team-calendars-messages"><fieldset class="i18n hidden"><input type="hidden" name="calendar3.month.long.july" value="July"><input type="hidden" name="calendar3.day.short.wednesday" value="Wed"><input type="hidden" name="calendar3.day.short.thursday" value="Thu"><input type="hidden" name="calendar3.month.short.march" value="Mar"><input type="hidden" name="calendar3.month.long.april" value="April"><input type="hidden" name="calendar3.month.long.october" value="October"><input type="hidden" name="calendar3.month.long.august" value="August"><input type="hidden" name="calendar3.month.short.july" value="Jul"><input type="hidden" name="calendar3.month.short.may" value="May"><input type="hidden" name="calendar3.month.short.november" value="Nov"><input type="hidden" name="calendar3.day.long.friday" value="Friday"><input type="hidden" name="calendar3.day.long.sunday" value="Sunday"><input type="hidden" name="calendar3.day.long.saturday" value="Saturday"><input type="hidden" name="calendar3.month.short.april" value="Apr"><input type="hidden" name="calendar3.day.long.wednesday" value="Wednesday"><input type="hidden" name="calendar3.month.long.december" value="December"><input type="hidden" name="calendar3.month.short.october" value="Oct"><input type="hidden" name="calendar3.day.long.monday" value="Monday"><input type="hidden" name="calendar3.month.short.june" value="Jun"><input type="hidden" name="calendar3.day.short.monday" value="Mon"><input type="hidden" name="calendar3.day.short.tuesday" value="Tue"><input type="hidden" name="calendar3.day.short.saturday" value="Sat"><input type="hidden" name="calendar3.month.long.march" value="March"><input type="hidden" name="calendar3.month.long.june" value="June"><input type="hidden" name="calendar3.month.short.february" value="Feb"><input type="hidden" name="calendar3.month.short.august" value="Aug"><input type="hidden" name="calendar3.month.short.december" value="Dec"><input type="hidden" name="calendar3.day.short.sunday" value="Sun"><input type="hidden" name="calendar3.month.long.february" value="February"><input type="hidden" name="calendar3.day.long.tuesday" value="Tuesday"><input type="hidden" name="calendar3.month.long.may" value="May"><input type="hidden" name="calendar3.month.long.september" value="September"><input type="hidden" name="calendar3.month.long.november" value="November"><input type="hidden" name="calendar3.month.short.january" value="Jan"><input type="hidden" name="calendar3.month.short.september" value="Sep"><input type="hidden" name="calendar3.day.long.thursday" value="Thursday"><input type="hidden" name="calendar3.month.long.january" value="January"><input type="hidden" name="calendar3.day.short.friday" value="Fri"></fieldset></script>
+            <meta name="ajs-public-signup-permitted" content="false">
+            <meta name="ajs-cq-is-admin" content="false"><meta name="ajs-cq-is-anonymous" content="false">
+            
+            <meta name="ajs-is-confluence-admin" content="false">
+            <meta name="ajs-connection-timeout" content="10000">
+            <meta name="gliffy-license-type" content="LicenseType&lt;COMMUNITY&gt;">
+<meta name="gliffy-license-quantity" content="${pluginLicenseManager.userCount}">
+
+            <script type="text/x-template" title="gliffy-webpanel-footer">
+        <div class="gliffy-webpanel-footer"><span>This Confluence installation runs a Free Gliffy License - Evaluate the <a href="http://www.gliffy.com/products/confluence-plugin/">Gliffy Confluence Plugin</a> for your Wiki!</span></div>
+</script>
+
+
+            
+    
+    
+            <meta name="ajs-page-id" content="65894">
+            <meta name="ajs-latest-page-id" content="65894">
+            <meta name="ajs-content-type" content="page">
+            <meta name="ajs-page-title" content="License.txt">
+            <meta name="ajs-latest-published-page-title" content="License.txt">
+            <meta name="ajs-parent-page-title" content="Release">
+            <meta name="ajs-parent-page-id" content="65707">
+            <meta name="ajs-space-key" content="REL">
+            <meta name="ajs-space-name" content="Release">
+            <meta name="ajs-jira-metadata-count" content="0">
+            <meta name="ajs-from-page-title" content="">
+            <meta name="ajs-can-remove-page" content="false">
+            <meta name="ajs-browse-page-tree-mode" content="view">
+            <meta name="ajs-shared-drafts" content="false">
+            <meta name="ajs-user-display-name" content="Guangrong Fu">
+            <meta name="ajs-context-path" content="">
+            <meta name="ajs-base-url" content="https://wiki.open-o.org">
+            <meta name="ajs-version-number" content="5.10.7">
+            <meta name="ajs-build-number" content="6441">
+            <meta name="ajs-remote-user" content="GuangrongFu">
+            <meta name="ajs-remote-user-key" content="2c9e48a658dab8e001591ed5830f0012">
+            <meta name="ajs-remote-user-has-licensed-access" content="true">
+            <meta name="ajs-current-user-fullname" content="Guangrong Fu">
+            <meta name="ajs-current-user-avatar-url" content="/images/icons/profilepics/default.png">
+            <meta name="ajs-current-user-avatar-uri-reference" content="/images/icons/profilepics/default.png">
+            <meta name="ajs-static-resource-url-prefix" content="/s/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/_">
+            <meta name="ajs-global-settings-attachment-max-size" content="104857600">
+            <meta name="ajs-user-locale" content="en_GB">
+            <meta name="ajs-enabled-dark-features" content="confluence.view.edit.transition,confluence-inline-comments-resolved,notification.plugin.api.enabled.com.atlassian.confluence.plugins.sharepage.api.ShareContentEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.mentions.api.ConfluenceMentionEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.security.ForgotPasswordEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.tasklist.event.SendTaskEmailEvent,file-annotations,confluence.efi.onboarding.rich.space.content,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.comment.CommentCreateEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.follow.FollowEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.inlinecomments.events.InlineCommentReplyEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostCreateEvent,confluence.table.resizable,notification.batch,confluence-inline-comments-rich-editor,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostUpdateEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageCreatedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentMentionUpdateEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.hipchat.api.events.HipChatUserMapped,quick-reload-inline-comments-flags,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.blogpost.BlogPostMovedEvent,clc.quick.create,cql.search.screen,nps.survey.inline.dialog,confluence.efi.onboarding.new.templates,pdf-preview,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageMovedEvent,previews.sharing,previews.versions,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentUpdateEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.attachment.AttachmentBatchUploadCompletedEvent,notification.plugin.api.enabled.com.atlassian.confluence.efi.emails.events.OnboardingLessUsersEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.files.notifications.event.FileContentRemoveEvent,confluence.wrap.macro,atlassian.aui.raphael.disabled,previews.conversion-service,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.comment.CommentUpdateEvent,editor.ajax.save,notification.plugin.api.enabled.com.atlassian.confluence.event.events.content.page.async.PageEditedEvent,previews.trigger-all-file-types,notification.plugin.api.enabled.com.atlassian.confluence.plugins.inlinecomments.events.InlineCommentResolveEvent,notification.plugin.api.enabled.com.atlassian.confluence.event.events.like.LikeCreatedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.inlinecomments.events.InlineCommentCreateEvent,previews.sharing.pushstate,file-annotations.likes,notification.plugin.api.enabled.com.atlassian.confluence.efi.emails.events.OnboardingNoSpaceCreatedEvent,notification.plugin.api.enabled.com.atlassian.confluence.plugins.sharepage.api.ShareAttachmentEvent,confluence-inline-comments,confluence-inline-comments-dangling-comment">
+            <meta name="ajs-atl-token" content="29a809c96f2d20022847123982e496d7d75180e5">
+            <meta name="ajs-confluence-flavour" content="VANILLA">
+            <meta name="ajs-user-date-pattern" content="dd MMM yyyy">
+            <meta name="ajs-date.format" content="MMM dd, yyyy">
+    
+    <link rel="shortcut icon" href="/s/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/4/_/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/s/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/4/_/favicon.ico">
+
+<link rel="search" type="application/opensearchdescription+xml" href="/opensearch/osd.action" title="Open-O Wiki"/>
+    
+                    
+            <meta name="ajs-create-issue-metadata-show-discovery" content="true">
+            
+
+    <script>
+window.WRM=window.WRM||{};window.WRM._unparsedData=window.WRM._unparsedData||{};window.WRM._unparsedErrors=window.WRM._unparsedErrors||{};
+WRM._unparsedData["com.atlassian.plugins.atlassian-plugins-webresource-plugin:context-path.context-path"]="\u0022\u0022";
+WRM._unparsedData["com.atlassian.applinks.applinks-plugin:applinks-common-exported.applinks-help-paths"]="{\u0022entries\u0022:{\u0022applinks.docs.root\u0022:\u0022https://confluence.atlassian.com/display/APPLINKS-052/\u0022,\u0022applinks.docs.diagnostics.troubleshoot.sslunmatched\u0022:\u0022SSL+and+application+link+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.oauthsignatureinvalid\u0022:\u0022OAuth+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.oauthtimestamprefused\u0022:\u0022OAuth+troubleshooting+guide\u0022,\u0022applinks.docs.delete.entity.link\u0022:\u0022Create+links+between+projects\u0022,\u0022applinks.docs.adding.application.link\u0022:\u0022Link+Atlassian+applications+to+work+together\u0022,\u0022applinks.docs.administration.guide\u0022:\u0022Application+Links+Documentation\u0022,\u0022applinks.docs.oauth.security\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.troubleshoot.application.links\u0022:\u0022Troubleshoot+application+links\u0022,\u0022applinks.docs.diagnostics.troubleshoot.unknownerror\u0022:\u0022Network+and+connectivity+troubleshooting+guide\u0022,\u0022applinks.docs.configuring.auth.trusted.apps\u0022:\u0022Configuring+Trusted+Applications+authentication+for+an+application+link\u0022,\u0022applinks.docs.diagnostics.troubleshoot.authlevelunsupported\u0022:\u0022OAuth+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.ssluntrusted\u0022:\u0022SSL+and+application+link+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.unknownhost\u0022:\u0022Network+and+connectivity+troubleshooting+guide\u0022,\u0022applinks.docs.delete.application.link\u0022:\u0022Link+Atlassian+applications+to+work+together\u0022,\u0022applinks.docs.link.applications\u0022:\u0022Link+Atlassian+applications+to+work+together\u0022,\u0022applinks.docs.diagnostics.troubleshoot.oauthproblem\u0022:\u0022OAuth+troubleshooting+guide\u0022,\u0022applinks.docs.diagnostics.troubleshoot.migration\u0022:\u0022Update+application+links+to+use+OAuth\u0022,\u0022applinks.docs.relocate.application.link\u0022:\u0022Link+Atlassian+applications+to+work+together\u0022,\u0022applinks.docs.administering.entity.links\u0022:\u0022Create+links+between+projects\u0022,\u0022applinks.docs.upgrade.application.link\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.diagnostics.troubleshoot.connectionrefused\u0022:\u0022Network+and+connectivity+troubleshooting+guide\u0022,\u0022applinks.docs.configuring.auth.oauth\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.insufficient.remote.permission\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.configuring.application.link.auth\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.diagnostics\u0022:\u0022Application+links+diagnostics\u0022,\u0022applinks.docs.configured.authentication.types\u0022:\u0022OAuth+security+for+application+links\u0022,\u0022applinks.docs.adding.entity.link\u0022:\u0022Create+links+between+projects\u0022,\u0022applinks.docs.diagnostics.troubleshoot.unexpectedresponse\u0022:\u0022Network+and+connectivity+troubleshooting+guide\u0022,\u0022applinks.docs.configuring.auth.basic\u0022:\u0022Configuring+Basic+HTTP+Authentication+for+an+Application+Link\u0022,\u0022applinks.docs.diagnostics.troubleshoot.authlevelmismatch\u0022:\u0022OAuth+troubleshooting+guide\u0022}}";
+WRM._unparsedData["com.atlassian.applinks.applinks-plugin:applinks-common-exported.applinks-types"]="{\u0022crowd\u0022:\u0022Crowd\u0022,\u0022confluence\u0022:\u0022Confluence\u0022,\u0022fecru\u0022:\u0022FishEye / Crucible\u0022,\u0022stash\u0022:\u0022Bitbucket Server\u0022,\u0022jira\u0022:\u0022JIRA\u0022,\u0022refapp\u0022:\u0022Reference Application\u0022,\u0022bamboo\u0022:\u0022Bamboo\u0022,\u0022generic\u0022:\u0022Generic Application\u0022}";
+WRM._unparsedData["com.atlassian.applinks.applinks-plugin:applinks-common-exported.entity-types"]="{\u0022singular\u0022:{\u0022refapp.charlie\u0022:\u0022Charlie\u0022,\u0022fecru.project\u0022:\u0022Crucible Project\u0022,\u0022fecru.repository\u0022:\u0022FishEye Repository\u0022,\u0022stash.project\u0022:\u0022Bitbucket Server Project\u0022,\u0022generic.entity\u0022:\u0022Generic Project\u0022,\u0022confluence.space\u0022:\u0022Confluence Space\u0022,\u0022bamboo.project\u0022:\u0022Bamboo Project\u0022,\u0022jira.project\u0022:\u0022JIRA Project\u0022},\u0022plural\u0022:{\u0022refapp.charlie\u0022:\u0022Charlies\u0022,\u0022fecru.project\u0022:\u0022Crucible Projects\u0022,\u0022fecru.repository\u0022:\u0022FishEye Repositories\u0022,\u0022stash.project\u0022:\u0022Bitbucket Server Projects\u0022,\u0022generic.entity\u0022:\u0022Generic Projects\u0022,\u0022confluence.space\u0022:\u0022Confluence Spaces\u0022,\u0022bamboo.project\u0022:\u0022Bamboo Projects\u0022,\u0022jira.project\u0022:\u0022JIRA Projects\u0022}}";
+WRM._unparsedData["com.atlassian.applinks.applinks-plugin:applinks-common-exported.authentication-types"]="{\u0022com.atlassian.applinks.api.auth.types.BasicAuthenticationProvider\u0022:\u0022Basic Access\u0022,\u0022com.atlassian.applinks.api.auth.types.TrustedAppsAuthenticationProvider\u0022:\u0022Trusted Applications\u0022,\u0022com.atlassian.applinks.api.auth.types.CorsAuthenticationProvider\u0022:\u0022CORS\u0022,\u0022com.atlassian.applinks.api.auth.types.OAuthAuthenticationProvider\u0022:\u0022OAuth\u0022,\u0022com.atlassian.applinks.api.auth.types.TwoLeggedOAuthAuthenticationProvider\u0022:\u0022OAuth\u0022,\u0022com.atlassian.applinks.api.auth.types.TwoLeggedOAuthWithImpersonationAuthenticationProvider\u0022:\u0022OAuth\u0022}";
+WRM._unparsedData["com.atlassian.confluence.plugins.confluence-feature-discovery-plugin:confluence-feature-discovery-plugin-resources.test-mode"]="false";
+WRM._unparsedData["com.atlassian.confluence.plugins.confluence-license-banner:confluence-license-banner-resources.license-details"]="{\u0022daysBeforeLicenseExpiry\u0022:0,\u0022daysBeforeMaintenanceExpiry\u0022:0,\u0022showLicenseExpiryBanner\u0022:false,\u0022showMaintenanceExpiryBanner\u0022:false,\u0022renewUrl\u0022:null,\u0022salesEmail\u0022:null}";
+if(window.WRM._dataArrived)window.WRM._dataArrived();</script>
+<link type="text/css" rel="stylesheet" href="/s/f208a1555dfb95db571fd148b09e8d91-CDN/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/10d4ad04fed83aefc3c0f9d03048cccd/_/download/contextbatch/css/_super/batch.css?atlassian.aui.raphael.disabled=true" data-wrm-key="_super" data-wrm-batch-type="context" media="all">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/s/f208a1555dfb95db571fd148b09e8d91-CDN/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/10d4ad04fed83aefc3c0f9d03048cccd/_/download/contextbatch/css/_super/batch.css?atlassian.aui.raphael.disabled=true&amp;conditionalComment=lt+IE+9" data-wrm-key="_super" data-wrm-batch-type="context" media="all">
+<![endif]-->
+<!--[if lte IE 9]>
+<link type="text/css" rel="stylesheet" href="/s/f208a1555dfb95db571fd148b09e8d91-CDN/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/10d4ad04fed83aefc3c0f9d03048cccd/_/download/contextbatch/css/_super/batch.css?atlassian.aui.raphael.disabled=true&amp;conditionalComment=lte+IE+9" data-wrm-key="_super" data-wrm-batch-type="context" media="all">
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="/s/9d2c47a0c001d561e4686b0271cb97f4-CDN/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/f449aacb6d89d0bbac6f4ab1c2d249ff/_/download/contextbatch/css/atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super/batch.css?analytics-enabled=true&amp;analytics-uploadable=true&amp;anonymous-access-enabled=true&amp;atlassian.aui.raphael.disabled=true&amp;build-number=6441&amp;confluence.table.resizable=true&amp;confluence.view.edit.transition=true&amp;highlightactions=true&amp;hostenabled=true&amp;is-server-instance=true" data-wrm-key="atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super" data-wrm-batch-type="context" media="all">
+<link type="text/css" rel="stylesheet" href="/s/9d2c47a0c001d561e4686b0271cb97f4-CDN/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/f449aacb6d89d0bbac6f4ab1c2d249ff/_/download/contextbatch/css/atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super/batch.css?analytics-enabled=true&amp;analytics-uploadable=true&amp;anonymous-access-enabled=true&amp;atlassian.aui.raphael.disabled=true&amp;build-number=6441&amp;confluence.table.resizable=true&amp;confluence.view.edit.transition=true&amp;highlightactions=true&amp;hostenabled=true&amp;is-server-instance=true&amp;media=print" media="print" data-wrm-key="atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super" data-wrm-batch-type="context">
+<!--[if lt IE 9]>
+<link type="text/css" rel="stylesheet" href="/s/9d2c47a0c001d561e4686b0271cb97f4-CDN/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/f449aacb6d89d0bbac6f4ab1c2d249ff/_/download/contextbatch/css/atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super/batch.css?analytics-enabled=true&amp;analytics-uploadable=true&amp;anonymous-access-enabled=true&amp;atlassian.aui.raphael.disabled=true&amp;build-number=6441&amp;conditionalComment=lt+IE+9&amp;confluence.table.resizable=true&amp;confluence.view.edit.transition=true&amp;highlightactions=true&amp;hostenabled=true&amp;is-server-instance=true" data-wrm-key="atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super" data-wrm-batch-type="context" media="all">
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="/s/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/4/_/styles/colors.css" media="all">
+<script type="text/javascript" src="/s/a1cc3a31cfc5a6ef111a7296637bda08-CDN/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/10d4ad04fed83aefc3c0f9d03048cccd/_/download/contextbatch/js/_super/batch.js?atlassian.aui.raphael.disabled=true&amp;locale=en-GB" data-wrm-key="_super" data-wrm-batch-type="context"></script>
+<script type="text/javascript" src="/s/4a989c40b489d870def742e1fe3b5806-CDN/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/f449aacb6d89d0bbac6f4ab1c2d249ff/_/download/contextbatch/js/atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super/batch.js?analytics-enabled=true&amp;analytics-uploadable=true&amp;anonymous-access-enabled=true&amp;atlassian.aui.raphael.disabled=true&amp;build-number=6441&amp;confluence.table.resizable=true&amp;confluence.view.edit.transition=true&amp;highlightactions=true&amp;hostenabled=true&amp;is-server-instance=true&amp;locale=en-GB" data-wrm-key="atl.confluence.plugins.pagetree-desktop,main,viewcontent,page,atl.general,atl.comments,-_super" data-wrm-batch-type="context"></script>
+
+    
+        
+            <meta name="stp-license-product-name" content="Confluence"/> <meta name="stp-license-days-to-expiry" content="282"/> <meta name="stp-license-is-admin" content="false"/> <meta name="stp-license-should-keep-banner-hidden" content="true"/>
+    
+
+        
+        <meta name="ajs-site-title" content="Open-O Wiki" />
+            
+    
+
+    
+                <link rel="canonical" href="https://wiki.open-o.org/display/REL/License.txt">
+        <link rel="shortlink" href="https://wiki.open-o.org/x/ZgEB">
+    <meta name="wikilink" content="[REL:License.txt]">
+    <meta name="page-version" content="1">
+    <meta name="ajs-page-version" content="1">
+
+</head>
+
+    
+<body      id="com-atlassian-confluence" class="theme-default  aui-layout aui-theme-default">
+
+        
+            <div id='stp-licenseStatus-banner'></div>
+    <ul id="assistive-skip-links" class="assistive">
+    <li><a href="#title-heading">Skip to content</a></li>
+    <li><a href="#breadcrumbs">Skip to breadcrumbs</a></li>
+    <li><a href="#header-menu-bar">Skip to header menu</a></li>
+    <li><a href="#navigation">Skip to action menu</a></li>
+    <li><a href="#quick-search-query">Skip to quick search</a></li>
+</ul>
+<div id="page">
+<div id="full-height-container">
+    <div id="header-precursor">
+        <div class="cell">
+            
+                            </div>
+    </div>
+            
+
+
+
+
+
+<header id="header" role="banner">
+    <nav class="aui-header aui-dropdown2-trigger-group" role="navigation"><div class="aui-header-inner"><div class="aui-header-before"><a class=" aui-dropdown2-trigger app-switcher-trigger" aria-controls="app-switcher" aria-haspopup="true" role="button" tabindex="0" data-aui-trigger href="#app-switcher"><span class="aui-icon aui-icon-small aui-iconfont-appswitcher">Linked Applications</span></a><div id="app-switcher" class="aui-dropdown2 aui-style-default" role="menu" aria-hidden="true" data-is-switcher="true" data-environment="{&quot;isUserAdmin&quot;:false,&quot;isAppSuggestionAvailable&quot;:false,&quot;isSiteAdminUser&quot;:false}"><div role="application"><div class="app-switcher-loading">Loading&hellip;</div></div></div></div><div class="aui-header-primary"><h1 id="logo" class="aui-header-logo aui-header-logo-custom"><a href="/"><img src="/download/attachments/65571/atl.site.logo?version=1&amp;modificationDate=1479426778000&amp;api=v2" alt="Open-O Wiki" /></a></h1><ul class="aui-nav">
+                            <li>
+            
+        
+        
+<a  id="space-directory-link" href="/spacedirectory/view.action"  class=" aui-nav-imagelink"   title="Spaces">
+            <span>Spaces</span>
+    </a>
+        </li>
+                    <li>
+            
+    
+        
+<a  id="people-directory-link" href="/browsepeople.action"  class=" aui-nav-imagelink"   title="People">
+            <span>People</span>
+    </a>
+        </li>
+                    <li>
+            
+    
+        
+<a  id="confluence-questions-link" href="/questions?src=header"  class=" aui-nav-imagelink"   title="">
+            <span>Questions</span>
+    </a>
+        </li>
+                    <li>
+            
+    
+        
+<a  href="/calendar/mycalendar.action"  class=" aui-nav-imagelink"   title="Calendars">
+            <span>Calendars</span>
+    </a>
+        </li>
+                                        <li class="aui-buttons">
+                                    
+                                        <a href="/pages/createpage.action?spaceKey=REL&amp;fromPageId=65894&amp;src=quick-create" id="quick-create-page-button" class="aui-button aui-button-primary" title = 'Create blank page' tabindex="0">Create</a>
+                                <a href="#" id="create-page-button" class="aui-button aui-button-primary clc-create-dialog-btn" title = 'Create from template' tabindex="0"><span class="aui-icon aui-icon-small aui-iconfont-more">Create </span></a>
+            </li>
+    </ul>
+</div><div class="aui-header-secondary"><ul class="aui-nav">
+                        <li>
+        <form id="quick-search" class="aui-quicksearch dont-default-focus header-quicksearch" action="/dosearchsite.action" method="get"><fieldset><label for="quick-search-query" class="assistive">Quick Search</label><input id="quick-search-query" class="text app-search search quick-search-query" type="text" accessKey="q" autocomplete="off" name="queryString" title="Quick Search" placeholder="Search" /><input id="quick-search-submit" class="quick-search-submit" type="submit" value="Search"/><div class="aui-dd-parent quick-nav-drop-down"></div></fieldset></form>
+    </li>
+        <li>
+            
+        <a id="help-menu-link" class="aui-nav-link aui-dropdown2-trigger" href="#" aria-haspopup="true" aria-owns="help-menu-link-content" title="Help">
+        <span class="aui-icon aui-icon-small aui-iconfont-help">Help</span>
+    </a>
+    <nav id="help-menu-link-content" class="aui-dropdown2 aui-style-default" aria-hidden="true">
+                    <div class="aui-dropdown2-section">
+                                <ul  id="help-menu-link-leading" class="aui-list-truncate section-leading first">
+                                            <li>
+        
+            
+<a  id="confluence-help-link" href="https://docs.atlassian.com/confluence/docs-510/" class="    "      title="Visit the Confluence documentation home"  target="_blank"
+>
+        Online Help
+</a>
+</li>
+                                            <li>
+    
+                
+<a  id="keyboard-shortcuts-link" href="#" class="    "      title="View available keyboard shortcuts" >
+        Keyboard Shortcuts
+</a>
+</li>
+                                            <li>
+    
+            
+<a  id="feed-builder-link" href="/dashboard/configurerssfeed.action" class="    "      title="Create your custom RSS feed." >
+        Feed Builder
+</a>
+</li>
+                                            <li>
+    
+            
+<a  id="whats-new-menu-link" href="https://confluence.atlassian.com/display/DOC/Confluence+5.10+Release+Notes?a=false" class="    "      title="" >
+        What’s new
+</a>
+</li>
+                                            <li>
+    
+                
+<a  id="gadget-directory-link" href="#" class="   user-item administration-link "      title="Browse gadgets provided by Confluence" >
+        Available Gadgets
+</a>
+</li>
+                                            <li>
+    
+            
+<a  id="confluence-about-link" href="/aboutconfluencepage.action" class="    "      title="Get more information about Confluence" >
+        About Confluence
+</a>
+</li>
+                                    </ul>
+            </div>
+            </nav>
+    
+    </li>
+        <li>
+                
+    
+    </li>
+        <li>
+                    
+        
+            
+<a  id="notifications-anchor" href="#"  class="mw-anchor read aui-nav-imagelink"   title="">
+            <span></span>
+    </a>
+    
+    </li>
+        <li>
+                                            
+        <a id="user-menu-link" class="aui-dropdown2-trigger " aria-haspopup="true" aria-owns="user-menu-link-content" data-username="GuangrongFu" href="#" title="Guangrong Fu">
+                    <div class="aui-avatar aui-avatar-small">
+                <div class="aui-avatar-inner">
+                                                                                                    <img/>
+                </div>
+            </div>
+            <span class="aui-icon-dropdown"></span>
+        </a>
+        <nav id="user-menu-link-content" class="aui-dropdown2 aui-style-default" aria-hidden="true">
+                            <div class="aui-dropdown2-section">
+                    <ul  id="user-menu-link-user-preferences"                        class="aui-list-truncate section-user-preferences first">
+                                                    <li>
+        
+            
+<a  id="create-personal-space-link" href="/spaces/createpersonalspace.action" class="   user-item personal-space create-personal-space-link "      title="" >
+        Add Personal Space…
+</a>
+</li>
+                                                    <li>
+    
+            
+<a  id="view-user-history-link" href="/users/viewuserhistory.action" class="   user-item user-history popup-link "      title="" >
+        Recently Viewed
+</a>
+</li>
+                                            </ul>
+                </div>
+                            <div class="aui-dropdown2-section">
+                    <ul  id="user-menu-link-user-content"                        class="aui-list-truncate section-user-content">
+                                                    <li>
+    
+            
+<a  id="view-user-profile-link" href="/users/viewmyprofile.action" class="   user-item user-profile "      title="" >
+        Profile
+</a>
+</li>
+                                                    <li>
+    
+            
+<a  id="view-mytasks-link" href="/plugins/inlinetasks/mytasks.action" class="   user-item list-user-status "      title="" >
+        Tasks
+</a>
+</li>
+                                                    <li>
+    
+            
+<a  id="user-favourites-link" href="/users/viewmyfavourites.action" class="   user-item "      title="" >
+        Saved for later
+</a>
+</li>
+                                                    <li>
+    
+            
+<a  id="user-watches-link" href="/users/viewnotifications.action" class="   user-item "      title="" >
+        Watches
+</a>
+</li>
+                                                    <li>
+    
+            
+<a  id="user-drafts-link" href="/users/viewmydrafts.action" class="   user-item "      title="" >
+        Drafts
+</a>
+</li>
+                                                    <li>
+    
+            
+<a  id="user-network-link" href="/users/viewfollow.action?username=GuangrongFu" class="   follow-link "      title="" >
+        Network
+</a>
+</li>
+                                                    <li>
+    
+            
+<a  id="user-settings-link" href="/users/viewmysettings.action" class="   user-item "      title="" >
+        Settings
+</a>
+</li>
+                                                    <li>
+    
+            
+<a  id="upm-requests-link" href="/plugins/servlet/upm/requests?source=header_user" class="    "      title="" >
+        Atlassian Marketplace
+</a>
+</li>
+                                            </ul>
+                </div>
+                            <div class="aui-dropdown2-section">
+                    <ul  id="user-menu-link-user-operations"                        class="aui-list-truncate section-user-operations">
+                                                    <li>
+    
+            
+<a  id="logout-link" href="/logout.action" class="   user-item logout-link "      title="" >
+        Log Out
+</a>
+</li>
+                                            </ul>
+                </div>
+                    </nav>
+                    
+    </li>
+    </ul>
+</div></div><!-- .aui-header-inner--></nav><!-- .aui-header -->
+    <br class="clear">
+</header>
+    
+
+    
+    	<div class="ia-splitter">
+    		<div class="ia-splitter-left">
+    			<div class="ia-fixed-sidebar">
+                                            
+                            <div class="acs-side-bar ia-scrollable-section"><div class="acs-side-bar-space-info tipsy-enabled" data-configure-tooltip="Edit space details"><div class="avatar"><div class="space-logo" data-key="REL" data-name="Release" data-entity-type="confluence.space"><div class="avatar-img-container"><div class="avatar-img-wrapper"><a href="/display/REL/Release" title="Release"><img class="avatar-img" src="/download/attachments/65571/global.logo?version=1&amp;modificationDate=1479427606000&amp;api=v2" alt="Release"></a></div></div></div></div><div class="space-information-container"><div class="name"><a href="/display/REL/Release" title="Release">Release</a></div><div class="flyout-handle icon"></div><div class="favourite-space-icon"><button title="Add to my spaces" id="space-favourite-add" class="space-favourite aui-icon aui-icon-small aui-iconfont-unstar"></button><button class=" space-favourite-hidden  space-favourite aui-icon aui-icon-small aui-iconfont-star" id="space-favourite-remove" title="Remove from my spaces"></button></div></div></div><div class="acs-side-bar-content"><div class="acs-nav-wrapper"><div class="acs-nav" data-has-create-permission="true" data-quick-links-state="show" data-page-tree-state="null" data-nav-type="page-tree"><div class="acs-nav-sections"><div class="quick-links-wrapper"><h5 class="ia-quick-links-header-title">Space shortcuts</h5><div class="quick-links-section tipsy-enabled "><ul class="acs-nav-list"><li class="acs-nav-item pinned_page"><a class="acs-nav-item-link tipsy-enabled" href="/display/OMP/Welcome+to+the+OPEN-O+Wiki" data-collapsed-tooltip="null"><span class="icon"></span><span class="acs-nav-item-label">Welcome to the OPEN-O Wiki</span></a></li><li class="acs-nav-item pinned_page blueprint jirareport"><a class="acs-nav-item-link tipsy-enabled" href="/display/REL/Mercury+Project+Status" data-collapsed-tooltip="null"><span class="icon"></span><span class="acs-nav-item-label">Mercury Project Status</span></a></li></ul></div></div></div></div></div><div class="ia-secondary-container tipsy-enabled" data-tree-type="page-tree"><div class="ia-secondary-header"><h5 class="ia-secondary-header-title page-tree"><span class="icon"></span><span class="label">Page tree</span></h5></div><div class="ia-secondary-content">
+
+
+<div class="plugin_pagetree conf-macro output-inline" data-hasbody="false" data-macro-name="pagetree">
+
+        
+        
+    <ul class="plugin_pagetree_children_list plugin_pagetree_children_list_noleftspace">
+        <div class="plugin_pagetree_children">
+        </div>
+    </ul>
+
+    <fieldset class="hidden">
+        <input type="hidden" name="treeId" value="" />
+        <input type="hidden" name="treeRequestId" value="/plugins/pagetree/naturalchildren.action?decorator=none&amp;excerpt=false&amp;sort=position&amp;reverse=false&amp;disableLinks=false&amp;expandCurrent=true" />
+        <input type="hidden" name="treePageId" value="65894" />
+
+        <input type="hidden" name="noRoot" value="false" />
+        <input type="hidden" name="rootPageId" value="65707" />
+
+        <input type="hidden" name="rootPage" value="" />
+        <input type="hidden" name="startDepth" value="0" />
+        <input type="hidden" name="spaceKey" value="REL" />
+
+        <input type="hidden" name="i18n-pagetree.loading" value="Loading..." />
+        <input type="hidden" name="i18n-pagetree.error.permission" value="Unable to load page tree. It seems that you do not have permission to view the root page." />
+        <input type="hidden" name="i18n-pagetree.eeror.general" value="There was a problem retrieving the page tree. Please check the server log file for more information." />
+        <input type="hidden" name="loginUrl" value="/login.action?os_destination=%2Fpages%2Fviewpage.action%3FspaceKey%3DREL%26title%3DLicense.txt&amp;permissionViolation=true" />
+        <input type="hidden" name="mobile" value="false" />
+
+                <fieldset class="hidden">
+                                                <input type="hidden" name="ancestorId" value="65707" />
+                                    </fieldset>
+    </fieldset>
+</div>
+</div></div></div><div class="hidden"><a href="/collector/pages.action?key=REL" id="space-pages-link"></a><script type="text/x-template" title="logo-config-content"><h2>Space Details</h2><div class="personal-space-logo-hint">Your profile picture is used as the logo for your personal space. <a href="/users/profile/editmyprofilepicture.action" target="_blank">Change your profile picture</a>.</div></script></div></div><div class="space-tools-section"><div id="space-tools-menu-additional-items" class="hidden"><div data-label="Reorder pages" data-class="" data-href="/pages/reorderpages.action?key=REL">Reorder pages</div></div><button id="space-tools-menu-trigger"  class=" aui-dropdown2-trigger aui-button aui-button-subtle tipsy-enabled" aria-controls="space-tools-menu" aria-haspopup="true" role="button" data-aui-trigger><span class="aui-icon aui-icon-small aui-iconfont-configure">Configure</span><span class="aui-button-label">Space tools</span><span class="icon aui-icon-dropdown"></span></button><div id="space-tools-menu" class="aui-dropdown2 aui-style-default space-tools-dropdown" role="menu" aria-hidden="true" data-aui-alignment="top left"><div role="application"></div></div><a class="expand-collapse-trigger"></a></div>
+                    
+                        			</div>
+    		</div>
+        <!-- \#header -->
+
+            
+    
+        <div id="main" class=" aui-page-panel">
+                        <div id="main-header">
+                        
+    <div id="navigation" class="content-navigation view">
+                    <ul class="ajs-menu-bar">
+                                                                    <li class="ajs-button normal">
+
+        
+        
+                                            
+    
+    
+    <a  id="editPageLink" href="/pages/editpage.action?pageId=65894" rel="nofollow" class="aui-button aui-button-subtle edit full-load"  accessKey="e"  title="Edit">
+                <span>
+                            <span class="aui-icon aui-icon-small aui-iconfont-edit"></span>
+                        <u>E</u>dit
+        </span>    </a>
+</li>
+                                            <li class="ajs-button normal">
+
+        
+        
+                                            
+    
+    
+    <a  id="page-favourite" href="/labels/addfavourite.action?entityId=65894&amp;atl_token=29a809c96f2d20022847123982e496d7d75180e5" rel="nofollow" class="aui-button aui-button-subtle action-page-favourite"  accessKey="f"  title="Save for later">
+                <span>
+                            <span class="aui-icon aui-icon-small aui-iconfont-unstar"></span>
+                        Save <u>f</u>or later
+        </span>    </a>
+</li>
+                                            <li class="ajs-button normal">
+
+        
+            
+                                            
+    
+    
+    <a  id="watch-content-button" href="#" rel="nofollow" class="aui-button aui-button-subtle watch-menu"   title="Watch (w)">
+                <span>
+                            <span class="aui-icon aui-icon-small aui-iconfont-unwatch"></span>
+                        <u>W</u>atch
+        </span>    </a>
+</li>
+                                            <li class="ajs-button normal">
+
+        
+            
+                                            
+    
+    
+    <a  id="shareContentLink" href="#" rel="nofollow" class="aui-button aui-button-subtle share"   title="Share this content by emailing other users">
+                <span>
+                            <span class="aui-icon aui-icon-small aui-iconfont-share"></span>
+                        <u>S</u>hare
+        </span>    </a>
+</li>
+                    
+        <li class="normal ajs-menu-item">
+        <a id="action-menu-link" class="action aui-dropdown2-trigger-arrowless aui-button aui-button-subtle ajs-menu-title aui-dropdown2-trigger" href="#" aria-haspopup="true" aria-owns="action-menu" data-container="#navigation">
+            <span>
+                                    <span class="aui-icon aui-icon-small aui-iconfont-more"></span>
+                                
+            </span>
+        </a>         <div id="action-menu" class="aui-dropdown2 aui-style-default" aria-hidden="true">
+                            <div class="aui-dropdown2-section">
+                    <ul  id="action-menu-primary"                         class="section-primary first">
+                                                    <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="view-attachments-link" href="/pages/viewpageattachments.action?pageId=65894" rel="nofollow" class="action-view-attachments"  accessKey="t"  title="View Attachments">
+                <span>
+                        A<u>t</u>tachments (0)
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="action-view-history-link" href="/pages/viewpreviousversions.action?pageId=65894" rel="nofollow" class="action-view-history"   title="">
+                <span>
+                        Page History
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="action-page-permissions-link" href="/pages/viewinfo.action?pageId=65894" rel="nofollow" class="action-page-permissions"   title="Edit restrictions">
+                <span>
+                        Restrictions
+        </span>    </a>
+</li>
+                                        </ul>
+                </div>
+                            <div class="aui-dropdown2-section">
+                    <ul  id="action-menu-secondary"                         class="section-secondary">
+                                                    <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="view-page-info-link" href="/pages/viewinfo.action?pageId=65894" rel="nofollow" class="action-view-info"   title="">
+                <span>
+                        Page Information
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+            
+                                            
+    
+    
+    <a  id="view-resolved-comments" href="#" rel="nofollow" class=""   title="">
+                <span>
+                        Resolved comments
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="link-to-page-link" href="/pages/viewinfo.action?pageId=65894" rel="nofollow" class=""   title="Link to this Page">
+                <span>
+                        Link to this Page…
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="view-in-hierarchy-link" href="/pages/reorderpages.action?key=REL&amp;openId=65894#selectedPageInHierarchy" rel="nofollow" class=""   title="">
+                <span>
+                        View in Hierarchy
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="action-view-source-link" href="/plugins/viewsource/viewpagesrc.action?pageId=65894" rel="nofollow" class="action-view-source popup-link"   title="">
+                <span>
+                        View Source
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="action-export-pdf-link" href="/spaces/flyingpdf/pdfpageexport.action?pageId=65894" rel="nofollow" class=""   title="">
+                <span>
+                        Export to PDF
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="action-export-word-link" href="/exportword?pageId=65894" rel="nofollow" class="action-export-word"   title="">
+                <span>
+                        Export to Word
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="import-word-doc" href="/pages/worddav/uploadimport.action?pageId=65894" rel="nofollow" class=""   title="">
+                <span>
+                        Import Word Document
+        </span>    </a>
+</li>
+                                        </ul>
+                </div>
+                            <div class="aui-dropdown2-section">
+                    <ul  id="action-menu-modify"                         class="section-modify">
+                                                    <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="action-copy-page-link" href="/pages/copypage.action?idOfPageToCopy=65894&amp;spaceKey=REL" rel="nofollow" class="action-copy"   title="">
+                <span>
+                        Copy
+        </span>    </a>
+</li>
+                                                <li>
+
+    
+        
+                                            
+    
+    
+    <a  id="action-move-page-dialog-link" href="/pages/viewpage.action?pageId=65894" rel="nofollow" class="action-move"   title="">
+                <span>
+                        Move
+        </span>    </a>
+</li>
+                                        </ul>
+                </div>
+                    </div>
+    </li>
+            </ul>
+    </div>
+
+            
+            <div id="title-heading" class="pagetitle with-breadcrumbs">
+                
+                                    <div id="breadcrumb-section">
+                        
+    
+    
+    <ol id="breadcrumbs">
+                                        
+                        
+        <li class="first" >
+                        
+                            <span class=""><a href="/collector/pages.action?key=REL">Pages</a></span>
+                                                                                    
+                        
+        <li>
+                        
+                            <span class=""><a href="/display/REL/Release">Release</a></span>
+                                                                    </ol>
+
+
+                    </div>
+                
+                
+        <a href="#page-banner-end" class="assistive">Skip to end of banner</a>
+<div id="page-banner-start" class="assistive"></div>
+
+                    
+            <div id="page-metadata-banner"><ul class="banner"><li id="system-content-items" class="noprint"><a href="" title="Unrestricted" id="content-metadata-page-restrictions" class="aui-icon aui-icon-small aui-iconfont-unlocked"></a></li><li class="page-metadata-item noprint has-button"  id="content-metadata-jira-wrapper"><a href="" title="" id="content-metadata-jira" class="aui-button aui-button-subtle content-metadata-jira tipsy-disabled hidden"><span>JIRA links</span></a></li></ul></div>
+            
+
+<a href="#page-banner-start" class="assistive">Go to start of banner</a>
+<div id="page-banner-end" class="assistive"></div>
+    
+
+                <h1 id="title-text" class="with-breadcrumbs">
+                                                <a href="/display/REL/License.txt">License.txt</a>
+                                    </h1>
+            </div>
+        </div><!-- \#main-header -->
+        
+        
+
+        <div id="sidebar-container">
+                                                </div><!-- \#sidebar-container -->
+
+        
+    
+
+        
+
+
+
+
+            
+    
+
+                                
+    
+
+    
+    
+        
+    
+    
+                    
+    
+
+    
+
+    
+            
+        
+
+    
+    
+
+    
+            
+        
+
+
+
+    
+<div id="content" class="page view">
+    
+
+
+<div id="action-messages">
+                        </div>
+
+
+
+        <script type="text/x-template" title="searchResultsGrid">
+    <table class="aui">
+        <thead>
+            <tr class="header">
+                <th class="search-result-title">Page Title</th>
+                <th class="search-result-space">Space</th>
+                <th class="search-result-date">Updated</th>
+            </tr>
+        </thead>
+    </table>
+</script>
+<script type="text/x-template" title="searchResultsGridCount">
+    <p class="search-result-count">{0}</p>
+</script>
+<script type="text/x-template" title="searchResultsGridRow">
+    <tr class="search-result">
+        <td class="search-result-title"><a href="{1}" class="content-type-{2}"><span>{0}</span></a></td>
+        <td class="search-result-space"><a class="space" href="/display/{4}/" title="{3}">{3}</a></td>
+        <td class="search-result-date"><span class="date" title="{6}">{5}</span></td>
+    </tr>
+</script>
+        
+    
+            
+
+        
+                            
+    
+
+                    
+
+        
+        <a href="#page-metadata-end" class="assistive">Skip to end of metadata</a>
+<div id="page-metadata-start" class="assistive"></div>
+
+    <div class="page-metadata">
+        <ul>
+            <li class="page-metadata-modification-info">
+                
+        
+    
+        
+    
+        
+            
+            Created by <span class='author'>     <a href="    /display/~glanilis
+"
+                       class="url fn confluence-userlink" data-username="glanilis"
+                            >Gildas Lanilis</a></span> on <a class='last-modified' title='Show changes' href='/pages/viewpreviousversions.action?pageId=65894'>Nov 18, 2016</a>
+                </li>
+        </ul>
+    </div>
+
+
+<a href="#page-metadata-start" class="assistive">Go to start of metadata</a>
+<div id="page-metadata-end" class="assistive"></div>
+
+        
+                                            
+        <div id="main-content" class="wiki-content">
+                           
+        <p>THIS LICENSE FILE CONTAINS THE LICENSE APPLICABLE DEPENDING ON THE TYPE OF CONTRIBUTIONS.</p><p>APACHE LICENSE 2 IS APPLICABLE FOR SOURCE CODE, CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL FOR DOCUMENTATION</p><p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p><p><br/>Apache License<br/>Version 2.0, January 2004<br/><a href="http://www.apache.org/licenses/" class="external-link" rel="nofollow">http://www.apache.org/licenses/</a></p><p>TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION</p><p>1. Definitions.</p><p>&quot;License&quot; shall mean the terms and conditions for use, reproduction, and distribution as defined by Sections 1 through 9 of this document.</p><p>&quot;Licensor&quot; shall mean the copyright owner or entity authorized by the copyright owner that is granting the License.</p><p>&quot;Legal Entity&quot; shall mean the union of the acting entity and all other entities that control, are controlled by, or are under common control with that entity. For the purposes of this definition, &quot;control&quot; means (i) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii) beneficial ownership of such entity.</p><p>&quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity exercising permissions granted by this License.</p><p>&quot;Source&quot; form shall mean the preferred form for making modifications, including but not limited to software source code, documentation source, and configuration files.</p><p>&quot;Object&quot; form shall mean any form resulting from mechanical transformation or translation of a Source form, including but not limited to compiled object code, generated documentation, and conversions to other media types.</p><p>&quot;Work&quot; shall mean the work of authorship, whether in Source or Object form, made available under the License, as indicated by a copyright notice that is included in or attached to the work (an example is provided in the Appendix below).</p><p>&quot;Derivative Works&quot; shall mean any work, whether in Source or Object form, that is based on (or derived from) the Work and for which the editorial revisions, annotations, elaborations, or other modifications represent, as a whole, an original work of authorship. For the purposes of this License, Derivative Works shall not include works that remain separable from, or merely link (or bind by name) to the interfaces of, the Work and Derivative Works thereof.</p><p>&quot;Contribution&quot; shall mean any work of authorship, including the original version of the Work and any modifications or additions to that Work or Derivative Works thereof, that is intentionally submitted to Licensor for inclusion in the Work by the copyright owner or by an individual or Legal Entity authorized to submit on behalf of the copyright owner. For the purposes of this definition, &quot;submitted&quot; means any form of electronic, verbal, or written communication sent to the Licensor or its representatives, including but not limited to communication on electronic mailing lists, source code control systems, and issue tracking systems that are managed by, or on behalf of, the Licensor for the purpose of discussing and improving the Work, but excluding communication that is conspicuously marked or otherwise designated in writing by the copyright owner as &quot;Not a Contribution.&quot;</p><p>&quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity on behalf of whom a Contribution has been received by Licensor and subsequently incorporated within the Work.</p><p>2. Grant of Copyright License.</p><p>Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form.</p><p>3. Grant of Patent License.</p><p>Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable (except as stated in this section) patent license to make, have made, use, offer to sell, sell, import, and otherwise transfer the Work, where such license applies only to those patent claims licensable by such Contributor that are necessarily infringed by their Contribution(s) alone or by combination of their Contribution(s) with the Work to which such Contribution(s) was submitted. If You institute patent litigation against any entity (including a cross-claim or counterclaim in a lawsuit) alleging that the Work or a Contribution incorporated within the Work constitutes direct or contributory patent infringement, then any patent licenses granted to You under this License for that Work shall terminate as of the date such litigation is filed.</p><p>4. Redistribution.</p><p>You may reproduce and distribute copies of the Work or Derivative Works thereof in any medium, with or without modifications, and in Source or Object form, provided that You meet the following conditions:</p><p>You must give any other recipients of the Work or Derivative Works a copy of this License; and<br/>You must cause any modified files to carry prominent notices stating that You changed the files; and<br/>You must retain, in the Source form of any Derivative Works that You distribute, all copyright, patent, trademark, and attribution notices from the Source form of the Work, excluding those notices that do not pertain to any part of the Derivative Works; and<br/>If the Work includes a &quot;NOTICE&quot; text file as part of its distribution, then any Derivative Works that You distribute must include a readable copy of the attribution notices contained within such NOTICE file, excluding those notices that do not pertain to any part of the Derivative Works, in at least one of the following places: within a NOTICE text file distributed as part of the Derivative Works; within the Source form or documentation, if provided along with the Derivative Works; or, within a display generated by the Derivative Works, if and wherever such third-party notices normally appear. The contents of the NOTICE file are for informational purposes only and do not modify the License. You may add Your own attribution notices within Derivative Works that You distribute, alongside or as an addendum to the NOTICE text from the Work, provided that such additional attribution notices cannot be construed as modifying the License.<br/>You may add Your own copyright statement to Your modifications and may provide additional or different license terms and conditions for use, reproduction, or distribution of Your modifications, or for any such Derivative Works as a whole, provided Your use, reproduction, and distribution of the Work otherwise complies with the conditions stated in this License.</p><p>5. Submission of Contributions.</p><p>Unless You explicitly state otherwise, any Contribution intentionally submitted for inclusion in the Work by You to the Licensor shall be under the terms and conditions of this License, without any additional terms or conditions. Notwithstanding the above, nothing herein shall supersede or modify the terms of any separate license agreement you may have executed with Licensor regarding such Contributions.</p><p>6. Trademarks.</p><p>This License does not grant permission to use the trade names, trademarks, service marks, or product names of the Licensor, except as required for reasonable and customary use in describing the origin of the Work and reproducing the content of the NOTICE file.</p><p>7. Disclaimer of Warranty.</p><p>Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any risks associated with Your exercise of permissions under this License.</p><p>8. Limitation of Liability.</p><p>In no event and under no legal theory, whether in tort (including negligence), contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or agreed to in writing, shall any Contributor be liable to You for damages, including any direct, indirect, special, incidental, or consequential damages of any character arising as a result of this License or out of the use or inability to use the Work (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses), even if such Contributor has been advised of the possibility of such damages.</p><p>9. Accepting Warranty or Additional Liability.</p><p>While redistributing the Work or Derivative Works thereof, You may choose to offer, and charge a fee for, acceptance of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor, and only if You agree to indemnify, defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against, such Contributor by reason of your accepting any such warranty or additional liability.</p><p>END OF TERMS AND CONDITIONS</p><p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p><p>Attribution 4.0 International</p><p><a href="https://creativecommons.org/licenses/by/4.0/legalcode" class="external-link" rel="nofollow">https://creativecommons.org/licenses/by/4.0/legalcode</a></p><p>---------------------------------------------------------------------------------------</p><p>Creative Commons Corporation (&quot;Creative Commons&quot;) is not a law firm and<br/>does not provide legal services or legal advice. Distribution of<br/>Creative Commons public licenses does not create a lawyer-client or<br/>other relationship. Creative Commons makes its licenses and related<br/>information available on an &quot;as-is&quot; basis. Creative Commons gives no<br/>warranties regarding its licenses, any material licensed under their<br/>terms and conditions, or any related information. Creative Commons<br/>disclaims all liability for damages resulting from their use to the<br/>fullest extent possible.</p><p>Using Creative Commons Public Licenses</p><p>Creative Commons public licenses provide a standard set of terms and<br/>conditions that creators and other rights holders may use to share<br/>original works of authorship and other material subject to copyright<br/>and certain other rights specified in the public license below. The<br/>following considerations are for informational purposes only, are not<br/>exhaustive, and do not form part of our licenses.</p><p>Considerations for licensors: Our public licenses are<br/> intended for use by those authorized to give the public<br/> permission to use material in ways otherwise restricted by<br/> copyright and certain other rights. Our licenses are<br/> irrevocable. Licensors should read and understand the terms<br/> and conditions of the license they choose before applying it.<br/> Licensors should also secure all rights necessary before<br/> applying our licenses so that the public can reuse the<br/> material as expected. Licensors should clearly mark any<br/> material not subject to the license. This includes other CC-<br/> licensed material, or material used under an exception or<br/> limitation to copyright. More considerations for licensors:<br/> <a href="http://wiki.creativecommons.org/Considerations_for_licensors" class="external-link" rel="nofollow">wiki.creativecommons.org/Considerations_for_licensors</a></p><p>Considerations for the public: By using one of our public<br/> licenses, a licensor grants the public permission to use the<br/> licensed material under specified terms and conditions. If<br/> the licensor's permission is not necessary for any reason--for<br/> example, because of any applicable exception or limitation to<br/> copyright--then that use is not regulated by the license. Our<br/> licenses grant only permissions under copyright and certain<br/> other rights that a licensor has authority to grant. Use of<br/> the licensed material may still be restricted for other<br/> reasons, including because others have copyright or other<br/> rights in the material. A licensor may make special requests,<br/> such as asking that all changes be marked or described.<br/> Although not required by our licenses, you are encouraged to<br/> respect those requests where reasonable. More_considerations<br/> for the public: <br/> <a href="http://wiki.creativecommons.org/Considerations_for_licensees" class="external-link" rel="nofollow">wiki.creativecommons.org/Considerations_for_licensees</a></p><p>---------------------------------------------------------------------------------------</p><p>Creative Commons Attribution 4.0 International Public License</p><p>By exercising the Licensed Rights (defined below), You accept and agree<br/>to be bound by the terms and conditions of this Creative Commons<br/>Attribution 4.0 International Public License (&quot;Public License&quot;). To the<br/>extent this Public License may be interpreted as a contract, You are<br/>granted the Licensed Rights in consideration of Your acceptance of<br/>these terms and conditions, and the Licensor grants You such rights in<br/>consideration of benefits the Licensor receives from making the<br/>Licensed Material available under these terms and conditions.</p><p><br/>Section 1 -- Definitions.</p><p>a. Adapted Material means material subject to Copyright and Similar<br/> Rights that is derived from or based upon the Licensed Material<br/> and in which the Licensed Material is translated, altered,<br/> arranged, transformed, or otherwise modified in a manner requiring<br/> permission under the Copyright and Similar Rights held by the<br/> Licensor. For purposes of this Public License, where the Licensed<br/> Material is a musical work, performance, or sound recording,<br/> Adapted Material is always produced where the Licensed Material is<br/> synched in timed relation with a moving image.</p><p>b. Adapter's License means the license You apply to Your Copyright<br/> and Similar Rights in Your contributions to Adapted Material in<br/> accordance with the terms and conditions of this Public License.</p><p>c. Copyright and Similar Rights means copyright and/or similar rights<br/> closely related to copyright including, without limitation,<br/> performance, broadcast, sound recording, and Sui Generis Database<br/> Rights, without regard to how the rights are labeled or<br/> categorized. For purposes of this Public License, the rights<br/> specified in Section 2(b)(1)-(2) are not Copyright and Similar<br/> Rights.</p><p>d. Effective Technological Measures means those measures that, in the<br/> absence of proper authority, may not be circumvented under laws<br/> fulfilling obligations under Article 11 of the WIPO Copyright<br/> Treaty adopted on December 20, 1996, and/or similar international<br/> agreements.</p><p>e. Exceptions and Limitations means fair use, fair dealing, and/or<br/> any other exception or limitation to Copyright and Similar Rights<br/> that applies to Your use of the Licensed Material.</p><p>f. Licensed Material means the artistic or literary work, database,<br/> or other material to which the Licensor applied this Public<br/> License.</p><p>g. Licensed Rights means the rights granted to You subject to the<br/> terms and conditions of this Public License, which are limited to<br/> all Copyright and Similar Rights that apply to Your use of the<br/> Licensed Material and that the Licensor has authority to license.</p><p>h. Licensor means the individual(s) or entity(ies) granting rights<br/> under this Public License.</p><p>i. Share means to provide material to the public by any means or<br/> process that requires permission under the Licensed Rights, such<br/> as reproduction, public display, public performance, distribution,<br/> dissemination, communication, or importation, and to make material<br/> available to the public including in ways that members of the<br/> public may access the material from a place and at a time<br/> individually chosen by them.</p><p>j. Sui Generis Database Rights means rights other than copyright<br/> resulting from Directive 96/9/EC of the European Parliament and of<br/> the Council of 11 March 1996 on the legal protection of databases,<br/> as amended and/or succeeded, as well as other essentially<br/> equivalent rights anywhere in the world.</p><p>k. You means the individual or entity exercising the Licensed Rights<br/> under this Public License. Your has a corresponding meaning.</p><p><br/>Section 2 -- Scope.</p><p>a. License grant.</p><p>1. Subject to the terms and conditions of this Public License,<br/> the Licensor hereby grants You a worldwide, royalty-free,<br/> non-sublicensable, non-exclusive, irrevocable license to<br/> exercise the Licensed Rights in the Licensed Material to:</p><p>a. reproduce and Share the Licensed Material, in whole or<br/> in part; and</p><p>b. produce, reproduce, and Share Adapted Material.</p><p>2. Exceptions and Limitations. For the avoidance of doubt, where<br/> Exceptions and Limitations apply to Your use, this Public<br/> License does not apply, and You do not need to comply with<br/> its terms and conditions.</p><p>3. Term. The term of this Public License is specified in Section<br/> 6(a).</p><p>4. Media and formats; technical modifications allowed. The<br/> Licensor authorizes You to exercise the Licensed Rights in<br/> all media and formats whether now known or hereafter created,<br/> and to make technical modifications necessary to do so. The<br/> Licensor waives and/or agrees not to assert any right or<br/> authority to forbid You from making technical modifications<br/> necessary to exercise the Licensed Rights, including<br/> technical modifications necessary to circumvent Effective<br/> Technological Measures. For purposes of this Public License,<br/> simply making modifications authorized by this Section 2(a)<br/> (4) never produces Adapted Material.</p><p>5. Downstream recipients.</p><p>a. Offer from the Licensor -- Licensed Material. Every<br/> recipient of the Licensed Material automatically<br/> receives an offer from the Licensor to exercise the<br/> Licensed Rights under the terms and conditions of this<br/> Public License.</p><p>b. No downstream restrictions. You may not offer or impose<br/> any additional or different terms or conditions on, or<br/> apply any Effective Technological Measures to, the<br/> Licensed Material if doing so restricts exercise of the<br/> Licensed Rights by any recipient of the Licensed<br/> Material.</p><p>6. No endorsement. Nothing in this Public License constitutes or<br/> may be construed as permission to assert or imply that You<br/> are, or that Your use of the Licensed Material is, connected<br/> with, or sponsored, endorsed, or granted official status by,<br/> the Licensor or others designated to receive attribution as<br/> provided in Section 3(a)(1)(A)(i).</p><p>b. Other rights.</p><p>1. Moral rights, such as the right of integrity, are not<br/> licensed under this Public License, nor are publicity,<br/> privacy, and/or other similar personality rights; however, to<br/> the extent possible, the Licensor waives and/or agrees not to<br/> assert any such rights held by the Licensor to the limited<br/> extent necessary to allow You to exercise the Licensed<br/> Rights, but not otherwise.</p><p>2. Patent and trademark rights are not licensed under this<br/> Public License.</p><p>3. To the extent possible, the Licensor waives any right to<br/> collect royalties from You for the exercise of the Licensed<br/> Rights, whether directly or through a collecting society<br/> under any voluntary or waivable statutory or compulsory<br/> licensing scheme. In all other cases the Licensor expressly<br/> reserves any right to collect such royalties.</p><p><br/>Section 3 -- License Conditions.</p><p>Your exercise of the Licensed Rights is expressly made subject to the<br/>following conditions.</p><p>a. Attribution.</p><p>1. If You Share the Licensed Material (including in modified<br/> form), You must:</p><p>a. retain the following if it is supplied by the Licensor<br/> with the Licensed Material:</p><p>i. identification of the creator(s) of the Licensed<br/> Material and any others designated to receive<br/> attribution, in any reasonable manner requested by<br/> the Licensor (including by pseudonym if<br/> designated);</p><p>ii. a copyright notice;</p><p>iii. a notice that refers to this Public License;</p><p>iv. a notice that refers to the disclaimer of<br/> warranties;</p><p>v. a URI or hyperlink to the Licensed Material to the<br/> extent reasonably practicable;</p><p>b. indicate if You modified the Licensed Material and<br/> retain an indication of any previous modifications; and</p><p>c. indicate the Licensed Material is licensed under this<br/> Public License, and include the text of, or the URI or<br/> hyperlink to, this Public License.</p><p>2. You may satisfy the conditions in Section 3(a)(1) in any<br/> reasonable manner based on the medium, means, and context in<br/> which You Share the Licensed Material. For example, it may be<br/> reasonable to satisfy the conditions by providing a URI or<br/> hyperlink to a resource that includes the required<br/> information.</p><p>3. If requested by the Licensor, You must remove any of the<br/> information required by Section 3(a)(1)(A) to the extent<br/> reasonably practicable.</p><p>4. If You Share Adapted Material You produce, the Adapter's<br/> License You apply must not prevent recipients of the Adapted<br/> Material from complying with this Public License.</p><p><br/>Section 4 -- Sui Generis Database Rights.</p><p>Where the Licensed Rights include Sui Generis Database Rights that<br/>apply to Your use of the Licensed Material:</p><p>a. for the avoidance of doubt, Section 2(a)(1) grants You the right<br/> to extract, reuse, reproduce, and Share all or a substantial<br/> portion of the contents of the database;</p><p>b. if You include all or a substantial portion of the database<br/> contents in a database in which You have Sui Generis Database<br/> Rights, then the database in which You have Sui Generis Database<br/> Rights (but not its individual contents) is Adapted Material; and</p><p>c. You must comply with the conditions in Section 3(a) if You Share<br/> all or a substantial portion of the contents of the database.</p><p>For the avoidance of doubt, this Section 4 supplements and does not<br/>replace Your obligations under this Public License where the Licensed<br/>Rights include other Copyright and Similar Rights.</p><p><br/>Section 5 -- Disclaimer of Warranties and Limitation of Liability.</p><p>a. UNLESS OTHERWISE SEPARATELY UNDERTAKEN BY THE LICENSOR, TO THE<br/> EXTENT POSSIBLE, THE LICENSOR OFFERS THE LICENSED MATERIAL AS-IS<br/> AND AS-AVAILABLE, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF<br/> ANY KIND CONCERNING THE LICENSED MATERIAL, WHETHER EXPRESS,<br/> IMPLIED, STATUTORY, OR OTHER. THIS INCLUDES, WITHOUT LIMITATION,<br/> WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR<br/> PURPOSE, NON-INFRINGEMENT, ABSENCE OF LATENT OR OTHER DEFECTS,<br/> ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT<br/> KNOWN OR DISCOVERABLE. WHERE DISCLAIMERS OF WARRANTIES ARE NOT<br/> ALLOWED IN FULL OR IN PART, THIS DISCLAIMER MAY NOT APPLY TO YOU.</p><p>b. TO THE EXTENT POSSIBLE, IN NO EVENT WILL THE LICENSOR BE LIABLE<br/> TO YOU ON ANY LEGAL THEORY (INCLUDING, WITHOUT LIMITATION,<br/> NEGLIGENCE) OR OTHERWISE FOR ANY DIRECT, SPECIAL, INDIRECT,<br/> INCIDENTAL, CONSEQUENTIAL, PUNITIVE, EXEMPLARY, OR OTHER LOSSES,<br/> COSTS, EXPENSES, OR DAMAGES ARISING OUT OF THIS PUBLIC LICENSE OR<br/> USE OF THE LICENSED MATERIAL, EVEN IF THE LICENSOR HAS BEEN<br/> ADVISED OF THE POSSIBILITY OF SUCH LOSSES, COSTS, EXPENSES, OR<br/> DAMAGES. WHERE A LIMITATION OF LIABILITY IS NOT ALLOWED IN FULL OR<br/> IN PART, THIS LIMITATION MAY NOT APPLY TO YOU.</p><p>c. The disclaimer of warranties and limitation of liability provided<br/> above shall be interpreted in a manner that, to the extent<br/> possible, most closely approximates an absolute disclaimer and<br/> waiver of all liability.</p><p><br/>Section 6 -- Term and Termination.</p><p>a. This Public License applies for the term of the Copyright and<br/> Similar Rights licensed here. However, if You fail to comply with<br/> this Public License, then Your rights under this Public License<br/> terminate automatically.</p><p>b. Where Your right to use the Licensed Material has terminated under<br/> Section 6(a), it reinstates:</p><p>1. automatically as of the date the violation is cured, provided<br/> it is cured within 30 days of Your discovery of the<br/> violation; or</p><p>2. upon express reinstatement by the Licensor.</p><p>For the avoidance of doubt, this Section 6(b) does not affect any<br/> right the Licensor may have to seek remedies for Your violations<br/> of this Public License.</p><p>c. For the avoidance of doubt, the Licensor may also offer the<br/> Licensed Material under separate terms or conditions or stop<br/> distributing the Licensed Material at any time; however, doing so<br/> will not terminate this Public License.</p><p>d. Sections 1, 5, 6, 7, and 8 survive termination of this Public<br/> License.</p><p><br/>Section 7 -- Other Terms and Conditions.</p><p>a. The Licensor shall not be bound by any additional or different<br/> terms or conditions communicated by You unless expressly agreed.</p><p>b. Any arrangements, understandings, or agreements regarding the<br/> Licensed Material not stated herein are separate from and<br/> independent of the terms and conditions of this Public License.</p><p><br/>Section 8 -- Interpretation.</p><p>a. For the avoidance of doubt, this Public License does not, and<br/> shall not be interpreted to, reduce, limit, restrict, or impose<br/> conditions on any use of the Licensed Material that could lawfully<br/> be made without permission under this Public License.</p><p>b. To the extent possible, if any provision of this Public License is<br/> deemed unenforceable, it shall be automatically reformed to the<br/> minimum extent necessary to make it enforceable. If the provision<br/> cannot be reformed, it shall be severed from this Public License<br/> without affecting the enforceability of the remaining terms and<br/> conditions.</p><p>c. No term or condition of this Public License will be waived and no<br/> failure to comply consented to unless expressly agreed to by the<br/> Licensor.</p><p>d. Nothing in this Public License constitutes or may be interpreted<br/> as a limitation upon, or waiver of, any privileges and immunities<br/> that apply to the Licensor or You, including from the legal<br/> processes of any jurisdiction or authority.</p><p>---------------------------------------------------------------------------------------</p><p>Creative Commons is not a party to its public<br/>licenses. Notwithstanding, Creative Commons may elect to apply one of<br/>its public licenses to material it publishes and in those instances<br/>will be considered the &quot;Licensor.&quot; The text of the Creative Commons<br/>public licenses is dedicated to the public domain under the CC0 Public<br/>Domain Dedication. Except for the limited purpose of indicating that<br/>material is shared under a Creative Commons public license or as<br/>otherwise permitted by the Creative Commons policies published at<br/><a href="http://creativecommons.org/policies" class="external-link" rel="nofollow">creativecommons.org/policies</a>, Creative Commons does not authorize the<br/>use of the trademark &quot;Creative Commons&quot; or any other trademark or logo<br/>of Creative Commons without its prior written consent including,<br/>without limitation, in connection with any unauthorized modifications<br/>to any of its public licenses or any other arrangements,<br/>understandings, or agreements concerning use of licensed material. For<br/>the avoidance of doubt, this paragraph does not form part of the<br/>public licenses.</p><p>Creative Commons may be contacted at <a href="http://creativecommons.org" class="external-link" rel="nofollow">creativecommons.org</a>.</p>
+
+                
+        
+    
+        </div>
+
+        <!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+         <rdf:Description
+    rdf:about="https://wiki.open-o.org/display/REL/License.txt"
+    dc:identifier="https://wiki.open-o.org/display/REL/License.txt"
+    dc:title="License.txt"
+    trackback:ping="https://wiki.open-o.org/rpc/trackback/65894"/>
+</rdf:RDF>
+-->
+
+                        
+    
+
+
+
+<div id="labels-section" class="pageSection group">
+    <div class="labels-section-content content-column" entityid="65894" entitytype="page">
+	<div class="labels-content">
+		
+    <ul class="label-list label-list-right  has-pen">
+                    
+        <li class="aui-label " data-label-id="819211"><a class="aui-label-split-main" href="/label/REL/release_management" rel="tag">release_management</a></li><li class="aui-label " data-label-id="819218"><a class="aui-label-split-main" href="/label/REL/license" rel="tag">license</a></li>
+                <li class="labels-edit-container">
+            <a href="#" class="show-labels-editor" title="Edit Labels">
+                <span class="aui-icon aui-icon-small aui-iconfont-edit-small">Edit Labels</span>
+            </a>
+        </li>
+        </ul>
+
+    </div>
+</div>
+</div>
+        
+		
+            
+
+
+
+
+            
+        
+
+
+
+
+
+
+
+
+                        
+    
+<div id="comments-section" class="pageSection group">
+        
+    
+
+
+    <div class="bottom-comment-panels comment-panels">
+                
+                    
+    
+
+
+        
+        
+    
+    <div class="quick-comment-container comment add"><p class="comment-user-logo"><a class="userLogoLink" data-username="GuangrongFu" href="/users/profile/editmyprofilepicture.action" title="Add a picture of yourself"><img class="userLogo logo defaultLogo" src="/s/en_GB/6441/08fdc84b52e6e9048619981d39d86d9bfcc50916/_/images/icons/profilepics/add_profile_pic.png" alt="User icon: Add a picture of yourself"></a></p><div class="quick-comment-body"><div class="quick-comment-loading-container" style="display:none;"></div><div id="editor-messages"></div><div id="all-messages"></div><form style="display:block;" class="quick-comment-form aui" method="post" name="inlinecommentform" action="/pages/doaddcomment.action?pageId=65894" ><div title="Add a Comment" class="quick-comment-prompt"><span>Write a comment…</span></div></form></div></div>
+
+            </div>
+
+            <div id="comments-actions" class="aui-toolbar noprint">
+            <p class="toolbar-group">
+                <span class="toolbar-item"><a href="/display/REL/License.txt?showComments=true&amp;showCommentArea=true#addcomment" id="add-comment-rte" accesskey="m" class="toolbar-trigger full-load">Add Comment</a></span>
+            </p>
+        </div>
+    </div>
+        
+
+
+                
+    
+            
+</div>
+
+    
+
+    
+
+
+
+
+    
+    
+
+    
+    
+    
+
+
+    
+<div id="space-tools-web-items" class="hidden">
+                <div data-label="Overview" data-href="/spaces/viewspacesummary.action?key=REL">Overview</div>
+            <div data-label="Content Tools" data-href="/pages/reorderpages.action?key=REL">Content Tools</div>
+    </div>
+        
+
+
+
+            </div><!-- \#main -->
+            
+    
+    
+        
+            
+            
+
+<div id="footer" role="contentinfo">
+    <section class="footer-body">
+
+                                                            <p class="license license-opensource">
+                    Powered by a free <b>Atlassian Confluence Open Source Project License</b> granted to The Linux Foundation. <a href="http://www.atlassian.com/c/conf/11461">Evaluate Confluence today</a>.<br>
+                </p>
+                    
+        
+
+        <ul id="poweredby">
+            <li class="noprint">Powered by <a href="http://www.atlassian.com/software/confluence" class="hover-footer-link" rel="nofollow">Atlassian Confluence</a> <span id='footer-build-information'>5.10.7</span></li>
+            <li class="print-only">Printed by Atlassian Confluence 5.10.7</li>
+            <li class="noprint"><a href="https://jira.atlassian.com/browse/CONF" class="hover-footer-link" rel="nofollow">Report a bug</a></li>
+            <li class="noprint"><a href="http://www.atlassian.com/about/connected.jsp?s_kwcid=Confluence-stayintouch" class="hover-footer-link" rel="nofollow">Atlassian News</a></li>
+        </ul>
+
+        
+
+        <div id="footer-logo"><a href="http://www.atlassian.com/" rel="nofollow">Atlassian</a></div>
+
+                    
+        
+    </section>
+</div>
+
+    
+</div>
+
+</div><!-- \#full-height-container -->
+</div><!-- \#page -->
+
+    <span style="display:none;" id="confluence-server-performance">{"serverDuration": 81, "requestCorrelationId": "098f0e8fdb25187b"}</span>
+
+
+<script type="text/javascript">
+    AJS.BigPipe = AJS.BigPipe || {};
+    AJS.BigPipe.metrics = AJS.BigPipe.metrics || {};
+    AJS.BigPipe.metrics.pageEnd = typeof window.performance !== "undefined" && typeof window.performance.now === "function"
+                                    ? Math.ceil(window.performance.now()) : 0;
+    AJS.BigPipe.metrics.isBigPipeEnabled = 'false' === 'true';
+</script>
+</body>
+</html>
+    
