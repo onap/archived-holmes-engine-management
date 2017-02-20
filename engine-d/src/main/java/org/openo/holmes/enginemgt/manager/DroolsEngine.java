@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,16 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageConsumer;
+import javax.jms.ObjectMessage;
+import javax.jms.Session;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -34,15 +43,17 @@ import org.drools.io.Resource;
 import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.FactHandle;
+import org.glassfish.hk2.api.IterableProvider;
 import org.jvnet.hk2.annotations.Service;
 import org.openo.holmes.common.api.entity.CorrelationRule;
 import org.openo.holmes.common.api.stat.Alarm;
+import org.openo.holmes.common.config.MQConfig;
+import org.openo.holmes.common.constant.AlarmConst;
 import org.openo.holmes.common.exception.DbException;
 import org.openo.holmes.common.exception.EngineException;
 import org.openo.holmes.common.exception.RuleIllegalityException;
 import org.openo.holmes.common.utils.ExceptionUtil;
 import org.openo.holmes.common.utils.I18nProxy;
-import org.openo.holmes.enginemgt.listener.AlarmMqMessageListener;
 import org.openo.holmes.enginemgt.request.DeployRuleRequest;
 import org.openo.holmes.enginemgt.wrapper.RuleMgtWrapper;
 
@@ -51,22 +62,34 @@ import org.openo.holmes.enginemgt.wrapper.RuleMgtWrapper;
 public class DroolsEngine {
 
     private final static String CORRELATION_RULE = "CORRELATION_RULE";
+
     private final static String CORRELATION_ALARM = "CORRELATION_ALARM";
+
     private final static int ENABLE = 1;
+
     @Inject
     private RuleMgtWrapper ruleMgtWrapper;
-    @Inject
-    private AlarmMqMessageListener mqRegister;
+
     private KnowledgeBase kbase;
+
     private KnowledgeBaseConfiguration kconf;
+
     private StatefulKnowledgeSession ksession;
+
     private KnowledgeBuilder kbuilder;
+
+    @Inject
+    private IterableProvider<MQConfig> mqConfigProvider;
+
+    private ConnectionFactory connectionFactory;
 
     @PostConstruct
     private void init() {
-        registerAlarmTopicListener();
         try {
+            // 1. start engine
             start();
+            // 2. start mq listener
+            registerAlarmTopicListener();
         } catch (Exception e) {
             log.error("Start service failed: " + e.getMessage());
             throw ExceptionUtil.buildExceptionResponse("Start service failed!");
@@ -74,7 +97,12 @@ public class DroolsEngine {
     }
 
     private void registerAlarmTopicListener() {
-        Thread thread = new Thread(mqRegister);
+        String brokerURL =
+            "tcp://" + mqConfigProvider.get().brokerIp + ":" + mqConfigProvider.get().brokerPort;
+        connectionFactory = new ActiveMQConnectionFactory(mqConfigProvider.get().brokerUsername,
+            mqConfigProvider.get().brokerPassword, brokerURL);
+
+        Thread thread = new Thread(new AlarmMqMessageListener());
         thread.start();
     }
 
@@ -83,7 +111,7 @@ public class DroolsEngine {
         log.info("Drools Egine Initialize Begining ... ");
 
         initEngineParameter();
-        initDeployRule();
+//        initDeployRule();
 
         log.info("Business Rule Egine Initialize Successfully ");
     }
@@ -212,4 +240,35 @@ public class DroolsEngine {
         this.ksession.insert(raiseAlarm);
         this.ksession.fireAllRules();
     }
+
+    class AlarmMqMessageListener implements Runnable {
+
+        public void run() {
+            Connection connection;
+            Session session;
+            Destination destination;
+            MessageConsumer messageConsumer;
+
+            try {
+                connection = connectionFactory.createConnection();
+                connection.start();
+                session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+                destination = session.createTopic(AlarmConst.MQ_TOPIC_NAME_ALARM);
+                messageConsumer = session.createConsumer(destination);
+
+                while (true) {
+                    ObjectMessage objMessage = (ObjectMessage) messageConsumer.receive(100000);
+                    if (objMessage != null) {
+                        putRaisedIntoStream((Alarm) objMessage.getObject());
+                    } else {
+                        break;
+                    }
+                }
+            } catch (JMSException e) {
+                log.error("connection mq service Failed: " + e.getMessage());
+            }
+
+        }
+    }
+
 }

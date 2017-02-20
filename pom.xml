@@ -14,7 +14,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -57,6 +58,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>3.0</version>
+            </dependency>
+            <dependency>
                 <groupId>org.openo.holmes.actions</groupId>
                 <artifactId>holmes-actions</artifactId>
                 <version>${project.version}</version>
@@ -67,7 +73,6 @@
                 <version>${dropwizard.version}</version>
                 <scope>provided</scope>
             </dependency>
-
             <dependency>
                 <groupId>io.dropwizard</groupId>
                 <artifactId>dropwizard-db</artifactId>
@@ -77,6 +82,7 @@
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-jersey2-jaxrs</artifactId>
                 <version>${swagger.version}</version>
+                <scope>provided</scope>
             </dependency>
 
             <dependency>
@@ -135,6 +141,12 @@
                 <artifactId>powermock-module-junit4</artifactId>
                 <version>1.6.4</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openo.client.cli</groupId>
+                <artifactId>swagger-sdk</artifactId>
+                <version>1.1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
