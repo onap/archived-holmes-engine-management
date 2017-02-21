@@ -31,6 +31,7 @@
     <name>holmes-engine-parent</name>
     <modules>
         <module>engine-d</module>
+        <module>engine-d-standalone</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,6 +55,13 @@
         <jaxrs.consumer.version>5.0</jaxrs.consumer.version>
         <slf4j.version>1.6.1</slf4j.version>
         <quartz.version>2.2.1</quartz.version>
+
+        <packagename>openo-holmes-engine-d</packagename>
+        <linux64id>linux64</linux64id>
+        <win64id>win64</win64id>
+        <linux64outputdir>target/assembly/${linux64id}</linux64outputdir>
+        <win64outputdir>target/assembly/${win64id}</win64outputdir>
+        <version.output>target/version</version.output>
     </properties>
     <dependencyManagement>
         <dependencies>
