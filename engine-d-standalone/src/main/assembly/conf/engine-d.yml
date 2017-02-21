@@ -1,0 +1,72 @@
+#
+# Copyright 2017 ZTE Corporation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+server:
+  type: simple
+  rootPath: '/api/holmes-engine/v1/*'
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 12003
+
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+
+    # Sets the level for 'com.example.app' to DEBUG.
+    com.example: DEBUG
+
+  appenders:
+    - type: console
+      threshold: INFO
+      timeZone: UTC
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] - %m%n"
+    - type: file
+      threshold: INFO
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] - %m%n"
+      currentLogFilename: ../logs/holmes-engine-d.log
+      archivedLogFilenamePattern: ../logs/zip/holmes-engine-d-%d{yyyy-MM-dd}.log.gz
+      archivedFileCount: 7
+
+
+database:
+  driverClass: com.mysql.jdbc.Driver
+  user: root
+  password: root321
+#  url: jdbc:mysql://${db_ip}:${db_port}/mysql?useUnicode=relationtesttrue&characterEncoding=UTF8
+  url: jdbc:mysql://10.74.156.206:3306/mysql?useUnicode=true&characterEncoding=UTF8
+  properties:
+    charSet: UTF-8
+  maxWaitForConnection: 1s
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+  minSize: 8
+  maxSize: 100
+  checkConnectionWhileIdle: false
+  evictionInterval: 10s
+  minIdleTime: 1s
+
+mqConfig:
+  brokerIp: 127.0.0.1
+  brokerPort: 61616
+  mqServiceName: activemq
+  mqServiceVersion: v1
+
