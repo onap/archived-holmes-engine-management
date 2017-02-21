@@ -25,8 +25,8 @@
         <version>1.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>holmes-engine</artifactId>
-    <name>holmes-enginemgt-service</name>
+    <artifactId>holmes-engine-d</artifactId>
+    <name>holmes-engine-d-service</name>
     <packaging>jar</packaging>
 
     <properties>
@@ -163,7 +163,7 @@
                                   implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer
                                   implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.openo.holmes.enginemgt.EngineActiveApp
+                                    <mainClass>org.openo.holmes.engine.EngineDActiveApp
                                     </mainClass>
                                 </transformer>
                             </transformers>

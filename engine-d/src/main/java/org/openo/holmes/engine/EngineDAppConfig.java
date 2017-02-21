@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.holmes.enginemgt;
+package org.openo.holmes.engine;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import lombok.Getter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.openo.holmes.common.config.MQConfig;
 
-public class EngineAppConfig extends Configuration {
+public class EngineDAppConfig extends Configuration {
 
     @NotEmpty
     private String defaultName = "Correlation-Rule";

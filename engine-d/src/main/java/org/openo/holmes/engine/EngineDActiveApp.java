@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.holmes.enginemgt.response;
+package org.openo.holmes.engine;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import org.openo.dropwizard.ioc.bundle.IOCApplication;
 
-@Getter
-@Setter
-public class CorrelationRuleResponse {
+public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
 
-    @JsonProperty(value = "package")
-    private String packageName;
+    public static void main(String[] args) throws Exception {
+        new EngineDActiveApp().run(args);
+    }
 }

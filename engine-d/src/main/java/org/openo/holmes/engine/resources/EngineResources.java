@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.holmes.enginemgt.resources;
+package org.openo.holmes.engine.resources;
 
 
 import com.codahale.metrics.annotation.Timed;
@@ -33,15 +33,12 @@ import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
 import org.openo.holmes.common.exception.CorrelationException;
-import org.openo.holmes.common.exception.EngineException;
-import org.openo.holmes.common.exception.RuleIllegalityException;
 import org.openo.holmes.common.utils.ExceptionUtil;
-import org.openo.holmes.common.utils.I18nProxy;
 import org.openo.holmes.common.utils.LanguageUtil;
-import org.openo.holmes.enginemgt.manager.DroolsEngine;
-import org.openo.holmes.enginemgt.request.CompileRuleRequest;
-import org.openo.holmes.enginemgt.request.DeployRuleRequest;
-import org.openo.holmes.enginemgt.response.CorrelationRuleResponse;
+import org.openo.holmes.engine.manager.DroolsEngine;
+import org.openo.holmes.engine.request.CompileRuleRequest;
+import org.openo.holmes.engine.request.DeployRuleRequest;
+import org.openo.holmes.engine.response.CorrelationRuleResponse;
 
 @Service
 @Path("/rule")

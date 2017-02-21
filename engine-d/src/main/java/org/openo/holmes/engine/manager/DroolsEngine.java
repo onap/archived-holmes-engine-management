@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.holmes.enginemgt.manager;
+package org.openo.holmes.engine.manager;
 
 
 import java.io.StringReader;
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -55,8 +54,8 @@ import org.openo.holmes.common.exception.EngineException;
 import org.openo.holmes.common.exception.RuleIllegalityException;
 import org.openo.holmes.common.utils.ExceptionUtil;
 import org.openo.holmes.common.utils.I18nProxy;
-import org.openo.holmes.enginemgt.request.DeployRuleRequest;
-import org.openo.holmes.enginemgt.wrapper.RuleMgtWrapper;
+import org.openo.holmes.engine.request.DeployRuleRequest;
+import org.openo.holmes.engine.wrapper.RuleMgtWrapper;
 
 @Slf4j
 @Service

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.holmes.enginemgt.request;
+package org.openo.holmes.engine.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotNull;
@@ -22,12 +22,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DeployRuleRequest {
+public class CompileRuleRequest {
 
     @JsonProperty(value = "content")
     @NotNull
     private String content;
-
-    @JsonProperty(value = "engineid")
-    private String engineId;
 }

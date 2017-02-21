@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.holmes.enginemgt.db.mapper;
+package org.openo.holmes.engine.db.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

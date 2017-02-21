@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.holmes.enginemgt.db;
+package org.openo.holmes.engine.db;
 
 
 import java.util.List;
 import org.openo.holmes.common.api.entity.CorrelationRule;
-import org.openo.holmes.enginemgt.db.mapper.CorrelationRuleMapper;
+import org.openo.holmes.engine.db.mapper.CorrelationRuleMapper;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;

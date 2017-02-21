@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.holmes.enginemgt.wrapper;
+package org.openo.holmes.engine.wrapper;
 
 import java.util.List;
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ import org.openo.holmes.common.api.entity.CorrelationRule;
 import org.openo.holmes.common.exception.DbException;
 import org.openo.holmes.common.utils.DbDaoUtil;
 import org.openo.holmes.common.utils.I18nProxy;
-import org.openo.holmes.enginemgt.db.CorrelationRuleDao;
+import org.openo.holmes.engine.db.CorrelationRuleDao;
 
 
 @Service
