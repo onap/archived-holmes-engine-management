@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,6 +32,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
+import org.openo.holmes.common.exception.CorrelationException;
 import org.openo.holmes.common.exception.EngineException;
 import org.openo.holmes.common.exception.RuleIllegalityException;
 import org.openo.holmes.common.utils.ExceptionUtil;
@@ -66,19 +67,9 @@ public class EngineResources {
             String packageName = droolsEngine.deployRule(deployRuleRequest, locale);
             crResponse.setPackageName(packageName);
 
-        } catch (RuleIllegalityException ruleIllegalityException) {
-
-            String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_CONTENT_ILLEGALITY,
-                new String[]{ruleIllegalityException.getMessage()});
-            log.error(errorMsg);
-            throw ExceptionUtil.buildExceptionResponse(errorMsg);
-        } catch (EngineException e) {
-
-            String errorMsg =
-                I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_DEPLOY_RULE_FAILED);
-            log.error(errorMsg + ":" + e.getMessage());
-            throw ExceptionUtil.buildExceptionResponse(errorMsg);
+        } catch (CorrelationException correlationException) {
+            log.error(correlationException.getMessage(), correlationException);
+            throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
         }
 
         return crResponse;
@@ -96,21 +87,11 @@ public class EngineResources {
 
         try {
 
-            droolsEngine.undeployRule(packageName);
+            droolsEngine.undeployRule(packageName, locale);
 
-        } catch (RuleIllegalityException ruleIllegalityException) {
-
-            String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_DELETE_RULE_NULL,
-                new String[]{ruleIllegalityException.getMessage()});
-            log.error(errorMsg);
-            throw ExceptionUtil.buildExceptionResponse(errorMsg);
-        } catch (EngineException e) {
-
-            String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_DELETE_RULE_FAILED, new String[]{packageName});
-            log.error(errorMsg + e.getMessage());
-            throw ExceptionUtil.buildExceptionResponse(errorMsg);
+        } catch (CorrelationException correlationException) {
+            log.error(correlationException.getMessage(), correlationException);
+            throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
         }
         return true;
     }
@@ -127,13 +108,9 @@ public class EngineResources {
 
         try {
             droolsEngine.compileRule(compileRuleRequest.getContent(), locale);
-        } catch (RuleIllegalityException ruleIllegalityException) {
-
-            String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_CONTENT_ILLEGALITY,
-                new String[]{ruleIllegalityException.getMessage()});
-            log.error(errorMsg);
-            throw ExceptionUtil.buildExceptionResponse(errorMsg);
+        } catch (CorrelationException correlationException) {
+            log.error(correlationException.getMessage(), correlationException);
+            throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
         }
         return true;
     }
