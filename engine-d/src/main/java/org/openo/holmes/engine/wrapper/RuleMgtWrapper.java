@@ -39,8 +39,8 @@ public class RuleMgtWrapper {
 
         List<CorrelationRule> ruleTemp = daoUtil.getJdbiDaoByOnDemand(CorrelationRuleDao.class)
             .queryRuleByRuleEnable(enable);
-        if (ruleTemp != null) {
-            throw new DbException(I18nProxy.RULE_MANAGEMENT_REPEAT_RULE_NAME);
+        if (ruleTemp == null) {
+            throw new DbException(I18nProxy.RULE_MANAGEMENT_DB_ERROR);
         }
         return ruleTemp;
     }

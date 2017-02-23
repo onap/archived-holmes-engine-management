@@ -150,7 +150,9 @@ public class DroolsEngine {
         StringReader reader = new StringReader(ruleContent);
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        if (kbuilder == null) {
+            kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        }
 
         kbuilder.add(res, ResourceType.DRL);
 
@@ -161,8 +163,6 @@ public class DroolsEngine {
             throw new EngineException(e);
         }
 
-        kbuilder = null;
-
         ksession.fireAllRules();
     }
 
@@ -171,7 +171,9 @@ public class DroolsEngine {
         StringReader reader = new StringReader(rule.getContent());
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        if (kbuilder == null) {
+            kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        }
 
         kbuilder.add(res, ResourceType.DRL);
 
@@ -183,9 +185,9 @@ public class DroolsEngine {
             throw new CorrelationException(errorMsg);
         }
 
-        String packageName = kbuilder.getKnowledgePackages().iterator().next().getName();
+        KnowledgePackage kpackage = kbuilder.getKnowledgePackages().iterator().next();
 
-        if (kbase.getKnowledgePackages().contains(packageName)) {
+        if (kbase.getKnowledgePackages().contains(kpackage)) {
 
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
                 I18nProxy.ENGINE_CONTENT_ILLEGALITY,new String[]{
@@ -203,12 +205,9 @@ public class DroolsEngine {
             throw new CorrelationException(errorMsg, e);
         }
 
-        kbuilder = null;
-
         ksession.fireAllRules();
-        return packageName;
+        return kpackage.getName();
     }
-
 
     public synchronized void undeployRule(String packageName, Locale locale)
         throws CorrelationException {
@@ -237,7 +236,9 @@ public class DroolsEngine {
         StringReader reader = new StringReader(content);
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        if (kbuilder == null) {
+            kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        }
 
         kbuilder.add(res, ResourceType.DRL);
 
@@ -248,7 +249,6 @@ public class DroolsEngine {
             log.error(errorMsg);
             throw new CorrelationException(errorMsg);
         }
-        kbuilder = null;
     }
 
     public void putRaisedIntoStream(Alarm raiseAlarm) {
