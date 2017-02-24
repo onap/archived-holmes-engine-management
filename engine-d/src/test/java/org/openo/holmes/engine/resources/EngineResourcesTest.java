@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.holmes.engine.resources;
 
 import org.junit.Before;
@@ -32,9 +33,6 @@ import java.util.Locale;
 
 import static org.easymock.EasyMock.*;
 
-/**
- * Created by Administrator on 2017/2/20.
- */
 public class EngineResourcesTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();

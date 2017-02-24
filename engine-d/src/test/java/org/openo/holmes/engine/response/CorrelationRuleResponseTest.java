@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.holmes.engine.response;
 
 import org.junit.Test;
@@ -21,9 +22,6 @@ import org.openo.holmes.engine.request.DeployRuleRequest;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by Administrator on 2017/2/20.
- */
 public class CorrelationRuleResponseTest {
     @Test
     public void getterAndSetter4RuleId(){

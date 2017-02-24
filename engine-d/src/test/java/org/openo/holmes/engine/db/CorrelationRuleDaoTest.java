@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.holmes.engine.db;
 
 import org.easymock.EasyMock;
@@ -26,9 +27,6 @@ import org.powermock.api.easymock.PowerMock;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2017/2/20.
- */
 public class CorrelationRuleDaoTest {
     private CorrelationRuleDao correlationRuleDao;
 

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.holmes.engine.wrapper;
 
 import org.junit.Before;
@@ -30,10 +31,8 @@ import java.util.ArrayList;
 
 import static org.easymock.EasyMock.*;
 
-/**
- * Created by Administrator on 2017/2/20.
- */
 public class RuleMgtWrapperTest {
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
     private DbDaoUtil daoUtil;
@@ -44,7 +43,7 @@ public class RuleMgtWrapperTest {
         daoUtil = PowerMock.createMock(DbDaoUtil.class);
         ruleMgtWrapper = new RuleMgtWrapper();
 
-        Whitebox.setInternalState(ruleMgtWrapper,"daoUtil",daoUtil);
+        Whitebox.setInternalState(ruleMgtWrapper, "daoUtil", daoUtil);
         PowerMock.resetAll();
     }
 

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.holmes.engine;
 
 import io.dropwizard.db.DataSourceFactory;
@@ -24,10 +25,8 @@ import org.junit.Test;
 import org.openo.holmes.common.config.MQConfig;
 import org.powermock.api.easymock.PowerMock;
 
-/**
- * Created by Administrator on 2017/2/20.
- */
 public class EnginedAppConfigTest {
+
     private EngineDAppConfig engineAppConfig;
 
     @Before
@@ -64,13 +63,13 @@ public class EnginedAppConfigTest {
     @Test
     public void getApidescription() {
         final String apidescription = "Holmes rule management rest API";
-        Assert.assertThat(engineAppConfig.getApidescription(),IsEqual.equalTo(apidescription));
+        Assert.assertThat(engineAppConfig.getApidescription(), IsEqual.equalTo(apidescription));
     }
 
     @Test
     public void setApidescription() {
         final String apidescription = "set api description";
         engineAppConfig.setApidescription(apidescription);
-        Assert.assertThat(engineAppConfig.getApidescription(),IsEqual.equalTo(apidescription));
+        Assert.assertThat(engineAppConfig.getApidescription(), IsEqual.equalTo(apidescription));
     }
 }

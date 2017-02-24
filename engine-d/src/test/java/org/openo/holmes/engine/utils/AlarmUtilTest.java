@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.holmes.engine.utils;
 
 import org.hamcrest.core.IsEqual;
@@ -28,9 +29,6 @@ import org.powermock.reflect.Whitebox;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Administrator on 2017/2/20.
- */
 public class AlarmUtilTest {
     private AlarmUtil alarmUtil;
     private final Map<String, Map<String, Integer>> rootPriorityMap = new HashMap<String, Map<String, Integer>>();

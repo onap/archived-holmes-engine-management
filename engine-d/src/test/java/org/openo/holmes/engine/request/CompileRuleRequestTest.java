@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.holmes.engine.request;
 
 import org.junit.Test;
@@ -20,9 +21,6 @@ import org.junit.Test;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by Administrator on 2017/2/20.
- */
 public class CompileRuleRequestTest {
     @Test
     public void getterAndSetter4Content(){

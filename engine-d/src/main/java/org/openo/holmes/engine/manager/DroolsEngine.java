@@ -111,7 +111,7 @@ public class DroolsEngine {
         log.info("Drools Egine Initialize Begining ... ");
 
         initEngineParameter();
-//        initDeployRule();
+        initDeployRule();
 
         log.info("Business Rule Egine Initialize Successfully ");
     }

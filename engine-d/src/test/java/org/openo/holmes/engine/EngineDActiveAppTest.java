@@ -21,7 +21,7 @@ package org.openo.holmes.engine;
 
 public class EngineDActiveAppTest {
     public static void main(String[] args) throws Exception {
-        String filePath = "C:\\Users\\Administrator\\AppData\\Roaming\\IM\\6092002109\\RecvFiles\\correlation-engine.yml";
+        String filePath = "C:\\correlation-engine.yml";
         new EngineDActiveApp().run(new String[]{"server", filePath});
     }
 }
