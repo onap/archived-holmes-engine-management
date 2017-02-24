@@ -16,20 +16,21 @@
 
 package org.openo.holmes.engine.wrapper;
 
+import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.expect;
+
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.openo.holmes.common.api.entity.CorrelationRule;
-import org.openo.holmes.common.exception.DbException;
+import org.openo.holmes.common.exception.CorrelationException;
 import org.openo.holmes.common.utils.DbDaoUtil;
 import org.openo.holmes.engine.db.CorrelationRuleDao;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.reflect.Whitebox;
-
-import java.util.ArrayList;
-
-import static org.easymock.EasyMock.*;
 
 public class RuleMgtWrapperTest {
 
@@ -48,10 +49,10 @@ public class RuleMgtWrapperTest {
     }
 
     @Test
-    public void queryRuleByEnable_ruletemp_is_null() throws DbException {
+    public void queryRuleByEnable_ruletemp_is_null() throws CorrelationException {
         int enable = 3;
 
-        thrown.expect(DbException.class);
+        thrown.expect(CorrelationException.class);
 
         CorrelationRuleDao correlationRuleDao = PowerMock.createMock(CorrelationRuleDao.class);
         expect(daoUtil.getJdbiDaoByOnDemand(anyObject(Class.class))).andReturn(correlationRuleDao);
@@ -62,7 +63,7 @@ public class RuleMgtWrapperTest {
     }
 
     @Test
-    public void queryRuleByEnable_normal() throws DbException {
+    public void queryRuleByEnable_normal() throws CorrelationException {
         int enable = 3;
 
         CorrelationRuleDao correlationRuleDao = PowerMock.createMock(CorrelationRuleDao.class);

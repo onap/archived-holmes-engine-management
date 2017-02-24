@@ -21,7 +21,7 @@ import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
 import org.openo.holmes.common.api.entity.CorrelationRule;
-import org.openo.holmes.common.exception.DbException;
+import org.openo.holmes.common.exception.CorrelationException;
 import org.openo.holmes.common.utils.DbDaoUtil;
 import org.openo.holmes.common.utils.I18nProxy;
 import org.openo.holmes.engine.db.CorrelationRuleDao;
@@ -35,12 +35,12 @@ public class RuleMgtWrapper {
     @Inject
     private DbDaoUtil daoUtil;
 
-    public List<CorrelationRule> queryRuleByEnable(int enable) throws DbException {
+    public List<CorrelationRule> queryRuleByEnable(int enable) throws CorrelationException {
 
         List<CorrelationRule> ruleTemp = daoUtil.getJdbiDaoByOnDemand(CorrelationRuleDao.class)
             .queryRuleByRuleEnable(enable);
         if (ruleTemp == null) {
-            throw new DbException(I18nProxy.RULE_MANAGEMENT_DB_ERROR);
+            throw new CorrelationException(I18nProxy.RULE_MANAGEMENT_DB_ERROR);
         }
         return ruleTemp;
     }

@@ -49,9 +49,6 @@ import org.openo.holmes.common.api.stat.Alarm;
 import org.openo.holmes.common.config.MQConfig;
 import org.openo.holmes.common.constant.AlarmConst;
 import org.openo.holmes.common.exception.CorrelationException;
-import org.openo.holmes.common.exception.DbException;
-import org.openo.holmes.common.exception.EngineException;
-import org.openo.holmes.common.exception.RuleIllegalityException;
 import org.openo.holmes.common.utils.ExceptionUtil;
 import org.openo.holmes.common.utils.I18nProxy;
 import org.openo.holmes.engine.request.DeployRuleRequest;
@@ -107,7 +104,7 @@ public class DroolsEngine {
     }
 
 
-    private void start() throws EngineException, RuleIllegalityException, DbException {
+    private void start() throws CorrelationException {
         log.info("Drools Engine Initialize Beginning...");
 
         initEngineParameter();
@@ -120,7 +117,7 @@ public class DroolsEngine {
         this.ksession.dispose();
     }
 
-    private void initEngineParameter() throws EngineException {
+    private void initEngineParameter(){
         this.kconf = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
 
         this.kconf.setOption(EventProcessingOption.STREAM);
@@ -134,19 +131,19 @@ public class DroolsEngine {
         this.ksession = kbase.newStatefulKnowledgeSession();
     }
 
-    private void initDeployRule() throws RuleIllegalityException, EngineException, DbException {
+    private void initDeployRule() throws CorrelationException {
         List<CorrelationRule> rules = ruleMgtWrapper.queryRuleByEnable(ENABLE);
 
         if (!rules.isEmpty()) {
             for (CorrelationRule rule : rules) {
                 if (rule.getContent() != null) {
-                    deployRuleFromCache(rule.getContent());
+                    deployRuleFromDB(rule.getContent());
                 }
             }
         }
     }
 
-    private void deployRuleFromCache(String ruleContent) throws EngineException {
+    private void deployRuleFromDB(String ruleContent) throws CorrelationException {
         StringReader reader = new StringReader(ruleContent);
         Resource res = ResourceFactory.newReaderResource(reader);
 
@@ -160,7 +157,7 @@ public class DroolsEngine {
 
             kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
         } catch (Exception e) {
-            throw new EngineException(e);
+            throw new CorrelationException(e.getMessage(), e);
         }
 
         ksession.fireAllRules();
