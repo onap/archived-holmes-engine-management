@@ -91,7 +91,7 @@ public class DroolsEngine {
             // 2. start mq listener
             registerAlarmTopicListener();
         } catch (Exception e) {
-            log.error("Start service failed: " + e.getMessage());
+            log.error("Start service failed: " + e.getMessage(), e);
             throw ExceptionUtil.buildExceptionResponse("Start service failed!");
         }
     }
@@ -108,15 +108,15 @@ public class DroolsEngine {
 
 
     private void start() throws EngineException, RuleIllegalityException, DbException {
-        log.info("Drools Egine Initialize Begining ... ");
+        log.info("Drools Engine Initialize Beginning...");
 
         initEngineParameter();
         initDeployRule();
 
-        log.info("Business Rule Egine Initialize Successfully ");
+        log.info("Business Rule Engine Initialize Successfully.");
     }
 
-    public void stop() throws Exception {
+    public void stop() {
         this.ksession.dispose();
     }
 
@@ -137,7 +137,7 @@ public class DroolsEngine {
     private void initDeployRule() throws RuleIllegalityException, EngineException, DbException {
         List<CorrelationRule> rules = ruleMgtWrapper.queryRuleByEnable(ENABLE);
 
-        if (rules.size() > 0) {
+        if (!rules.isEmpty()) {
             for (CorrelationRule rule : rules) {
                 if (rule.getContent() != null) {
                     deployRuleFromCache(rule.getContent());
@@ -284,7 +284,7 @@ public class DroolsEngine {
                     }
                 }
             } catch (JMSException e) {
-                log.error("connection mq service Failed: " + e.getMessage());
+                log.error("connection mq service Failed: " + e.getMessage(), e);
             }
 
         }
