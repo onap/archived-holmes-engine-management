@@ -32,7 +32,7 @@ public class CorrelationRuleMapper implements ResultSetMapper<CorrelationRule> {
         correlationRule.setDescription(resultSet.getString("description"));
         correlationRule.setEnabled(resultSet.getInt("enable"));
         correlationRule.setTemplateID(resultSet.getInt("templateID"));
-        correlationRule.setEngineId(resultSet.getString("engineID"));
+        correlationRule.setEngineID(resultSet.getString("engineID"));
         correlationRule.setEngineType(resultSet.getString("engineType"));
         correlationRule.setCreator(resultSet.getString("creator"));
         correlationRule.setCreateTime(resultSet.getDate("createTime"));
