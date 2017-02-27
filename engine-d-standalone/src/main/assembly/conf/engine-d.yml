@@ -67,6 +67,6 @@ database:
 mqConfig:
   brokerIp: 127.0.0.1
   brokerPort: 61616
-  mqServiceName: activemq
-  mqServiceVersion: v1
+  brokerUsername: activemq
+  brokerPassword: v1
 
