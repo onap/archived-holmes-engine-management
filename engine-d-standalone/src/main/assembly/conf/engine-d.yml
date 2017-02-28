@@ -51,9 +51,8 @@ logging:
 database:
   driverClass: com.mysql.jdbc.Driver
   user: root
-  password: root321
-#  url: jdbc:mysql://${db_ip}:${db_port}/mysql?useUnicode=relationtesttrue&characterEncoding=UTF8
-  url: jdbc:mysql://10.74.156.206:3306/mysql?useUnicode=true&characterEncoding=UTF8
+  password: rootpass
+  url: jdbc:mysql://10.74.156.206:3306/holmes
   properties:
     charSet: UTF-8
   maxWaitForConnection: 1s
