@@ -21,8 +21,10 @@ import io.dropwizard.db.DataSourceFactory;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.jvnet.hk2.annotations.Service;
 import org.openo.holmes.common.config.MQConfig;
 
+@Service
 public class EngineDAppConfig extends Configuration {
 
     @NotEmpty
@@ -30,6 +32,9 @@ public class EngineDAppConfig extends Configuration {
 
     @NotEmpty
     private String apidescription = "Holmes rule management rest API";
+
+    @NotEmpty
+    private String msbServerAddr;
 
     @JsonProperty
     @NotNull
@@ -55,6 +60,11 @@ public class EngineDAppConfig extends Configuration {
     @JsonProperty("database")
     public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
         this.database = dataSourceFactory;
+    }
+
+    @JsonProperty
+    public String getMsbServerAddr() {
+        return msbServerAddr;
     }
 
     public String getApidescription() {

@@ -49,20 +49,6 @@ public class RuleMgtWrapperTest {
     }
 
     @Test
-    public void queryRuleByEnable_ruletemp_is_null() throws CorrelationException {
-        int enable = 3;
-
-        thrown.expect(CorrelationException.class);
-
-        CorrelationRuleDao correlationRuleDao = PowerMock.createMock(CorrelationRuleDao.class);
-        expect(daoUtil.getJdbiDaoByOnDemand(anyObject(Class.class))).andReturn(correlationRuleDao);
-        expect(correlationRuleDao.queryRuleByRuleEnable(anyInt())).andReturn(null);
-        PowerMock.replayAll();
-        ruleMgtWrapper.queryRuleByEnable(enable);
-        PowerMock.verifyAll();
-    }
-
-    @Test
     public void queryRuleByEnable_normal() throws CorrelationException {
         int enable = 3;
 

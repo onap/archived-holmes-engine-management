@@ -27,7 +27,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 public abstract class CorrelationRuleDao {
 
 
-    @SqlQuery("SELECT * FROM APLUS_RULE WHERE enable=:enable")
+    @SqlQuery("SELECT * FROM aplus_rule WHERE enable=:enable")
     public abstract List<CorrelationRule> queryRuleByEnable(@Bind("enable") int enable);
 
     public List<CorrelationRule> queryRuleByRuleEnable(int enable) {

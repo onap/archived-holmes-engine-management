@@ -44,9 +44,7 @@ public class CorrelationRuleMapperTest {
         expect(resultSet.getString("updator")).andReturn("");
         expect(resultSet.getDate("updateTime")).andReturn(new Date(System.currentTimeMillis()));
         expect(resultSet.getObject("params")).andReturn(new Properties());
-        expect(resultSet.getString("domain")).andReturn("");
         expect(resultSet.getString("content")).andReturn("");
-        expect(resultSet.getInt("isManual")).andReturn(0);
         expect(resultSet.getString("vendor")).andReturn("");
         expect(resultSet.getString("package")).andReturn("");
 

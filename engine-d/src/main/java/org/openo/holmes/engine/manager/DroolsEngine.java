@@ -134,11 +134,12 @@ public class DroolsEngine {
     private void initDeployRule() throws CorrelationException {
         List<CorrelationRule> rules = ruleMgtWrapper.queryRuleByEnable(ENABLE);
 
-        if (!rules.isEmpty()) {
-            for (CorrelationRule rule : rules) {
-                if (rule.getContent() != null) {
-                    deployRuleFromDB(rule.getContent());
-                }
+        if (rules.isEmpty()) {
+            return;
+        }
+        for (CorrelationRule rule : rules) {
+            if (rule.getContent() != null) {
+                deployRuleFromDB(rule.getContent());
             }
         }
     }
