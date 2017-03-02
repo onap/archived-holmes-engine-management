@@ -20,7 +20,7 @@ server:
   adminContextPath: /admin
   connector:
     type: http
-    port: 12003
+    port: 9102
 
 
 # Logging settings.
@@ -68,4 +68,7 @@ mqConfig:
   brokerPort: 61616
   brokerUsername: activemq
   brokerPassword: v1
+
+
+
 
