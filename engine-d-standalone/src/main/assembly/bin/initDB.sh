@@ -23,6 +23,7 @@ port=$3
 host=$4
 echo "start init holmes engine-d db"
 main_path=$HOME/../
+cat $main_path
 mysql -u$user -p$password -P$port -h$host <$main_path/dbscripts/mysql/openo-holmes_engine_d-createobj.sql
 sql_result=$?
 if [ $sql_result != 0 ] ; then
