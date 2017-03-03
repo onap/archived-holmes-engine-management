@@ -69,6 +69,6 @@ mqConfig:
   brokerUsername: activemq
   brokerPassword: v1
 
-
+msbServerAddr: http://127.0.0.1:80
 
 
