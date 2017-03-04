@@ -50,8 +50,8 @@ logging:
 
 database:
   driverClass: com.mysql.jdbc.Driver
-  user: root
-  password: rootpass
+  user: holmes
+  password: holmes
   url: jdbc:mysql://10.74.156.206:3306/holmes
   properties:
     charSet: UTF-8
