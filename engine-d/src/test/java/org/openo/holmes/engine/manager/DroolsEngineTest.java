@@ -36,6 +36,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.Topic;
+import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.builder.KnowledgeBuilder;
@@ -362,59 +363,124 @@ public class DroolsEngineTest {
         PowerMock.verifyAll();
     }
 
+
     @Test
-    public void listener_run_objmessage_is_null() throws JMSException {
+    public void listener_receive() throws JMSException {
         DroolsEngine.AlarmMqMessageListener listener = droolsEngine.new AlarmMqMessageListener();
 
         Connection connection = PowerMock.createMock(Connection.class);
         Session session = PowerMock.createMock(Session.class);
         Destination destination = PowerMock.createMock(Topic.class);
-        MessageConsumer messageConsumer = PowerMock.createMock(MessageConsumer.class);
+        MessageConsumer consumer = PowerMock.createMock(MessageConsumer.class);
+
+        Whitebox.setInternalState(listener, "connection", connection);
+        Whitebox.setInternalState(listener, "session", session);
+        Whitebox.setInternalState(listener, "destination", destination);
+        Whitebox.setInternalState(listener, "consumer", consumer);
+
+        PowerMock.reset();
 
         expect(connectionFactory.createConnection()).andReturn(connection);
         connection.start();
         expect(connection.createSession(anyBoolean(), anyInt())).andReturn(session);
         expect(session.createTopic(anyObject(String.class))).andReturn((Topic) destination);
-        expect(session.createConsumer(anyObject(Destination.class))).andReturn(messageConsumer);
-        expect(messageConsumer.receive(anyLong())).andReturn(null);
+        expect(session.createConsumer(anyObject(Destination.class))).andReturn(consumer);
+        consumer.setMessageListener(listener);
 
         PowerMock.replayAll();
 
-        listener.run();
+        listener.receive();
 
         PowerMock.verifyAll();
     }
 
     @Test
-    public void listener_run_objmessage_is_not_null() throws JMSException {
+    public void listener_exception() throws JMSException {
         DroolsEngine.AlarmMqMessageListener listener = droolsEngine.new AlarmMqMessageListener();
 
         Connection connection = PowerMock.createMock(Connection.class);
         Session session = PowerMock.createMock(Session.class);
         Destination destination = PowerMock.createMock(Topic.class);
-        MessageConsumer messageConsumer = PowerMock.createMock(MessageConsumer.class);
-        ObjectMessage objMessage = PowerMock.createMock(ObjectMessage.class);
+        MessageConsumer consumer = PowerMock.createMock(MessageConsumer.class);
 
-        FactHandle factHandle = PowerMock.createMock(FactHandle.class);
+        Whitebox.setInternalState(listener, "connection", connection);
+        Whitebox.setInternalState(listener, "session", session);
+        Whitebox.setInternalState(listener, "destination", destination);
+        Whitebox.setInternalState(listener, "consumer", consumer);
+
+        PowerMock.reset();
 
         expect(connectionFactory.createConnection()).andReturn(connection);
         connection.start();
         expect(connection.createSession(anyBoolean(), anyInt())).andReturn(session);
         expect(session.createTopic(anyObject(String.class))).andReturn((Topic) destination);
-        expect(session.createConsumer(anyObject(Destination.class))).andReturn(messageConsumer);
-        expect(messageConsumer.receive(anyLong())).andReturn(objMessage);
-        expect(objMessage.getObject()).andReturn(new Alarm());
+        expect(session.createConsumer(anyObject(Destination.class))).andReturn(consumer);
+        consumer.setMessageListener(listener);
+        EasyMock.expectLastCall().andThrow(new JMSException(""));
 
-        expect(ksession.getFactHandle(anyObject(Alarm.class))).andReturn(factHandle);
-        ksession.retract(anyObject(FactHandle.class));
-        expect(ksession.insert(anyObject(Alarm.class))).andReturn(null);
-        expect(ksession.fireAllRules()).andReturn(0);
+        consumer.close();
+        session.close();
+        connection.close();
 
-        expect(messageConsumer.receive(anyLong())).andReturn(null);
 
         PowerMock.replayAll();
 
-        listener.run();
+        listener.receive();
+
+        PowerMock.verifyAll();
+    }
+
+    @Test
+    public void listener_close_exception() throws JMSException {
+        DroolsEngine.AlarmMqMessageListener listener = droolsEngine.new AlarmMqMessageListener();
+
+        Connection connection = PowerMock.createMock(Connection.class);
+        Session session = PowerMock.createMock(Session.class);
+        Destination destination = PowerMock.createMock(Topic.class);
+        MessageConsumer consumer = PowerMock.createMock(MessageConsumer.class);
+
+        Whitebox.setInternalState(listener, "connection", connection);
+        Whitebox.setInternalState(listener, "session", session);
+        Whitebox.setInternalState(listener, "destination", destination);
+        Whitebox.setInternalState(listener, "consumer", consumer);
+
+        PowerMock.reset();
+
+        expect(connectionFactory.createConnection()).andReturn(connection);
+        connection.start();
+        expect(connection.createSession(anyBoolean(), anyInt())).andReturn(session);
+        expect(session.createTopic(anyObject(String.class))).andReturn((Topic) destination);
+        expect(session.createConsumer(anyObject(Destination.class))).andReturn(consumer);
+        consumer.setMessageListener(listener);
+        EasyMock.expectLastCall().andThrow(new JMSException(""));
+
+        consumer.close();
+        EasyMock.expectLastCall().andThrow(new JMSException(""));
+
+
+        PowerMock.replayAll();
+
+        listener.receive();
+
+        PowerMock.verifyAll();
+    }
+
+    @Test
+    public void listener_on_message() throws JMSException {
+        DroolsEngine.AlarmMqMessageListener listener = droolsEngine.new AlarmMqMessageListener();
+        Alarm alarm = new Alarm();
+        alarm.setAlarmKey("alarmKey");
+        ActiveMQObjectMessage objectMessage = new ActiveMQObjectMessage();
+        objectMessage.setObject(alarm);
+
+        expect(ksession.getFactHandle(anyObject(Alarm.class))).andReturn(null);
+
+        expect(ksession.insert(anyObject(Alarm.class))).andReturn(null);
+        expect(ksession.fireAllRules()).andReturn(1);
+
+        PowerMock.replayAll();
+
+        listener.onMessage(objectMessage);
 
         PowerMock.verifyAll();
     }
