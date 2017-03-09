@@ -19,7 +19,9 @@ package org.openo.holmes.engine.resources;
 import com.codahale.metrics.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
 import java.util.Locale;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DELETE;
@@ -32,9 +34,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
+import org.openo.holmes.common.api.entity.ServiceRegisterEntity;
+import org.openo.holmes.common.config.MicroServiceConfig;
 import org.openo.holmes.common.exception.CorrelationException;
 import org.openo.holmes.common.utils.ExceptionUtil;
 import org.openo.holmes.common.utils.LanguageUtil;
+import org.openo.holmes.common.utils.MSBRegisterUtil;
 import org.openo.holmes.engine.manager.DroolsEngine;
 import org.openo.holmes.engine.request.CompileRuleRequest;
 import org.openo.holmes.engine.request.DeployRuleRequest;
@@ -49,6 +54,18 @@ public class EngineResources {
 
     @Inject
     DroolsEngine droolsEngine;
+
+    @Inject
+    MSBRegisterUtil msbRegisterUtil;
+
+    @PostConstruct
+    private void initMsbService() {
+        try {
+            msbRegisterUtil.register(initServiceEntity());
+        } catch (IOException e) {
+            log.warn("Failed register msb" + e.getMessage(), e);
+        }
+    }
 
     @PUT
     @ApiOperation(value = "Add rule to Engine and Cache", response = CorrelationRuleResponse.class)
@@ -110,5 +127,16 @@ public class EngineResources {
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
         }
         return true;
+    }
+
+    private ServiceRegisterEntity initServiceEntity() {
+        ServiceRegisterEntity serviceRegisterEntity = new ServiceRegisterEntity();
+        serviceRegisterEntity.setServiceName("holmes");
+        serviceRegisterEntity.setProtocol("REST");
+        serviceRegisterEntity.setVersion("v1");
+        serviceRegisterEntity.setUrl("/api/holmes/v1");
+        serviceRegisterEntity.setSingleNode(MicroServiceConfig.getServiceIp(), "9102", 0);
+        serviceRegisterEntity.setVisualRange("1");
+        return serviceRegisterEntity;
     }
 }
