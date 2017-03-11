@@ -79,6 +79,7 @@ public class EngineResources {
         try {
 
             String packageName = droolsEngine.deployRule(deployRuleRequest, locale);
+            log.info("Rule deployed. Package name: " + packageName);
             crResponse.setPackageName(packageName);
 
         } catch (CorrelationException correlationException) {
