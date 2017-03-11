@@ -131,10 +131,10 @@ public class EngineResources {
 
     private ServiceRegisterEntity initServiceEntity() {
         ServiceRegisterEntity serviceRegisterEntity = new ServiceRegisterEntity();
-        serviceRegisterEntity.setServiceName("holmes");
+        serviceRegisterEntity.setServiceName("holmes-engine");
         serviceRegisterEntity.setProtocol("REST");
         serviceRegisterEntity.setVersion("v1");
-        serviceRegisterEntity.setUrl("/api/holmes/v1");
+        serviceRegisterEntity.setUrl("/api/holmes-engine/v1");
         serviceRegisterEntity.setSingleNode(MicroServiceConfig.getServiceIp(), "9102", 0);
         serviceRegisterEntity.setVisualRange("1");
         return serviceRegisterEntity;
