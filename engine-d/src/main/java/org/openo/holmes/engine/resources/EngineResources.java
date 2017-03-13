@@ -132,10 +132,10 @@ public class EngineResources {
 
     private ServiceRegisterEntity initServiceEntity() {
         ServiceRegisterEntity serviceRegisterEntity = new ServiceRegisterEntity();
-        serviceRegisterEntity.setServiceName("holmes-engine");
+        serviceRegisterEntity.setServiceName("holmes-engine-mgmt");
         serviceRegisterEntity.setProtocol("REST");
         serviceRegisterEntity.setVersion("v1");
-        serviceRegisterEntity.setUrl("/api/holmes-engine/v1");
+        serviceRegisterEntity.setUrl("/openoapi/holmes-engine-mgmt/v1");
         serviceRegisterEntity.setSingleNode(MicroServiceConfig.getServiceIp(), "9102", 0);
         serviceRegisterEntity.setVisualRange("1|0");
         return serviceRegisterEntity;
