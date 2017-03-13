@@ -33,7 +33,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.jvnet.hk2.annotations.Service;
 import org.openo.holmes.common.api.entity.ServiceRegisterEntity;
 import org.openo.holmes.common.config.MicroServiceConfig;
@@ -72,8 +71,8 @@ public class EngineResources {
     @ApiOperation(value = "Add rule to Engine and Cache", response = CorrelationRuleResponse.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
-    public String deployRule(DeployRuleRequest deployRuleRequest,
-        @Context HttpServletRequest httpRequest) {
+    public CorrelationRuleResponse deployRule(DeployRuleRequest deployRuleRequest,
+            @Context HttpServletRequest httpRequest) {
 
         CorrelationRuleResponse crResponse = new CorrelationRuleResponse();
         Locale locale = LanguageUtil.getLocale(httpRequest);
@@ -88,7 +87,7 @@ public class EngineResources {
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
         }
 
-        return JSONObject.fromObject(crResponse).toString();
+        return crResponse;
     }
 
     @DELETE
@@ -97,7 +96,7 @@ public class EngineResources {
     @Timed
     @Path("/{packageName}")
     public boolean undeployRule(@PathParam("packageName") String packageName,
-        @Context HttpServletRequest httpRequest) {
+            @Context HttpServletRequest httpRequest) {
 
         Locale locale = LanguageUtil.getLocale(httpRequest);
 
@@ -118,7 +117,7 @@ public class EngineResources {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     public boolean compileRule(CompileRuleRequest compileRuleRequest,
-        @Context HttpServletRequest httpRequest) {
+            @Context HttpServletRequest httpRequest) {
 
         Locale locale = LanguageUtil.getLocale(httpRequest);
 
@@ -138,7 +137,7 @@ public class EngineResources {
         serviceRegisterEntity.setVersion("v1");
         serviceRegisterEntity.setUrl("/api/holmes-engine/v1");
         serviceRegisterEntity.setSingleNode(MicroServiceConfig.getServiceIp(), "9102", 0);
-        serviceRegisterEntity.setVisualRange("1");
+        serviceRegisterEntity.setVisualRange("1|0");
         return serviceRegisterEntity;
     }
 }
