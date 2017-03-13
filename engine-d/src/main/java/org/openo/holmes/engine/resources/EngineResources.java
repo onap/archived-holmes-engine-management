@@ -33,6 +33,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.jvnet.hk2.annotations.Service;
 import org.openo.holmes.common.api.entity.ServiceRegisterEntity;
 import org.openo.holmes.common.config.MicroServiceConfig;
@@ -71,7 +72,7 @@ public class EngineResources {
     @ApiOperation(value = "Add rule to Engine and Cache", response = CorrelationRuleResponse.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
-    public CorrelationRuleResponse deployRule(DeployRuleRequest deployRuleRequest,
+    public String deployRule(DeployRuleRequest deployRuleRequest,
         @Context HttpServletRequest httpRequest) {
 
         CorrelationRuleResponse crResponse = new CorrelationRuleResponse();
@@ -87,7 +88,7 @@ public class EngineResources {
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
         }
 
-        return crResponse;
+        return JSONObject.fromObject(crResponse).toString();
     }
 
     @DELETE
