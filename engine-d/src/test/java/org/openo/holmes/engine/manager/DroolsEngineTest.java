@@ -18,7 +18,6 @@ package org.openo.holmes.engine.manager;
 
 import static org.easymock.EasyMock.anyBoolean;
 import static org.easymock.EasyMock.anyInt;
-import static org.easymock.EasyMock.anyLong;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 
@@ -33,7 +32,6 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
-import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.Topic;
 import org.apache.activemq.command.ActiveMQObjectMessage;
@@ -48,8 +46,6 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.FactHandle;
 import org.easymock.EasyMock;
 import org.glassfish.hk2.api.IterableProvider;
-import org.hamcrest.core.IsEqual;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -219,36 +215,6 @@ public class DroolsEngineTest {
     }
 
     @Test
-    public void deployRule_normal() throws CorrelationException {
-        DeployRuleRequest rule = PowerMock.createMock(DeployRuleRequest.class);
-        Locale locale = PowerMock.createMock(Locale.class);
-
-        final String pkgName = "pkgName";
-        KnowledgePackage kPackage = PowerMock.createMock(KnowledgePackage.class);
-        Collection<KnowledgePackage> builderColl = PowerMock.createMock(Collection.class);
-        Iterator<KnowledgePackage> iterator = PowerMock.createMock(Iterator.class);
-        Collection<KnowledgePackage> baseColl = new ArrayList<KnowledgePackage>();
-        expect(rule.getContent()).andReturn("rule");
-        expect(kbuilder.hasErrors()).andReturn(false);
-        kbuilder.add(anyObject(Resource.class), anyObject(ResourceType.class));
-        expect(kbuilder.getKnowledgePackages()).andReturn(builderColl).times(2);
-        expect(builderColl.iterator()).andReturn(iterator);
-        expect(iterator.next()).andReturn(kPackage);
-        expect(kbase.getKnowledgePackages()).andReturn(baseColl);
-        kbase.addKnowledgePackages(anyObject(Collection.class));
-        expect(ksession.fireAllRules()).andReturn(1);
-        expect(kPackage.getName()).andReturn(pkgName);
-
-        PowerMock.replayAll();
-
-        String resultPkgName = droolsEngine.deployRule(rule, locale);
-        Assert.assertThat(resultPkgName, IsEqual.equalTo(pkgName));
-
-        PowerMock.verifyAll();
-
-    }
-
-    @Test
     public void undeployRule_knowledgepackage_is_null() throws CorrelationException {
         String packageName = "packageName";
         Locale locale = PowerMock.createMock(Locale.class);
@@ -312,21 +278,6 @@ public class DroolsEngineTest {
         kbuilder.add(anyObject(Resource.class), anyObject(ResourceType.class));
         expect(kbuilder.hasErrors()).andReturn(true);
         expect(kbuilder.getErrors()).andReturn(errors);
-
-        PowerMock.replayAll();
-
-        droolsEngine.compileRule(content, locale);
-
-        PowerMock.verifyAll();
-    }
-
-    @Test
-    public void compileRule_normal() throws CorrelationException {
-        String content = "content";
-        Locale locale = PowerMock.createMock(Locale.class);
-
-        kbuilder.add(anyObject(Resource.class), anyObject(ResourceType.class));
-        expect(kbuilder.hasErrors()).andReturn(false);
 
         PowerMock.replayAll();
 
@@ -422,7 +373,6 @@ public class DroolsEngineTest {
         session.close();
         connection.close();
 
-
         PowerMock.replayAll();
 
         listener.receive();
@@ -456,7 +406,6 @@ public class DroolsEngineTest {
 
         consumer.close();
         EasyMock.expectLastCall().andThrow(new JMSException(""));
-
 
         PowerMock.replayAll();
 

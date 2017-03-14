@@ -60,6 +60,7 @@ import org.openo.holmes.engine.wrapper.RuleMgtWrapper;
 @Slf4j
 @Service
 public class DroolsEngine {
+
     private final static int ENABLE = 1;
 
     @Inject
@@ -93,9 +94,9 @@ public class DroolsEngine {
 
     private void registerAlarmTopicListener() {
         String brokerURL =
-            "tcp://" + mqConfigProvider.get().brokerIp + ":" + mqConfigProvider.get().brokerPort;
+                "tcp://" + mqConfigProvider.get().brokerIp + ":" + mqConfigProvider.get().brokerPort;
         connectionFactory = new ActiveMQConnectionFactory(mqConfigProvider.get().brokerUsername,
-            mqConfigProvider.get().brokerPassword, brokerURL);
+                mqConfigProvider.get().brokerPassword, brokerURL);
 
         AlarmMqMessageListener listener = new AlarmMqMessageListener();
         listener.receive();
@@ -115,7 +116,7 @@ public class DroolsEngine {
         this.ksession.dispose();
     }
 
-    private void initEngineParameter(){
+    private void initEngineParameter() {
         this.kconf = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
 
         this.kconf.setOption(EventProcessingOption.STREAM);
@@ -146,9 +147,7 @@ public class DroolsEngine {
         StringReader reader = new StringReader(ruleContent);
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        if (kbuilder == null) {
-            kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-        }
+        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 
         kbuilder.add(res, ResourceType.DRL);
 
@@ -158,26 +157,23 @@ public class DroolsEngine {
         } catch (Exception e) {
             throw new CorrelationException(e.getMessage(), e);
         }
-
         ksession.fireAllRules();
     }
 
     public synchronized String deployRule(DeployRuleRequest rule, Locale locale)
-        throws CorrelationException {
+            throws CorrelationException {
         StringReader reader = new StringReader(rule.getContent());
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        if (kbuilder == null) {
-            kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-        }
+        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 
         kbuilder.add(res, ResourceType.DRL);
 
         if (kbuilder.hasErrors()) {
 
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_CONTENT_ILLEGALITY,
-                new String[]{kbuilder.getErrors().toString()});
+                    I18nProxy.ENGINE_CONTENT_ILLEGALITY,
+                    new String[]{kbuilder.getErrors().toString()});
             throw new CorrelationException(errorMsg);
         }
 
@@ -186,8 +182,8 @@ public class DroolsEngine {
         if (kbase.getKnowledgePackages().contains(kpackage)) {
 
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_CONTENT_ILLEGALITY,new String[]{
-                    I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_CONTAINS_PACKAGE)});
+                    I18nProxy.ENGINE_CONTENT_ILLEGALITY, new String[]{
+                            I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_CONTAINS_PACKAGE)});
 
             throw new CorrelationException(errorMsg);
         }
@@ -197,7 +193,7 @@ public class DroolsEngine {
         } catch (Exception e) {
 
             String errorMsg =
-                I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_DEPLOY_RULE_FAILED);
+                    I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_DEPLOY_RULE_FAILED);
             throw new CorrelationException(errorMsg, e);
         }
 
@@ -206,14 +202,14 @@ public class DroolsEngine {
     }
 
     public synchronized void undeployRule(String packageName, Locale locale)
-        throws CorrelationException {
+            throws CorrelationException {
 
         KnowledgePackage pkg = kbase.getKnowledgePackage(packageName);
 
         if (null == pkg) {
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_DELETE_RULE_NULL,
-                new String[]{packageName});
+                    I18nProxy.ENGINE_DELETE_RULE_NULL,
+                    new String[]{packageName});
             throw new CorrelationException(errorMsg);
         }
 
@@ -222,26 +218,24 @@ public class DroolsEngine {
             kbase.removeKnowledgePackage(pkg.getName());
         } catch (Exception e) {
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_DELETE_RULE_FAILED, new String[]{packageName});
+                    I18nProxy.ENGINE_DELETE_RULE_FAILED, new String[]{packageName});
             throw new CorrelationException(errorMsg, e);
         }
     }
 
     public void compileRule(String content, Locale locale)
-        throws CorrelationException {
+            throws CorrelationException {
         StringReader reader = new StringReader(content);
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        if (kbuilder == null) {
-            kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-        }
+        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 
         kbuilder.add(res, ResourceType.DRL);
 
         if (kbuilder.hasErrors()) {
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                I18nProxy.ENGINE_CONTENT_ILLEGALITY,
-                new String[]{kbuilder.getErrors().toString()});
+                    I18nProxy.ENGINE_CONTENT_ILLEGALITY,
+                    new String[]{kbuilder.getErrors().toString()});
             log.error(errorMsg);
             throw new CorrelationException(errorMsg);
         }
@@ -300,12 +294,15 @@ public class DroolsEngine {
         }
 
         private void close() throws JMSException {
-            if (consumer != null)
+            if (consumer != null) {
                 consumer.close();
-            if (session != null)
+            }
+            if (session != null) {
                 session.close();
-            if (connection != null)
+            }
+            if (connection != null) {
                 connection.close();
+            }
         }
     }
 }
