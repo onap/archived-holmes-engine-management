@@ -18,8 +18,10 @@ package org.openo.holmes.engine.manager;
 
 import java.io.Serializable;
 import java.io.StringReader;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.jms.Connection;
@@ -62,21 +64,14 @@ import org.openo.holmes.engine.wrapper.RuleMgtWrapper;
 public class DroolsEngine {
 
     private final static int ENABLE = 1;
-
+    private final Set<String> packageNames = new HashSet<String>();
     @Inject
     private RuleMgtWrapper ruleMgtWrapper;
-
     private KnowledgeBase kbase;
-
     private KnowledgeBaseConfiguration kconf;
-
     private StatefulKnowledgeSession ksession;
-
-    private KnowledgeBuilder kbuilder;
-
     @Inject
     private IterableProvider<MQConfig> mqConfigProvider;
-
     private ConnectionFactory connectionFactory;
 
     @PostConstruct
@@ -94,9 +89,9 @@ public class DroolsEngine {
 
     private void registerAlarmTopicListener() {
         String brokerURL =
-                "tcp://" + mqConfigProvider.get().brokerIp + ":" + mqConfigProvider.get().brokerPort;
+            "tcp://" + mqConfigProvider.get().brokerIp + ":" + mqConfigProvider.get().brokerPort;
         connectionFactory = new ActiveMQConnectionFactory(mqConfigProvider.get().brokerUsername,
-                mqConfigProvider.get().brokerPassword, brokerURL);
+            mqConfigProvider.get().brokerPassword, brokerURL);
 
         AlarmMqMessageListener listener = new AlarmMqMessageListener();
         listener.receive();
@@ -123,8 +118,6 @@ public class DroolsEngine {
 
         this.kconf.setProperty("drools.assertBehaviour", "equality");
 
-        this.kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-
         this.kbase = KnowledgeBaseFactory.newKnowledgeBase("D-ENGINE", this.kconf);
 
         this.ksession = kbase.newStatefulKnowledgeSession();
@@ -147,7 +140,7 @@ public class DroolsEngine {
         StringReader reader = new StringReader(ruleContent);
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 
         kbuilder.add(res, ResourceType.DRL);
 
@@ -161,55 +154,40 @@ public class DroolsEngine {
     }
 
     public synchronized String deployRule(DeployRuleRequest rule, Locale locale)
-            throws CorrelationException {
+        throws CorrelationException {
         StringReader reader = new StringReader(rule.getContent());
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 
         kbuilder.add(res, ResourceType.DRL);
 
-        if (kbuilder.hasErrors()) {
+        judgeRuleContent(locale, kbuilder);
 
-            String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                    I18nProxy.ENGINE_CONTENT_ILLEGALITY,
-                    new String[]{kbuilder.getErrors().toString()});
-            throw new CorrelationException(errorMsg);
-        }
-
-        KnowledgePackage kpackage = kbuilder.getKnowledgePackages().iterator().next();
-
-        if (kbase.getKnowledgePackages().contains(kpackage)) {
-
-            String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                    I18nProxy.ENGINE_CONTENT_ILLEGALITY, new String[]{
-                            I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_CONTAINS_PACKAGE)});
-
-            throw new CorrelationException(errorMsg);
-        }
+        String packageName = kbuilder.getKnowledgePackages().iterator().next().getName();
         try {
-
+            packageNames.add(packageName);
             kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
         } catch (Exception e) {
 
             String errorMsg =
-                    I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_DEPLOY_RULE_FAILED);
+                I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_DEPLOY_RULE_FAILED);
             throw new CorrelationException(errorMsg, e);
         }
 
         ksession.fireAllRules();
-        return kpackage.getName();
+        return packageName;
     }
 
     public synchronized void undeployRule(String packageName, Locale locale)
-            throws CorrelationException {
+        throws CorrelationException {
 
         KnowledgePackage pkg = kbase.getKnowledgePackage(packageName);
 
         if (null == pkg) {
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                    I18nProxy.ENGINE_DELETE_RULE_NULL,
-                    new String[]{packageName});
+                I18nProxy.ENGINE_DELETE_RULE_NULL,
+                new String[]{packageName});
             throw new CorrelationException(errorMsg);
         }
 
@@ -218,25 +196,40 @@ public class DroolsEngine {
             kbase.removeKnowledgePackage(pkg.getName());
         } catch (Exception e) {
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                    I18nProxy.ENGINE_DELETE_RULE_FAILED, new String[]{packageName});
+                I18nProxy.ENGINE_DELETE_RULE_FAILED, new String[]{packageName});
             throw new CorrelationException(errorMsg, e);
         }
     }
 
     public void compileRule(String content, Locale locale)
-            throws CorrelationException {
+        throws CorrelationException {
         StringReader reader = new StringReader(content);
         Resource res = ResourceFactory.newReaderResource(reader);
 
-        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 
         kbuilder.add(res, ResourceType.DRL);
 
+        judgeRuleContent(locale, kbuilder);
+    }
+
+    private void judgeRuleContent(Locale locale, KnowledgeBuilder kbuilder)
+        throws CorrelationException {
         if (kbuilder.hasErrors()) {
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
-                    I18nProxy.ENGINE_CONTENT_ILLEGALITY,
-                    new String[]{kbuilder.getErrors().toString()});
+                I18nProxy.ENGINE_CONTENT_ILLEGALITY,
+                new String[]{kbuilder.getErrors().toString()});
             log.error(errorMsg);
+            throw new CorrelationException(errorMsg);
+        }
+
+        String packageName = kbuilder.getKnowledgePackages().iterator().next().getName();
+
+        if (packageNames.contains(packageName)) {
+            String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
+                I18nProxy.ENGINE_CONTENT_ILLEGALITY, new String[]{
+                    I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_CONTAINS_PACKAGE)});
+
             throw new CorrelationException(errorMsg);
         }
     }

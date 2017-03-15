@@ -23,8 +23,6 @@ import static org.easymock.EasyMock.expect;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import javax.jms.Connection;
@@ -37,13 +35,9 @@ import javax.jms.Topic;
 import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
-import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderErrors;
-import org.drools.builder.ResourceType;
-import org.drools.definition.KnowledgePackage;
-import org.drools.io.Resource;
+import org.drools.KnowledgeBaseFactory;
+import org.drools.conf.EventProcessingOption;
 import org.drools.runtime.StatefulKnowledgeSession;
-import org.drools.runtime.rule.FactHandle;
 import org.easymock.EasyMock;
 import org.glassfish.hk2.api.IterableProvider;
 import org.junit.Before;
@@ -53,6 +47,7 @@ import org.junit.rules.ExpectedException;
 import org.openo.holmes.common.api.entity.CorrelationRule;
 import org.openo.holmes.common.api.stat.Alarm;
 import org.openo.holmes.common.config.MQConfig;
+import org.openo.holmes.common.constant.AlarmConst;
 import org.openo.holmes.common.exception.CorrelationException;
 import org.openo.holmes.engine.request.DeployRuleRequest;
 import org.openo.holmes.engine.wrapper.RuleMgtWrapper;
@@ -76,8 +71,6 @@ public class DroolsEngineTest {
 
     private StatefulKnowledgeSession ksession;
 
-    private KnowledgeBuilder kbuilder;
-
     private IterableProvider<MQConfig> mqConfigProvider;
 
     private ConnectionFactory connectionFactory;
@@ -88,20 +81,21 @@ public class DroolsEngineTest {
     public void setUp() {
         droolsEngine = new DroolsEngine();
 
+        this.kconf = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
+        this.kconf.setOption(EventProcessingOption.STREAM);
+        this.kconf.setProperty("drools.assertBehaviour", "equality");
+        this.kbase = KnowledgeBaseFactory.newKnowledgeBase("D-ENGINE", this.kconf);
+        this.ksession = kbase.newStatefulKnowledgeSession();
+
         ruleMgtWrapper = PowerMock.createMock(RuleMgtWrapper.class);
-        kbase = PowerMock.createMock(KnowledgeBase.class);
-        kconf = PowerMock.createMock(KnowledgeBaseConfiguration.class);
-        ksession = PowerMock.createMock(StatefulKnowledgeSession.class);
-        kbuilder = PowerMock.createMock(KnowledgeBuilder.class);
         mqConfigProvider = PowerMock.createMock(IterableProvider.class);
         connectionFactory = PowerMock.createMock(ConnectionFactory.class);
 
         Whitebox.setInternalState(droolsEngine, "ruleMgtWrapper", ruleMgtWrapper);
-        Whitebox.setInternalState(droolsEngine, "kbase", kbase);
-        Whitebox.setInternalState(droolsEngine, "kconf", kconf);
-        Whitebox.setInternalState(droolsEngine, "ksession", ksession);
-        Whitebox.setInternalState(droolsEngine, "kbuilder", kbuilder);
         Whitebox.setInternalState(droolsEngine, "mqConfigProvider", mqConfigProvider);
+        Whitebox.setInternalState(droolsEngine, "kconf", kconf);
+        Whitebox.setInternalState(droolsEngine, "kbase", kbase);
+        Whitebox.setInternalState(droolsEngine, "ksession", ksession);
         Whitebox.setInternalState(droolsEngine, "connectionFactory", connectionFactory);
 
         PowerMock.resetAll();
@@ -141,177 +135,71 @@ public class DroolsEngineTest {
 
     @Test
     public void deployRule_kbuilder_has_errors() throws CorrelationException {
-        DeployRuleRequest rule = PowerMock.createMock(DeployRuleRequest.class);
-        Locale locale = PowerMock.createMock(Locale.class);
+        DeployRuleRequest rule = new DeployRuleRequest();
+        rule.setContent("rule123");
+        Locale locale = new Locale(AlarmConst.I18N_EN);
 
         thrown.expect(CorrelationException.class);
 
-        KnowledgeBuilderErrors errors = PowerMock.createMock(KnowledgeBuilderErrors.class);
-        expect(rule.getContent()).andReturn("rule");
-        kbuilder.add(anyObject(Resource.class), anyObject(ResourceType.class));
-        expect(kbuilder.hasErrors()).andReturn(true);
-        expect(kbuilder.getErrors()).andReturn(errors);
-
-        PowerMock.replayAll();
-
         droolsEngine.deployRule(rule, locale);
-
-        PowerMock.verifyAll();
     }
 
     @Test
-    public void deployRule_kbase_knowledgePackages_contains_package() throws CorrelationException {
-        DeployRuleRequest rule = PowerMock.createMock(DeployRuleRequest.class);
-        Locale locale = PowerMock.createMock(Locale.class);
+    public void deployRule_package_name_repeat() throws CorrelationException {
+        DeployRuleRequest rule = new DeployRuleRequest();
+        rule.setContent("package rule123");
+        Locale locale = new Locale(AlarmConst.I18N_EN);
 
         thrown.expect(CorrelationException.class);
 
-        KnowledgePackage kPackage = PowerMock.createMock(KnowledgePackage.class);
-        Collection<KnowledgePackage> builderColl = PowerMock.createMock(Collection.class);
-        Iterator<KnowledgePackage> iterator = PowerMock.createMock(Iterator.class);
-        Collection<KnowledgePackage> baseColl = new ArrayList<KnowledgePackage>();
-        baseColl.add(kPackage);
-        expect(rule.getContent()).andReturn("rule");
-        expect(kbuilder.hasErrors()).andReturn(false);
-        kbuilder.add(anyObject(Resource.class), anyObject(ResourceType.class));
-        expect(kbuilder.getKnowledgePackages()).andReturn(builderColl);
-        expect(builderColl.iterator()).andReturn(iterator);
-        expect(iterator.next()).andReturn(kPackage);
-        expect(kbase.getKnowledgePackages()).andReturn(baseColl);
-
-        PowerMock.replayAll();
-
         droolsEngine.deployRule(rule, locale);
-
-        PowerMock.verifyAll();
+        droolsEngine.deployRule(rule, locale);
     }
 
     @Test
-    public void deployRule_add_knowledge_packages_exception() throws CorrelationException {
-        DeployRuleRequest rule = PowerMock.createMock(DeployRuleRequest.class);
-        Locale locale = PowerMock.createMock(Locale.class);
+    public void undeployRule_package_name_is_null() throws CorrelationException {
+        String packageName = null;
+        Locale locale = new Locale(AlarmConst.I18N_EN);
 
         thrown.expect(CorrelationException.class);
-
-        KnowledgePackage kPackage = PowerMock.createMock(KnowledgePackage.class);
-        Collection<KnowledgePackage> builderColl = PowerMock.createMock(Collection.class);
-        Iterator<KnowledgePackage> iterator = PowerMock.createMock(Iterator.class);
-        Collection<KnowledgePackage> baseColl = new ArrayList<KnowledgePackage>();
-        expect(rule.getContent()).andReturn("rule");
-        expect(kbuilder.hasErrors()).andReturn(false);
-        kbuilder.add(anyObject(Resource.class), anyObject(ResourceType.class));
-        expect(kbuilder.getKnowledgePackages()).andReturn(builderColl).times(2);
-        expect(builderColl.iterator()).andReturn(iterator);
-        expect(iterator.next()).andReturn(kPackage);
-        expect(kbase.getKnowledgePackages()).andReturn(baseColl);
-        kbase.addKnowledgePackages(anyObject(Collection.class));
-        EasyMock.expectLastCall().andThrow(new RuntimeException(""));
-
-        PowerMock.replayAll();
-
-        droolsEngine.deployRule(rule, locale);
-
-        PowerMock.verifyAll();
-    }
-
-    @Test
-    public void undeployRule_knowledgepackage_is_null() throws CorrelationException {
-        String packageName = "packageName";
-        Locale locale = PowerMock.createMock(Locale.class);
-
-        thrown.expect(CorrelationException.class);
-
-        expect(kbase.getKnowledgePackage(anyObject(String.class))).andReturn(null);
-
-        PowerMock.replayAll();
 
         droolsEngine.undeployRule(packageName, locale);
-
-        PowerMock.verifyAll();
-    }
-
-    @Test
-    public void undeployRule_remove_knowledge_package_exception() throws CorrelationException {
-        String packageName = "packageName";
-        Locale locale = PowerMock.createMock(Locale.class);
-
-        thrown.expect(CorrelationException.class);
-
-        KnowledgePackage pkg = PowerMock.createMock(KnowledgePackage.class);
-        expect(kbase.getKnowledgePackage(anyObject(String.class))).andReturn(pkg);
-        expect(pkg.getName()).andReturn("");
-        kbase.removeKnowledgePackage(anyObject(String.class));
-        EasyMock.expectLastCall().andThrow(new RuntimeException(""));
-
-        PowerMock.replayAll();
-
-        droolsEngine.undeployRule(packageName, locale);
-
-        PowerMock.verifyAll();
     }
 
     @Test
     public void undeployRule_normal() throws CorrelationException {
-        String packageName = "packageName";
-        Locale locale = PowerMock.createMock(Locale.class);
+        Locale locale = new Locale(AlarmConst.I18N_EN);
 
-        KnowledgePackage pkg = PowerMock.createMock(KnowledgePackage.class);
-        expect(kbase.getKnowledgePackage(anyObject(String.class))).andReturn(pkg);
-        expect(pkg.getName()).andReturn("");
-        kbase.removeKnowledgePackage(anyObject(String.class));
+        DeployRuleRequest rule = new DeployRuleRequest();
+        rule.setContent("package rule123");
+        droolsEngine.deployRule(rule, locale);
 
-        PowerMock.replayAll();
+        String packageName = "rule123";
 
         droolsEngine.undeployRule(packageName, locale);
-
-        PowerMock.verifyAll();
     }
 
     @Test
     public void compileRule_kbuilder_has_errors() throws CorrelationException {
-        String content = "content";
-        Locale locale = PowerMock.createMock(Locale.class);
+        String content = "have error content";
+        Locale locale = new Locale(AlarmConst.I18N_EN);
 
         thrown.expect(CorrelationException.class);
 
-        KnowledgeBuilderErrors errors = PowerMock.createMock(KnowledgeBuilderErrors.class);
-        kbuilder.add(anyObject(Resource.class), anyObject(ResourceType.class));
-        expect(kbuilder.hasErrors()).andReturn(true);
-        expect(kbuilder.getErrors()).andReturn(errors);
-
-        PowerMock.replayAll();
-
         droolsEngine.compileRule(content, locale);
-
-        PowerMock.verifyAll();
     }
+
 
     @Test
     public void putRaisedIntoStream_facthandle_is_null() {
-        expect(ksession.getFactHandle(anyObject(Alarm.class))).andReturn(null);
-        expect(ksession.insert(anyObject(Alarm.class))).andReturn(null);
-        expect(ksession.fireAllRules()).andReturn(0);
-
-        PowerMock.replayAll();
-
-        droolsEngine.putRaisedIntoStream(new Alarm());
-
-        PowerMock.verifyAll();
+        Alarm raiseAlarm = new Alarm();
+        droolsEngine.putRaisedIntoStream(raiseAlarm);
+        droolsEngine.putRaisedIntoStream(raiseAlarm);
     }
 
     @Test
     public void putRaisedIntoStream_factHandle_is_not_null() {
-        FactHandle factHandle = PowerMock.createMock(FactHandle.class);
-        expect(ksession.getFactHandle(anyObject(Alarm.class))).andReturn(factHandle);
-        ksession.retract(anyObject(FactHandle.class));
-        expect(ksession.insert(anyObject(Alarm.class))).andReturn(null);
-        expect(ksession.fireAllRules()).andReturn(0);
-
-        PowerMock.replayAll();
-
         droolsEngine.putRaisedIntoStream(new Alarm());
-
-        PowerMock.verifyAll();
     }
 
 
@@ -422,16 +310,7 @@ public class DroolsEngineTest {
         ActiveMQObjectMessage objectMessage = new ActiveMQObjectMessage();
         objectMessage.setObject(alarm);
 
-        expect(ksession.getFactHandle(anyObject(Alarm.class))).andReturn(null);
-
-        expect(ksession.insert(anyObject(Alarm.class))).andReturn(null);
-        expect(ksession.fireAllRules()).andReturn(1);
-
-        PowerMock.replayAll();
-
         listener.onMessage(objectMessage);
-
-        PowerMock.verifyAll();
     }
 
     @Test
