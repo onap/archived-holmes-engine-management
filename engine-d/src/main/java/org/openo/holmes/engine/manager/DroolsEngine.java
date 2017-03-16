@@ -162,7 +162,7 @@ public class DroolsEngine {
 
         kbuilder.add(res, ResourceType.DRL);
 
-        judgeRuleContent(locale, kbuilder);
+        judgeRuleContent(locale, kbuilder, true);
 
         String packageName = kbuilder.getKnowledgePackages().iterator().next().getName();
         try {
@@ -210,10 +210,10 @@ public class DroolsEngine {
 
         kbuilder.add(res, ResourceType.DRL);
 
-        judgeRuleContent(locale, kbuilder);
+        judgeRuleContent(locale, kbuilder, false);
     }
 
-    private void judgeRuleContent(Locale locale, KnowledgeBuilder kbuilder)
+    private void judgeRuleContent(Locale locale, KnowledgeBuilder kbuilder, boolean judgePackageName)
         throws CorrelationException {
         if (kbuilder.hasErrors()) {
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
@@ -225,7 +225,7 @@ public class DroolsEngine {
 
         String packageName = kbuilder.getKnowledgePackages().iterator().next().getName();
 
-        if (packageNames.contains(packageName)) {
+        if (packageNames.contains(packageName) && judgePackageName) {
             String errorMsg = I18nProxy.getInstance().getValueByArgs(locale,
                 I18nProxy.ENGINE_CONTENT_ILLEGALITY, new String[]{
                     I18nProxy.getInstance().getValue(locale, I18nProxy.ENGINE_CONTAINS_PACKAGE)});
