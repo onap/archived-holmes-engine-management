@@ -24,7 +24,7 @@ echo start init holmes engine-d db
 echo HOME=%HOME%
 set main_path=%HOME%..\
 cd /d %main_path%
-mysql -u%user% -p%password% -P%port% -h%host% < %main_path%\dbscripts\mysql\openo-holmes_engine_d-createobj.sql
+mysql -u%user% -p%password% -P%port% -h%host% < %main_path%\dbscripts\mysql\onap-holmes_engine_d-createobj.sql
 set "err=%errorlevel%"
 if "%err%"=="0" (
    echo init engine-d db success

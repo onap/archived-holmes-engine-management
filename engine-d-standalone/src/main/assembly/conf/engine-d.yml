@@ -15,7 +15,7 @@
 #
 server:
   type: simple
-  rootPath: '/openoapi/holmes-engine-mgmt/v1/*'
+  rootPath: '/onapapi/holmes-engine-mgmt/v1/*'
   applicationContextPath: /
   adminContextPath: /admin
   connector:

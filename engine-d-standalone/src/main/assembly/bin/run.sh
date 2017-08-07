@@ -31,5 +31,5 @@ echo @JAVA_OPTS@ $JAVA_OPTS
 class_path="$main_path/:$main_path/holmes-engine-d.jar"
 echo @class_path@ $class_path
 
-"$JAVA" $JAVA_OPTS -classpath "$class_path" org.openo.holmes.engine.EngineDActiveApp server "$main_path/conf/engine-d.yml"
+"$JAVA" $JAVA_OPTS -classpath "$class_path" EngineDActiveApp server "$main_path/conf/engine-d.yml"
 
