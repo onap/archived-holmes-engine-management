@@ -18,7 +18,7 @@
 title stopping engine-d-service
 
 set HOME=%~dp0
-set Main_Class="org.openo.holmes.engine.EngineDActiveApp"
+set Main_Class="EngineDActiveApp"
 
 echo ================== engine-d-service info =============================================
 echo HOME=$HOME

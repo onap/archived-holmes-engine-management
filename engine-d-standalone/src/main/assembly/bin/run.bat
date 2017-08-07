@@ -30,7 +30,7 @@ set class_path=%main_path%;%main_path%holmes-engine-d.jar
 echo ### jvm_opts: %jvm_opts%
 echo ### class_path: %class_path%
 
-%JAVA% -classpath %class_path% %jvm_opts% org.openo.holmes.engine.EngineDActiveApp server %main_path%conf/engine-d.yml
+%JAVA% -classpath %class_path% %jvm_opts% EngineDActiveApp server %main_path%conf/engine-d.yml
 
 IF ERRORLEVEL 1 goto showerror
 exit

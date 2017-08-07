@@ -20,9 +20,9 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.openo.holmes.engine-management</groupId>
+        <groupId>org.onap.holmes.engine-management</groupId>
         <artifactId>holmes-engine-parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>holmes-engine-d</artifactId>
@@ -36,7 +36,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.openo.holmes.actions</groupId>
+            <groupId>org.onap.holmes.actions</groupId>
             <artifactId>holmes-actions</artifactId>
             <exclusions>
                 <exclusion>
@@ -121,10 +121,6 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openo.client.cli</groupId>
-            <artifactId>swagger-sdk</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jersey2-jaxrs</artifactId>
             <scope>provided</scope>
@@ -196,7 +192,7 @@
                                     implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.openo.holmes.engine.EngineDActiveApp
+                                    <mainClass>org.onap.holmes.engine.EngineDActiveApp
                                     </mainClass>
                                 </transformer>
                             </transformers>

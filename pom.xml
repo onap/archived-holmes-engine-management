@@ -19,13 +19,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.openo.oparent</groupId>
-        <artifactId>oparent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
-        <relativePath>../oparent</relativePath>
+        <groupId>org.onap.oparent</groupId>
+        <artifactId>version</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../oparent</relativePath>
     </parent>
 
-    <groupId>org.openo.holmes.engine-management</groupId>
+    <groupId>org.onap.holmes.engine-management</groupId>
     <artifactId>holmes-engine-parent</artifactId>
     <packaging>pom</packaging>
     <name>holmes-engine-parent</name>
@@ -56,7 +56,7 @@
         <slf4j.version>1.6.1</slf4j.version>
         <quartz.version>2.2.1</quartz.version>
 
-        <packagename>openo-holmes-engine-d</packagename>
+        <packagename>onap-holmes-engine-d</packagename>
         <linux64id>linux64</linux64id>
         <win64id>win64</win64id>
         <linux64outputdir>target/assembly/${linux64id}</linux64outputdir>
@@ -71,7 +71,7 @@
                 <version>3.0</version>
             </dependency>
             <dependency>
-                <groupId>org.openo.holmes.actions</groupId>
+                <groupId>org.onap.holmes.actions</groupId>
                 <artifactId>holmes-actions</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -118,12 +118,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.openo.common-services.common-utilities</groupId>
-                <artifactId>dropwizard-ioc-container</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
                 <version>${quartz.version}</version>
@@ -148,12 +142,6 @@
                 <artifactId>powermock-module-junit4</artifactId>
                 <version>1.6.5</version>
                 <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.openo.client.cli</groupId>
-                <artifactId>swagger-sdk</artifactId>
-                <version>1.1.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
