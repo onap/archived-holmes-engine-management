@@ -55,6 +55,7 @@
         <jersey.version>2.22.2</jersey.version>
         <jaxrs.consumer.version>5.0</jaxrs.consumer.version>
         <slf4j.version>1.6.1</slf4j.version>
+        <reflections.version>0.9.9</reflections.version>
         <quartz.version>2.2.1</quartz.version>
 
         <packagename>onap-holmes-engine-d</packagename>
@@ -66,6 +67,11 @@
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.easymock</groupId>
                 <artifactId>easymock</artifactId>

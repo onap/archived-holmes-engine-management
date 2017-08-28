@@ -21,7 +21,7 @@ echo @RUNHOME@ $RUNHOME
 echo @JAVA_HOME@ $JAVA_HOME
 JAVA="$JAVA_HOME/bin/java"
 echo @JAVA@ $JAVA
-main_path=$RUNHOME/../
+main_path=$RUNHOME/..
 cd $main_path
 JAVA_OPTS="-Xms50m -Xmx128m"
 port=8312
@@ -31,5 +31,5 @@ echo @JAVA_OPTS@ $JAVA_OPTS
 class_path="$main_path/:$main_path/holmes-engine-d.jar"
 echo @class_path@ $class_path
 
-"$JAVA" $JAVA_OPTS -classpath "$class_path" EngineDActiveApp server "$main_path/conf/engine-d.yml"
+"$JAVA" $JAVA_OPTS -classpath "$class_path" org.onap.holmes.engine.EngineDActiveApp server "$main_path/conf/engine-d.yml"
 
