@@ -31,5 +31,10 @@ echo @JAVA_OPTS@ $JAVA_OPTS
 class_path="$main_path/:$main_path/holmes-engine-d.jar"
 echo @class_path@ $class_path
 
+sed -i "s|url:.*|url: jdbc:mysql://$URL_JDBC/holmes|" "$main_path/conf/engine-d.yml"
+
+#ActiveMQ IP Configurtion
+#sed -i "s|brokerIp:.*|brokerIp: $BROKER_IP|" "$main_path/conf/engine-d.yml"
+
 "$JAVA" $JAVA_OPTS -classpath "$class_path" EngineDActiveApp server "$main_path/conf/engine-d.yml"
 
