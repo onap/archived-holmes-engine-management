@@ -31,6 +31,8 @@ echo @JAVA_OPTS@ $JAVA_OPTS
 class_path="$main_path/:$main_path/holmes-engine-d.jar"
 echo @class_path@ $class_path
 
+sed -i "s/activemq.username=.*/activemq.username=activemq/" /home/activemq/apache-activemq-5.9.0/conf/credentials.properties
+sed -i "s/activemq.password=.*/activemq.password=v1/" /home/activemq/apache-activemq-5.9.0/conf/credentials.properties
 /home/activemq/apache-activemq-5.9.0/bin/activemq start
 
 sed -i "s|url:.*|url: jdbc:mysql://$URL_JDBC/holmes|" "$main_path/conf/engine-d.yml"
