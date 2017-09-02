@@ -15,13 +15,19 @@
  */
 package org.onap.holmes.engine;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 import io.dropwizard.setup.Environment;
-import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
-import org.onap.holmes.common.dropwizard.ioc.bundle.IOCApplication;
-import org.onap.holmes.common.api.entity.ServiceRegisterEntity;
 import org.onap.holmes.common.config.MicroServiceConfig;
+import org.onap.holmes.common.dropwizard.ioc.bundle.IOCApplication;
+import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.MSBRegisterUtil;
+import org.onap.holmes.engine.resources.EngineResources;
+import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
+import org.onap.msb.sdk.discovery.entity.Node;
 
 @Slf4j
 public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
@@ -30,25 +36,30 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         new EngineDActiveApp().run(args);
     }
 
-    @Override
     public void run(EngineDAppConfig configuration, Environment environment) throws Exception {
         super.run(configuration, environment);
 
+        environment.jersey().register(new EngineResources());
         try {
-            new MSBRegisterUtil().register(initServiceEntity());
-        } catch (IOException e) {
-            log.warn("Micro service registry httpclient close failure", e);
+            new MSBRegisterUtil().register2Msb(createMicroServiceInfo());
+        } catch (CorrelationException e) {
+            log.warn(e.getMessage(), e);
         }
     }
 
-    private ServiceRegisterEntity initServiceEntity() {
-        ServiceRegisterEntity serviceRegisterEntity = new ServiceRegisterEntity();
-        serviceRegisterEntity.setServiceName("holmes-engine-mgmt");
-        serviceRegisterEntity.setProtocol("REST");
-        serviceRegisterEntity.setVersion("v1");
-        serviceRegisterEntity.setUrl("/onapapi/holmes-engine-mgmt/v1");
-        serviceRegisterEntity.setSingleNode(MicroServiceConfig.getServiceIp(), "9102", 0);
-        serviceRegisterEntity.setVisualRange("1|0");
-        return serviceRegisterEntity;
+    private MicroServiceInfo createMicroServiceInfo() {
+        MicroServiceInfo msinfo = new MicroServiceInfo();
+        msinfo.setServiceName("holmes-engine-mgmt");
+        msinfo.setVersion("v1");
+        msinfo.setUrl("/onapapi/holmes-engine-mgmt/v1");
+        msinfo.setProtocol("REST");
+        msinfo.setVisualRange("0|1");
+        Set<Node> nodes = new HashSet<>();
+        Node node = new Node();
+        node.setIp(MicroServiceConfig.getServiceIp());
+        node.setPort("9102");
+        nodes.add(node);
+        msinfo.setNodes(nodes);
+        return msinfo;
     }
 }
