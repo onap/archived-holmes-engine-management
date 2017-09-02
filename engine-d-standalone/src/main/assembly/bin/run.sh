@@ -36,5 +36,8 @@ sed -i "s|url:.*|url: jdbc:mysql://$URL_JDBC/holmes|" "$main_path/conf/engine-d.
 #ActiveMQ IP Configurtion
 #sed -i "s|brokerIp:.*|brokerIp: $BROKER_IP|" "$main_path/conf/engine-d.yml"
 
+export SERVICE_IP=`hostname -i`
+echo SERVICE_IP=${SERVICE_IP}
+
 "$JAVA" $JAVA_OPTS -classpath "$class_path" org.onap.holmes.engine.EngineDActiveApp server "$main_path/conf/engine-d.yml"
 
