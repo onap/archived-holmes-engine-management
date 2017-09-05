@@ -49,10 +49,10 @@ logging:
 
 
 database:
-  driverClass: com.mysql.jdbc.Driver
+  driverClass: org.postgresql.Driver
   user: holmes
-  password: holmes
-  url: jdbc:mysql://10.74.156.206:3306/holmes
+  password: holmespwd
+  url: jdbc:postgresql://169.254.59.196:5432/holmes
   properties:
     charSet: UTF-8
   maxWaitForConnection: 1s

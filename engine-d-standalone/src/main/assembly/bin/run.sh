@@ -35,13 +35,13 @@ sed -i "s/activemq.username=.*/activemq.username=activemq/" /home/activemq/apach
 sed -i "s/activemq.password=.*/activemq.password=v1/" /home/activemq/apache-activemq-5.9.0/conf/credentials.properties
 /home/activemq/apache-activemq-5.9.0/bin/activemq start
 
-sed -i "s|url:.*|url: jdbc:mysql://$URL_JDBC/holmes|" "$main_path/conf/engine-d.yml"
+sed -i "s|url:.*|url: jdbc:postgresql://$URL_JDBC/holmes|" "$main_path/conf/engine-d.yml"
 
 
 export SERVICE_IP=`hostname -i`
 echo SERVICE_IP=${SERVICE_IP}
 
-#ActiveMQ IP Configurtion
+#ActiveMQ IP Configurations
 sed -i "s|brokerIp:.*|brokerIp: $SERVICE_IP|" "$main_path/conf/engine-d.yml"
 
 cat "$main_path/conf/engine-d.yml"
