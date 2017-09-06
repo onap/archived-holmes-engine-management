@@ -51,7 +51,7 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         MicroServiceInfo msinfo = new MicroServiceInfo();
         msinfo.setServiceName("holmes-engine-mgmt");
         msinfo.setVersion("v1");
-        msinfo.setUrl("/onapapi/holmes-engine-mgmt/v1");
+        msinfo.setUrl("/api/holmes-engine-mgmt/v1");
         msinfo.setProtocol("REST");
         msinfo.setVisualRange("0|1");
         Set<Node> nodes = new HashSet<>();

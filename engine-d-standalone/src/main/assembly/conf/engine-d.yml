@@ -15,7 +15,7 @@
 #
 server:
   type: simple
-  rootPath: '/onapapi/holmes-engine-mgmt/v1/*'
+  rootPath: '/api/holmes-engine-mgmt/v1/*'
   applicationContextPath: /
   adminContextPath: /admin
   connector:
@@ -52,7 +52,7 @@ database:
   driverClass: org.postgresql.Driver
   user: holmes
   password: holmespwd
-  url: jdbc:postgresql://169.254.59.196:5432/holmes
+  url: jdbc:postgresql://10.74.156.206:5432/holmes
   properties:
     charSet: UTF-8
   maxWaitForConnection: 1s
@@ -64,7 +64,7 @@ database:
   minIdleTime: 1s
 
 mqConfig:
-  brokerIp: 127.0.0.1
+  brokerIp: 10.74.156.206
   brokerPort: 61616
   brokerUsername: activemq
   brokerPassword: v1

@@ -189,6 +189,7 @@ public class DroolsEngine {
         } catch (Exception e) {
             throw new CorrelationException("Failed to delete the rule: " + packageName, e);
         }
+        packageNames.remove(pkg.getName());
     }
 
     public void compileRule(String content, Locale locale)
