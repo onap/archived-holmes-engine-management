@@ -16,6 +16,8 @@ ENV PATH $PATH:/usr/lib/jvm/java-8-openjdk-amd64/jre/bin:/usr/lib/jvm/java-8-ope
 ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib
 ENV JRE_HOME ${JAVA_HOME}/jre
 
+ENV HOSTNAME holmes-engine-mgmt
+
 #install ActiveMQ
 RUN mkdir /home/downloads
 RUN mkdir /home/activemq
