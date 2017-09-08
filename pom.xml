@@ -28,7 +28,7 @@
     <artifactId>holmes-engine-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>holmes-engine-parent</name>
+    <name>holmes-engine-management</name>
     <modules>
         <module>engine-d</module>
         <module>engine-d-standalone</module>
