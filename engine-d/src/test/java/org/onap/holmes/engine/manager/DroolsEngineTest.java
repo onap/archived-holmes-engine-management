@@ -168,13 +168,16 @@ public class DroolsEngineTest {
     @Test
     public void putRaisedIntoStream_facthandle_is_null() {
         VesAlarm raiseAlarm = new VesAlarm();
+        raiseAlarm.setVersion((long) 245235);
         droolsEngine.putRaisedIntoStream(raiseAlarm);
         droolsEngine.putRaisedIntoStream(raiseAlarm);
     }
 
     @Test
     public void putRaisedIntoStream_factHandle_is_not_null() {
-        droolsEngine.putRaisedIntoStream(new VesAlarm());
+        VesAlarm raiseAlarm = new VesAlarm();
+        raiseAlarm.setVersion((long) 245235);
+        droolsEngine.putRaisedIntoStream(raiseAlarm);
     }
 
     @Test
