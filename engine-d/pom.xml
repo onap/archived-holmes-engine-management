@@ -43,6 +43,10 @@
             <artifactId>reflections</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.onap.holmes.dsa</groupId>
+            <artifactId>dmaap-dsa</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.onap.holmes.common</groupId>
             <artifactId>holmes-actions</artifactId>
             <exclusions>
