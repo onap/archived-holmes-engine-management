@@ -16,7 +16,6 @@
 package org.onap.holmes.engine.manager;
 
 
-import java.io.Serializable;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.List;
@@ -24,17 +23,7 @@ import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageListener;
-import javax.jms.Session;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -47,13 +36,10 @@ import org.drools.io.Resource;
 import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.FactHandle;
-import org.glassfish.hk2.api.IterableProvider;
 import org.jvnet.hk2.annotations.Service;
+import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.onap.holmes.common.api.entity.CorrelationRule;
-import org.onap.holmes.common.api.stat.Alarm;
-import org.onap.holmes.common.config.MQConfig;
-import org.onap.holmes.common.constant.AlarmConst;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.ExceptionUtil;
 import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
@@ -69,33 +55,17 @@ public class DroolsEngine {
     private KnowledgeBase kbase;
     private KnowledgeBaseConfiguration kconf;
     private StatefulKnowledgeSession ksession;
-    @Inject
-    private IterableProvider<MQConfig> mqConfigProvider;
-    private ConnectionFactory connectionFactory;
 
     @PostConstruct
     private void init() {
         try {
-            // 1. start engine
+            // start engine
             start();
-            // 2. start mq listener
-            registerAlarmTopicListener();
         } catch (Exception e) {
             log.error("Failed to start the service: " + e.getMessage(), e);
             throw ExceptionUtil.buildExceptionResponse("Failed to start the drools engine!");
         }
     }
-
-    private void registerAlarmTopicListener() {
-        String brokerURL =
-            "tcp://" + mqConfigProvider.get().brokerIp + ":" + mqConfigProvider.get().brokerPort;
-        connectionFactory = new ActiveMQConnectionFactory(mqConfigProvider.get().brokerUsername,
-            mqConfigProvider.get().brokerPassword, brokerURL);
-
-        AlarmMqMessageListener listener = new AlarmMqMessageListener();
-        listener.receive();
-    }
-
 
     private void start() throws CorrelationException {
         log.info("Drools Engine Initialize Beginning...");
@@ -219,7 +189,7 @@ public class DroolsEngine {
         }
     }
 
-    public void putRaisedIntoStream(Alarm raiseAlarm) {
+    public void putRaisedIntoStream(VesAlarm raiseAlarm) {
         FactHandle factHandle = this.ksession.getFactHandle(raiseAlarm);
         if (factHandle != null) {
             this.ksession.retract(factHandle);
@@ -228,59 +198,4 @@ public class DroolsEngine {
         this.ksession.fireAllRules();
     }
 
-    class AlarmMqMessageListener implements MessageListener {
-
-        private Connection connection = null;
-        private Session session = null;
-        private Destination destination = null;
-        private MessageConsumer consumer = null;
-
-        private void initialize() throws JMSException {
-            connection = connectionFactory.createConnection();
-            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            destination = session.createTopic(AlarmConst.MQ_TOPIC_NAME_ALARM);
-            consumer = session.createConsumer(destination);
-            connection.start();
-        }
-
-        public void receive() {
-            try {
-                initialize();
-                consumer.setMessageListener(this);
-            } catch (JMSException e) {
-                log.error("Failed to connect to the MQ service : " + e.getMessage(), e);
-                try {
-                    close();
-                } catch (JMSException e1) {
-                    log.error("Failed close connection  " + e1.getMessage(), e1);
-                }
-            }
-        }
-
-        public void onMessage(Message arg0) {
-            ActiveMQObjectMessage objectMessage = (ActiveMQObjectMessage) arg0;
-            try {
-                Serializable object = objectMessage.getObject();
-
-                if (object instanceof Alarm) {
-                    Alarm alarm = (Alarm) object;
-                    putRaisedIntoStream(alarm);
-                }
-            } catch (JMSException e) {
-                log.error("Failed get object : " + e.getMessage(), e);
-            }
-        }
-
-        private void close() throws JMSException {
-            if (consumer != null) {
-                consumer.close();
-            }
-            if (session != null) {
-                session.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-    }
 }
