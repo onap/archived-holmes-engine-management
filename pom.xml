@@ -50,7 +50,7 @@
         <postgres.jdbc.driver.version>42.1.1</postgres.jdbc.driver.version>
         <dropwizard.version>0.8.0</dropwizard.version>
         <swagger.version>1.5.3</swagger.version>
-        <lombok.version>1.16.4</lombok.version>
+        <lombok.version>1.16.8</lombok.version>
         <jersey.version>2.22.2</jersey.version>
         <jaxrs.consumer.version>5.0</jaxrs.consumer.version>
         <slf4j.version>1.6.1</slf4j.version>
