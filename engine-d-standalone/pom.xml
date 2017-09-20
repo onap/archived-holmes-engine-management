@@ -54,6 +54,10 @@
                                         <exclude>**/*.bat</exclude>
                                     </excludes>
                                 </resource>
+								<resource>
+                                    <directory>../engine-d/src/main/resources</directory>
+                                    <filtering>false</filtering>
+                                </resource>
                             </resources>
                             <overwrite>true</overwrite>
                         </configuration>
@@ -76,6 +80,10 @@
                                     <excludes>
                                         <exclude>**/*.sh</exclude>
                                     </excludes>
+                                </resource>
+								<resource>
+                                    <directory>../engine-d/src/main/resources</directory>
+                                    <filtering>false</filtering>
                                 </resource>
                             </resources>
                             <overwrite>true</overwrite>

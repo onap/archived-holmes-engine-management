@@ -19,6 +19,7 @@ package org.onap.holmes.engine.resources;
 import com.codahale.metrics.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ import org.onap.holmes.engine.response.CorrelationRuleResponse;
 
 @Service
 @Path("/rule")
-@Api(tags = {"Engine Manager"})
+@Api(tags = {"Holmes Engine Management"})
 @Produces(MediaType.APPLICATION_JSON)
 @Slf4j
 public class EngineResources {
@@ -51,10 +52,14 @@ public class EngineResources {
     DroolsEngine droolsEngine;
 
     @PUT
-    @ApiOperation(value = "Add rule to Engine and Cache", response = CorrelationRuleResponse.class)
+    @ApiOperation(value = "Deploy a rule into the Drools engine.", response = CorrelationRuleResponse.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
-    public CorrelationRuleResponse deployRule(DeployRuleRequest deployRuleRequest,
+    public CorrelationRuleResponse deployRule(
+            @ApiParam(value = "The request entity of the HTTP call, which comprises two "
+                    + "fields: \"content\" and \"engineid\". "
+                    + "The \"content\" should be a valid Drools rule string and the \"engineid\" "
+                    + "has to be \"engine-d\" in the Amsterdam release.", required = true) DeployRuleRequest deployRuleRequest,
             @Context HttpServletRequest httpRequest) {
 
         CorrelationRuleResponse crResponse = new CorrelationRuleResponse();
@@ -74,7 +79,7 @@ public class EngineResources {
     }
 
     @DELETE
-    @ApiOperation(value = "delete rule")
+    @ApiOperation(value = "Undeploy a rule from the Drools engine.")
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @Path("/{packageName}")
@@ -96,7 +101,7 @@ public class EngineResources {
 
 
     @POST
-    @ApiOperation(value = "compile rule")
+    @ApiOperation(value = "Check the validity of a rule.")
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     public boolean compileRule(CompileRuleRequest compileRuleRequest,

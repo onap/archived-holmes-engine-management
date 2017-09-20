@@ -1,0 +1,128 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This page shows all the APIs available in the Holmes engine management module.",
+    "version" : "v1",
+    "title" : "API Descriptions for Holmes Engine Management",
+    "termsOfService" : "http://www.github.com/kongchen/swagger-maven-plugin",
+    "contact" : {
+      "name" : "Guangrong Fu",
+      "email" : "fu.guangrong@zte.com.cn"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "basePath" : "/api/holmes-engine-mgmt/v1/",
+  "tags" : [ {
+    "name" : "Health Check"
+  }, {
+    "name" : "Holmes Engine Management"
+  } ],
+  "paths" : {
+    "/healthcheck" : {
+      "get" : {
+        "tags" : [ "Health Check" ],
+        "summary" : "Interface for the health check of the engine management module for Holmes",
+        "description" : "",
+        "operationId" : "healthCheck",
+        "produces" : [ "text/plain" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "boolean"
+            }
+          }
+        }
+      }
+    },
+    "/rule" : {
+      "post" : {
+        "tags" : [ "Holmes Engine Management" ],
+        "summary" : "Check the validity of a rule.",
+        "description" : "",
+        "operationId" : "compileRule",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "boolean"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Holmes Engine Management" ],
+        "summary" : "Deploy a rule into the Drools engine.",
+        "description" : "",
+        "operationId" : "deployRule",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The request entity of the HTTP call, which comprises two fields: \"content\" and \"engineid\". The \"content\" should be a valid Drools rule string and the \"engineid\" has to be \"engine-d\" in the Amsterdam release.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DeployRuleRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/CorrelationRuleResponse"
+            }
+          }
+        }
+      }
+    },
+    "/rule/{packageName}" : {
+      "delete" : {
+        "tags" : [ "Holmes Engine Management" ],
+        "summary" : "Undeploy a rule from the Drools engine.",
+        "description" : "",
+        "operationId" : "undeployRule",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "packageName",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "boolean"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "CorrelationRuleResponse" : {
+      "type" : "object",
+      "properties" : {
+        "package" : {
+          "type" : "string"
+        }
+      }
+    },
+    "DeployRuleRequest" : {
+      "type" : "object",
+      "required" : [ "content" ],
+      "properties" : {
+        "content" : {
+          "type" : "string"
+        },
+        "engineid" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

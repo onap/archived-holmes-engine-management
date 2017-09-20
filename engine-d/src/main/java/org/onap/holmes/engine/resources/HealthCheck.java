@@ -29,7 +29,7 @@ import org.jvnet.hk2.annotations.Service;
 @Service
 @SwaggerDefinition
 @Path("/healthcheck")
-@Api(tags = {"HealthCheck"})
+@Api(tags = {"Health Check"})
 @Produces(MediaType.TEXT_PLAIN)
 @Slf4j
 public class HealthCheck {
