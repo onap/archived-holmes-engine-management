@@ -192,6 +192,10 @@ public class DroolsEngine {
     public void putRaisedIntoStream(VesAlarm raiseAlarm) {
         FactHandle factHandle = this.ksession.getFactHandle(raiseAlarm);
         if (factHandle != null) {
+            Object obj = this.ksession.getObject(factHandle);
+            if (obj != null && obj instanceof VesAlarm) {
+                raiseAlarm.setRootFlag(((VesAlarm) obj).getRootFlag());
+            }
             this.ksession.retract(factHandle);
         }
         this.ksession.insert(raiseAlarm);
