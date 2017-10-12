@@ -30,6 +30,12 @@
     <name>holmes-engine/holmes-engine-d-standalone</name>
     <packaging>pom</packaging>
 
+    <properties>
+	<holmes.engine.project.version>${project.version}</holmes.engine.project.version>
+	<maven.build.timestamp.format>yyMMdd-HHmmss</maven.build.timestamp.format>
+        <build.number>${maven.build.timestamp}</build.number>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -189,6 +195,37 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                println project.properties['holmes.engine.project.version'];
+                                def versionArray;
+                                if ( project.properties['holmes.engine.project.version'] != null ) {
+                                    versionArray = project.properties['holmes.engine.project.version'].split('\\.');
+                                }
+
+                                if (project.properties['holmes.rule.project.version'].endsWith("-SNAPSHOT"))
+                                {
+                                    project.properties['project.docker.latesttag.version']=versionArray[0] + '.' + versionArray[1] + '.' + versionArray[2] + "-STAGING-latest";
+                                } else {
+                                    project.properties['project.docker.latesttag.version']=versionArray[0] + '.' + versionArray[1] + '.' + versionArray[2] + "-STAGING-latest";
+                                }
+
+                                println 'New Tag for docker:' +
+                                project.properties['project.docker.latesttag.version'];
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -211,7 +248,9 @@
                                         <dockerFileDir>${basedir}/target/version/</dockerFileDir>
                                         <dockerFile>${basedir}/target/version/Dockerfile</dockerFile>
                                         <tags>
-                                            <tag>${project.version}-STAGING-latest</tag>
+                                            <tag>${project.version}</tag>
+                                            <tag>${project.version}-STAGING-${maven.build.timestamp}</tag>
+                                            <tag>${project.docker.latesttag.version}</tag>
                                         </tags>
                                     </build>
                                 </image>
