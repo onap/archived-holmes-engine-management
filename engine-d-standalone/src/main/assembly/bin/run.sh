@@ -43,8 +43,12 @@ sed -i "s|url:.*|url: jdbc:postgresql://$URL_JDBC/holmes|" "$main_path/conf/engi
 export SERVICE_IP=`hostname -i`
 echo SERVICE_IP=${SERVICE_IP}
 
-if [ ${TESTING}==1 ]; then
-    export HOSTNAME=${SERVICE_IP}:9102
+if [ ! -z ${TESTING} ] && [ ${TESTING} == 1 ]; then
+    if [ ! -z ${HOST_IP}]; then
+        export HOSTNAME=${HOST_IP}:9102
+    else
+        export HOSTNAME=${SERVICE_IP}:9102
+    fi
 fi
 
 #ActiveMQ IP Configurations
