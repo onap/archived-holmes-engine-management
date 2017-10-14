@@ -35,17 +35,19 @@ public class SubscriberAction {
     private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 
     public void addSubscriber(Subscriber subscriber) {
-        DMaaPPollingRequest pollingTask = new DMaaPPollingRequest(subscriber, droolsEngine);
-        ScheduledFuture future = service
-                .scheduleAtFixedRate(pollingTask, 0, subscriber.getPeriod(), TimeUnit.MILLISECONDS);
-        pollingRequests.put(subscriber.getTopic(), future);
+        if (!pollingRequests.containsKey(subscriber.getUrl())) {
+            DMaaPPollingRequest pollingTask = new DMaaPPollingRequest(subscriber, droolsEngine);
+            ScheduledFuture future = service
+                    .scheduleAtFixedRate(pollingTask, 0, subscriber.getPeriod(), TimeUnit.MILLISECONDS);
+            pollingRequests.put(subscriber.getUrl(), future);
+        }
     }
 
     public void removeSubscriber(Subscriber subscriber) {
-        ScheduledFuture future = pollingRequests.get(subscriber.getTopic());
+        ScheduledFuture future = pollingRequests.get(subscriber.getUrl());
         if (future != null) {
             future.cancel(true);
         }
-        pollingRequests.remove(subscriber.getTopic());
+        pollingRequests.remove(subscriber.getUrl());
     }
 }

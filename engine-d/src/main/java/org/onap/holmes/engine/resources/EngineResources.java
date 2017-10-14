@@ -33,6 +33,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
+import org.onap.holmes.common.dmaap.DmaapService;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.ExceptionUtil;
 import org.onap.holmes.common.utils.LanguageUtil;
@@ -65,8 +66,9 @@ public class EngineResources {
         CorrelationRuleResponse crResponse = new CorrelationRuleResponse();
         Locale locale = LanguageUtil.getLocale(httpRequest);
         try {
-
             String packageName = droolsEngine.deployRule(deployRuleRequest, locale);
+            DmaapService.loopControlNames
+                    .put(packageName, deployRuleRequest.getLoopControlName());
             log.info("Rule deployed. Package name: " + packageName);
             crResponse.setPackageName(packageName);
 
