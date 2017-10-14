@@ -17,8 +17,8 @@ package org.onap.holmes.engine.db;
 
 
 import java.util.List;
-import org.onap.holmes.engine.db.mapper.CorrelationRuleMapper;
 import org.onap.holmes.common.api.entity.CorrelationRule;
+import org.onap.holmes.common.utils.CorrelationRuleMapper;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
