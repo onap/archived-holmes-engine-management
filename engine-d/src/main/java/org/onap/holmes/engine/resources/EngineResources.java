@@ -57,8 +57,8 @@ public class EngineResources {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     public CorrelationRuleResponse deployRule(
-            @ApiParam(value = "The request entity of the HTTP call, which comprises two "
-                    + "fields: \"content\" and \"engineid\". "
+            @ApiParam(value = "The request entity of the HTTP call, which comprises three "
+                    + "fields: \"content\" , \"loopcontrolname\" and \"engineid\". "
                     + "The \"content\" should be a valid Drools rule string and the \"engineid\" "
                     + "has to be \"engine-d\" in the Amsterdam release.", required = true) DeployRuleRequest deployRuleRequest,
             @Context HttpServletRequest httpRequest) {

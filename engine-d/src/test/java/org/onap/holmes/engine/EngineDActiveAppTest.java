@@ -15,13 +15,9 @@
  */
 package org.onap.holmes.engine;
 
-/**
- * Created by Administrator on 2017/2/20.
- */
-
 public class EngineDActiveAppTest {
     public static void main(String[] args) throws Exception {
-        String filePath = "C:\\correlation-engine.yml";
+        String filePath = "E:\\项目代码\\ONAP\\holmes\\engine-management\\engine-d-standalone\\src\\main\\assembly\\conf\\engine-d.yml";
         new EngineDActiveApp().run(new String[]{"server", filePath});
     }
 }
