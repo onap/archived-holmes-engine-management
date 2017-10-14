@@ -20,11 +20,15 @@ import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 import io.dropwizard.setup.Environment;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.holmes.common.dropwizard.ioc.bundle.IOCApplication;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.MSBRegisterUtil;
+import org.onap.holmes.engine.dcaepolling.DcaeConfigurationPolling;
 import org.onap.holmes.engine.resources.EngineResources;
 import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
 import org.onap.msb.sdk.discovery.entity.Node;
@@ -40,6 +44,11 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         super.run(configuration, environment);
 
         environment.jersey().register(new EngineResources());
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new DcaeConfigurationPolling("holmes-rule-mgmt"), 0,
+                DcaeConfigurationPolling.POLLING_PERIOD, TimeUnit.MILLISECONDS);
+
         try {
             new MSBRegisterUtil().register2Msb(createMicroServiceInfo());
         } catch (CorrelationException e) {

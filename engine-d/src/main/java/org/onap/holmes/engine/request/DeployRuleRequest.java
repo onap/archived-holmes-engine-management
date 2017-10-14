@@ -30,4 +30,7 @@ public class DeployRuleRequest {
 
     @JsonProperty(value = "engineid")
     private String engineId;
+
+    @JsonProperty(value = "loopcontrolname")
+    private String loopControlName;
 }
