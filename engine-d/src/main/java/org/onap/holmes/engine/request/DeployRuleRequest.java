@@ -32,5 +32,6 @@ public class DeployRuleRequest {
     private String engineId;
 
     @JsonProperty(value = "loopcontrolname")
+    @NotNull
     private String loopControlName;
 }
