@@ -56,6 +56,7 @@ public class DcaeConfigurationPolling implements Runnable{
         SubscriberAction subscriberAction = ServiceLocatorHolder.getLocator()
                 .getService(SubscriberAction.class);
         Subscriber subscriber = new Subscriber();
+        subscriber.setTopic(subscriberKey);
         subscriber.setUrl(dcaeConfigurations.getSubSecInfo(subscriberKey).getDmaapInfo()
                 .getTopicUrl());
         subscriberAction.addSubscriber(subscriber);
