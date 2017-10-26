@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onap.holmes.engine.dcaepolling;
+package org.onap.holmes.engine.dcae;
 
 import lombok.extern.slf4j.Slf4j;
 import org.onap.holmes.common.dcae.DcaeConfigurationQuery;
@@ -22,7 +22,7 @@ import org.onap.holmes.common.dcae.entity.DcaeConfigurations;
 import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
-import org.onap.holmes.engine.dmaappolling.SubscriberAction;
+import org.onap.holmes.engine.dmaap.SubscriberAction;
 
 @Slf4j
 public class DcaeConfigurationPolling implements Runnable{

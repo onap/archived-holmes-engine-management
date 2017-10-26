@@ -15,8 +15,6 @@
  */
 package org.onap.holmes.engine;
 
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
-
 import io.dropwizard.setup.Environment;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +26,7 @@ import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.holmes.common.dropwizard.ioc.bundle.IOCApplication;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.MSBRegisterUtil;
-import org.onap.holmes.engine.dcaepolling.DcaeConfigurationPolling;
+import org.onap.holmes.engine.dcae.DcaeConfigurationPolling;
 import org.onap.holmes.engine.resources.EngineResources;
 import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
 import org.onap.msb.sdk.discovery.entity.Node;

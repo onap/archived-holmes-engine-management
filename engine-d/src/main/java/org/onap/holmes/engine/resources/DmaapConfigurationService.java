@@ -16,7 +16,6 @@
 
 package org.onap.holmes.engine.resources;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ import org.onap.holmes.common.dcae.DcaeConfigurationsCache;
 import org.onap.holmes.common.dcae.entity.SecurityInfo;
 import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
-import org.onap.holmes.engine.dmaappolling.SubscriberAction;
+import org.onap.holmes.engine.dmaap.SubscriberAction;
 import org.onap.holmes.engine.request.DmaapConfigRequest;
 
 @Service
