@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onap.holmes.engine.dmaappolling;
+package org.onap.holmes.engine.dmaap;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
@@ -30,24 +29,30 @@ public class SubscriberAction {
 
     @Inject
     private DroolsEngine droolsEngine;
-
-    private ConcurrentHashMap<String, ScheduledFuture> pollingRequests = new ConcurrentHashMap<String, ScheduledFuture>();
-    private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    private ConcurrentHashMap<String, DMaaPAlarmPolling> pollingTasks = new ConcurrentHashMap<>();
 
     public void addSubscriber(Subscriber subscriber) {
-        if (!pollingRequests.containsKey(subscriber.getTopic())) {
-            DMaaPPollingRequest pollingTask = new DMaaPPollingRequest(subscriber, droolsEngine);
-            ScheduledFuture future = service
-                    .scheduleAtFixedRate(pollingTask, 0, subscriber.getPeriod(), TimeUnit.MILLISECONDS);
-            pollingRequests.put(subscriber.getTopic(), future);
+        if (!pollingTasks.containsKey(subscriber.getTopic())) {
+            DMaaPAlarmPolling pollingTask = new DMaaPAlarmPolling(subscriber, droolsEngine);
+            Thread thread = new Thread(pollingTask);
+            thread.start();
+            pollingTasks.put(subscriber.getTopic(), pollingTask);
         }
     }
 
     public void removeSubscriber(Subscriber subscriber) {
-        ScheduledFuture future = pollingRequests.get(subscriber.getTopic());
-        if (future != null) {
-            future.cancel(true);
+        if (pollingTasks.containsKey(subscriber.getTopic())) {
+            pollingTasks.get(subscriber.getTopic()).stopTask();
         }
-        pollingRequests.remove(subscriber.getTopic());
+    }
+
+    @PreDestroy
+    public void stopPollingTasks() {
+        Iterator iterator = pollingTasks.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String key = (String) entry.getKey();
+            pollingTasks.get(key).stopTask();
+        }
     }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onap.holmes.engine.dmaappolling;
+package org.onap.holmes.engine.dmaap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,24 +24,30 @@ import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.onap.holmes.engine.manager.DroolsEngine;
 
 @Slf4j
-public class DMaaPPollingRequest implements Runnable {
+public class DMaaPAlarmPolling implements Runnable {
 
     private Subscriber subscriber;
-
     private DroolsEngine droolsEngine;
+    private volatile boolean isAlive = true;
 
-    public DMaaPPollingRequest(Subscriber subscriber, DroolsEngine droolsEngine) {
+    public DMaaPAlarmPolling(Subscriber subscriber, DroolsEngine droolsEngine) {
         this.subscriber = subscriber;
         this.droolsEngine = droolsEngine;
     }
 
     public void run() {
-        List<VesAlarm> vesAlarmList = new ArrayList<>();
-        try {
-            vesAlarmList = subscriber.subscribe();
-        } catch (CorrelationException e) {
-            log.error("Failed polling request alarm." + e.getMessage());
+        while (isAlive) {
+            List<VesAlarm> vesAlarmList = new ArrayList<>();
+            try {
+                vesAlarmList = subscriber.subscribe();
+            } catch (CorrelationException e) {
+                log.error("Failed polling request alarm." + e.getMessage());
+            }
+            vesAlarmList.forEach(vesAlarm -> droolsEngine.putRaisedIntoStream(vesAlarm));
         }
-        vesAlarmList.forEach(vesAlarm -> droolsEngine.putRaisedIntoStream(vesAlarm));
+    }
+
+    public void stopTask() {
+        isAlive = false;
     }
 }
