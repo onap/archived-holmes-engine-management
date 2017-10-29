@@ -88,6 +88,8 @@ public class DroolsEngineTest {
         List<CorrelationRule> rules = new ArrayList<CorrelationRule>();
         CorrelationRule rule = new CorrelationRule();
         rule.setContent("content");
+        rule.setClosedControlLoopName("test");
+        rule.setPackageName("org.onap.holmes");
         rules.add(rule);
 
         expect(ruleMgtWrapper.queryRuleByEnable(anyInt())).andReturn(rules);
