@@ -38,6 +38,7 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.FactHandle;
 import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.common.api.stat.VesAlarm;
+import org.onap.holmes.common.dmaap.DmaapService;
 import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.onap.holmes.common.api.entity.CorrelationRule;
 import org.onap.holmes.common.exception.CorrelationException;
@@ -101,6 +102,7 @@ public class DroolsEngine {
         for (CorrelationRule rule : rules) {
             if (rule.getContent() != null) {
                 deployRuleFromDB(rule.getContent());
+                DmaapService.loopControlNames.put(rule.getPackageName(), rule.getClosedControlLoopName());
             }
         }
     }
