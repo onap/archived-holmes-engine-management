@@ -43,15 +43,15 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
 
         environment.jersey().register(new EngineResources());
 
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(new DcaeConfigurationPolling("holmes-rule-mgmt"), 0,
-                DcaeConfigurationPolling.POLLING_PERIOD, TimeUnit.MILLISECONDS);
-
         try {
             new MSBRegisterUtil().register2Msb(createMicroServiceInfo());
         } catch (CorrelationException e) {
             log.warn(e.getMessage(), e);
         }
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new DcaeConfigurationPolling("holmes-engine-mgmt"), 0,
+                DcaeConfigurationPolling.POLLING_PERIOD, TimeUnit.MILLISECONDS);
     }
 
     private MicroServiceInfo createMicroServiceInfo() {
