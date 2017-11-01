@@ -46,6 +46,12 @@
         <dependency>
             <groupId>org.onap.holmes.dsa</groupId>
             <artifactId>dmaap-dsa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.holmes.common</groupId>
@@ -167,7 +173,6 @@
             <version>1.6.5</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
