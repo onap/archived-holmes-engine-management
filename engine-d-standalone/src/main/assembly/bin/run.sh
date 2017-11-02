@@ -37,8 +37,24 @@ sed -i "s/activemq.username=.*/activemq.username=activemq/" /home/activemq/apach
 sed -i "s/activemq.password=.*/activemq.password=v1/" /home/activemq/apache-activemq-5.9.0/conf/credentials.properties
 /home/activemq/apache-activemq-5.9.0/bin/activemq start
 
-sed -i "s|url:.*|url: jdbc:postgresql://$URL_JDBC/holmes|" "$main_path/conf/engine-d.yml"
+if [ -z ${JDBC_USERNAME} ]; then
+    export JDBC_USERNAME=holmes
+    echo "No user name is specified for the database. Use the default value \"$JDBC_USERNAME\"."
+fi
 
+if [ -z ${JDBC_PASSWORD} ]; then
+    export JDBC_PASSWORD=holmespwd
+    echo "No password is specified for the database. Use the default value \"$JDBC_PASSWORD\"."
+fi
+
+if [ -z ${DB_NAME} ]; then
+    export DB_NAME=holmes
+    echo "No database is name is specified. Use the default value \"$DB_NAME\"."
+fi
+
+sed -i "s|url:.*|url: jdbc:postgresql://$URL_JDBC/$DB_NAME|" "$main_path/conf/engine-d.yml"
+sed -i "s|user:.*|user: $JDBC_USERNAME|" "$main_path/conf/engine-d.yml"
+sed -i "s|password:.*|password: $JDBC_PASSWORD|" "$main_path/conf/engine-d.yml"
 
 export SERVICE_IP=`hostname -i`
 echo SERVICE_IP=${SERVICE_IP}
