@@ -55,7 +55,7 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
     }
 
     private MicroServiceInfo createMicroServiceInfo() {
-        String[] serviceAddrInfo = MicroServiceConfig.getServiceAddrInfo();
+        String[] serviceAddrInfo = MicroServiceConfig.getMicroServiceIpAndPort();
         MicroServiceInfo msinfo = new MicroServiceInfo();
         msinfo.setServiceName("holmes-engine-mgmt");
         msinfo.setVersion("v1");
