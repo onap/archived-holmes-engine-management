@@ -42,7 +42,6 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         super.run(configuration, environment);
 
         environment.jersey().register(new EngineResources());
-
         try {
             new MSBRegisterUtil().register2Msb(createMicroServiceInfo());
         } catch (CorrelationException e) {
@@ -50,7 +49,8 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         }
 
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(new DcaeConfigurationPolling("holmes-engine-mgmt"), 0,
+        service.scheduleAtFixedRate(
+                new DcaeConfigurationPolling(MicroServiceConfig.getEnv(MicroServiceConfig.HOSTNAME)), 0,
                 DcaeConfigurationPolling.POLLING_PERIOD, TimeUnit.MILLISECONDS);
     }
 

@@ -25,13 +25,11 @@ import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.onap.holmes.engine.dmaap.SubscriberAction;
 
 @Slf4j
-public class DcaeConfigurationPolling implements Runnable{
+public class DcaeConfigurationPolling implements Runnable {
 
     private String hostname;
 
-    private String subscriberKey = "sec_fault_unsecure";
-
-    public static long POLLING_PERIOD = 10 * 1000L;
+    public static long POLLING_PERIOD = 30 * 1000L;
 
     public DcaeConfigurationPolling(String hostname) {
         this.hostname = hostname;
@@ -44,21 +42,23 @@ public class DcaeConfigurationPolling implements Runnable{
             dcaeConfigurations = DcaeConfigurationQuery
                     .getDcaeConfigurations(hostname);
         } catch (CorrelationException e) {
-            log.error("Failed to polling dcae configurations" + e.getMessage());
+            log.error("Failed to poll the DCAE configurations. " + e.getMessage());
         }
         if (dcaeConfigurations != null) {
             DcaeConfigurationsCache.setDcaeConfigurations(dcaeConfigurations);
-            addSubscriber(dcaeConfigurations);
+            addSubscribers(dcaeConfigurations);
         }
     }
 
-    private void addSubscriber(DcaeConfigurations dcaeConfigurations) {
+    private void addSubscribers(DcaeConfigurations dcaeConfigurations) {
         SubscriberAction subscriberAction = ServiceLocatorHolder.getLocator()
                 .getService(SubscriberAction.class);
-        Subscriber subscriber = new Subscriber();
-        subscriber.setTopic(subscriberKey);
-        subscriber.setUrl(dcaeConfigurations.getSubSecInfo(subscriberKey).getDmaapInfo()
-                .getTopicUrl());
-        subscriberAction.addSubscriber(subscriber);
+        for (String key : dcaeConfigurations.getSubKeys()) {
+            Subscriber subscriber = new Subscriber();
+            subscriber.setTopic(key);
+            subscriber.setUrl(dcaeConfigurations.getSubSecInfo(key).getDmaapInfo()
+                    .getTopicUrl());
+            subscriberAction.addSubscriber(subscriber);
+        }
     }
 }
