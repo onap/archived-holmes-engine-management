@@ -50,7 +50,8 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         }
 
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(new DcaeConfigurationPolling("holmes-engine-mgmt"), 0,
+        service.scheduleAtFixedRate(
+                new DcaeConfigurationPolling(MicroServiceConfig.getEnv(MicroServiceConfig.HOSTNAME)), 0,
                 DcaeConfigurationPolling.POLLING_PERIOD, TimeUnit.MILLISECONDS);
     }
 
