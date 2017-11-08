@@ -21,11 +21,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.onap.holmes.engine.manager.DroolsEngine;
 
 @Service
+@Slf4j
 public class SubscriberAction {
 
     @Inject
@@ -38,6 +40,7 @@ public class SubscriberAction {
             Thread thread = new Thread(pollingTask);
             thread.start();
             pollingTasks.put(subscriber.getTopic(), pollingTask);
+            log.info("Subscribe to topic: " + subscriber.getUrl());
         }
     }
 
@@ -46,6 +49,7 @@ public class SubscriberAction {
             pollingTasks.get(subscriber.getTopic()).stopTask();
             pollingTasks.remove(subscriber.getTopic());
         }
+        log.info("Topic unsubscribed: " + subscriber.getUrl());
     }
 
     @PreDestroy
