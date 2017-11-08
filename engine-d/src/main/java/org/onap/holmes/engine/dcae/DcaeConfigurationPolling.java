@@ -15,12 +15,14 @@
  */
 package org.onap.holmes.engine.dcae;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.onap.holmes.common.dcae.DcaeConfigurationQuery;
 import org.onap.holmes.common.dcae.DcaeConfigurationsCache;
 import org.onap.holmes.common.dcae.entity.DcaeConfigurations;
 import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
 import org.onap.holmes.common.exception.CorrelationException;
+import org.onap.holmes.common.utils.Md5Util;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.onap.holmes.engine.dmaap.SubscriberAction;
 
@@ -31,6 +33,8 @@ public class DcaeConfigurationPolling implements Runnable {
 
     public static long POLLING_PERIOD = 30 * 1000L;
 
+    private String prevConfigMd5 = Md5Util.md5(null);
+
     public DcaeConfigurationPolling(String hostname) {
         this.hostname = hostname;
     }
@@ -39,10 +43,17 @@ public class DcaeConfigurationPolling implements Runnable {
     public void run() {
         DcaeConfigurations dcaeConfigurations = null;
         try {
-            dcaeConfigurations = DcaeConfigurationQuery
-                    .getDcaeConfigurations(hostname);
+            dcaeConfigurations = DcaeConfigurationQuery.getDcaeConfigurations(hostname);
+            String md5 = Md5Util.md5(dcaeConfigurations);
+            if (prevConfigMd5.equals(md5)){
+                log.info("Operation aborted due to identical Configurations.");
+                return;
+            }
+            prevConfigMd5 = md5;
         } catch (CorrelationException e) {
             log.error("Failed to poll the DCAE configurations. " + e.getMessage());
+        } catch (JsonProcessingException e) {
+            log.info("Failed to generate the MD5 information for new configurations.", e);
         }
         if (dcaeConfigurations != null) {
             DcaeConfigurationsCache.setDcaeConfigurations(dcaeConfigurations);
