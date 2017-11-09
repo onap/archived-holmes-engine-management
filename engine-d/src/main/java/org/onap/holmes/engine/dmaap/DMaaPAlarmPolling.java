@@ -42,7 +42,7 @@ public class DMaaPAlarmPolling implements Runnable {
                 vesAlarmList = subscriber.subscribe();
                 vesAlarmList.forEach(vesAlarm -> droolsEngine.putRaisedIntoStream(vesAlarm));
             } catch (CorrelationException e) {
-                log.error("Failed polling request alarm. " + e.getMessage());
+                log.error("Failed to process alarms.", e);
             } catch (Exception e) {
                 log.error("An error occurred while processing alarm.", e);
             }
