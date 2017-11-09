@@ -15,6 +15,8 @@
  */
 package org.onap.holmes.engine.dmaap;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -42,9 +44,19 @@ public class DMaaPAlarmPolling implements Runnable {
                 vesAlarmList = subscriber.subscribe();
                 vesAlarmList.forEach(vesAlarm -> droolsEngine.putRaisedIntoStream(vesAlarm));
             } catch (CorrelationException e) {
-                log.error("Failed to process alarms.", e);
+                log.error("Failed to process alarms. Sleep for 60 seconds to restart.", e);
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e1) {
+                    log.info("Thread is still active.", e);
+                }
             } catch (Exception e) {
-                log.error("An error occurred while processing alarm.", e);
+                log.error("An error occurred while processing alarm. Sleep for 60 seconds to restart.", e);
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e1) {
+                    log.info("Thread is still active.", e);
+                }
             }
         }
     }
