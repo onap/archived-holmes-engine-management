@@ -66,6 +66,7 @@ public class EngineResourcesTest {
     @Test
     public void deployRule_normal() throws CorrelationException {
         DeployRuleRequest deployRuleRequest = new DeployRuleRequest();
+        deployRuleRequest.setContent("package packageName;\n\nimport xxx.xxx.xxx;");
         deployRuleRequest.setLoopControlName("loopControlName");
         HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 

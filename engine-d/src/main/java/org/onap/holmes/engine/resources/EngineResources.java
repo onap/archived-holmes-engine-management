@@ -20,6 +20,9 @@ import com.codahale.metrics.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -66,15 +69,25 @@ public class EngineResources {
         CorrelationRuleResponse crResponse = new CorrelationRuleResponse();
         Locale locale = LanguageUtil.getLocale(httpRequest);
         try {
-            String packageName = droolsEngine.deployRule(deployRuleRequest, locale);
+            String packageName = getPackageName(deployRuleRequest.getContent());
             DmaapService.loopControlNames
                     .put(packageName, deployRuleRequest.getLoopControlName());
+            String packageNameRet = droolsEngine.deployRule(deployRuleRequest, locale);
+            if (!packageName.equals(packageNameRet)) {
+                log.info("The parsed package name is different from that returned by the engine.");
+                DmaapService.loopControlNames.remove(packageName);
+                DmaapService.loopControlNames
+                        .put(packageNameRet, deployRuleRequest.getLoopControlName());
+            }
             log.info("Rule deployed. Package name: " + packageName);
             crResponse.setPackageName(packageName);
 
         } catch (CorrelationException correlationException) {
             log.error(correlationException.getMessage(), correlationException);
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
+        } catch (RuntimeException e) {
+            log.error(e.getMessage(), e);
+            throw ExceptionUtil.buildExceptionResponse(e.getMessage());
         }
 
         return crResponse;
@@ -91,9 +104,8 @@ public class EngineResources {
         Locale locale = LanguageUtil.getLocale(httpRequest);
 
         try {
-
             droolsEngine.undeployRule(packageName, locale);
-
+            DmaapService.loopControlNames.remove(packageName);
         } catch (CorrelationException correlationException) {
             log.error(correlationException.getMessage(), correlationException);
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
@@ -118,5 +130,11 @@ public class EngineResources {
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
         }
         return true;
+    }
+
+    private String getPackageName(String contents){
+        String ret = contents.trim();
+        ret = ret.substring(7, ret.indexOf("import")).trim();
+        return ret.endsWith(";") ? ret.substring(0, ret.length() - 1) : ret;
     }
 }
