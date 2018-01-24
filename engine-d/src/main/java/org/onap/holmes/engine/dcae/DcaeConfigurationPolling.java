@@ -31,7 +31,7 @@ public class DcaeConfigurationPolling implements Runnable {
 
     private String hostname;
 
-    public static long POLLING_PERIOD = 30 * 1000L;
+    public static final long POLLING_PERIOD = 30 * 1000L;
 
     private String prevConfigMd5 = Md5Util.md5(null);
 
