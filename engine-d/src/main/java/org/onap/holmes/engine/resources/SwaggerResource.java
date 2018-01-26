@@ -44,11 +44,12 @@ public class SwaggerResource {
     public String getSwaggerJson() {
         URL url = SwaggerResource.class.getResource("/swagger.json");
         String ret = "{}";
+        BufferedReader br = null;
         try {
             System.out.println(URLDecoder.decode(url.getPath(), "UTF-8"));
             File file = new File(URLDecoder.decode(url.getPath(), "UTF-8"));
 
-            BufferedReader br = new BufferedReader(new FileReader(file));
+            br = new BufferedReader(new FileReader(file));
             StringBuffer buffer = new StringBuffer();
             String line = " ";
             while ((line = br.readLine()) != null) {
@@ -59,6 +60,14 @@ public class SwaggerResource {
             log.warn("Failed to read the API description file.");
         } catch (IOException e) {
             log.warn("An error occurred while reading swagger.json.");
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    log.warn("Failed to close the file reader. This may cause memory leak.");
+                }
+            }
         }
         return ret;
     }

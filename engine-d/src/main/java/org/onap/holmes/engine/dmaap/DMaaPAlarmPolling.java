@@ -49,6 +49,7 @@ public class DMaaPAlarmPolling implements Runnable {
                     Thread.sleep(60000);
                 } catch (InterruptedException e1) {
                     log.info("Thread is still active.", e);
+                    Thread.currentThread().interrupt();
                 }
             } catch (Exception e) {
                 log.error("An error occurred while processing alarm. Sleep for 60 seconds to restart.", e);
@@ -56,6 +57,7 @@ public class DMaaPAlarmPolling implements Runnable {
                     Thread.sleep(60000);
                 } catch (InterruptedException e1) {
                     log.info("Thread is still active.", e);
+                    Thread.currentThread().interrupt();
                 }
             }
         }
