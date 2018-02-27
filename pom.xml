@@ -48,7 +48,7 @@
 
         <stringtemplate.version>3.2.1</stringtemplate.version>
         <postgres.jdbc.driver.version>42.1.1</postgres.jdbc.driver.version>
-        <dropwizard.version>0.9.3</dropwizard.version>
+        <dropwizard.version>0.8.0</dropwizard.version>
         <swagger.version>1.5.3</swagger.version>
         <lombok.version>1.16.8</lombok.version>
         <jersey.version>2.22.2</jersey.version>
