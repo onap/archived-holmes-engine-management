@@ -52,7 +52,7 @@ public class DcaeConfigurationPolling implements Runnable {
             prevConfigMd5 = md5;
         } catch (CorrelationException e) {
             log.error("Failed to poll the DCAE configurations. " + e.getMessage(), e);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             log.info("Failed to generate the MD5 information for new configurations.", e);
         }
         if (dcaeConfigurations != null) {
