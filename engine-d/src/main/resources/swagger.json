@@ -114,7 +114,7 @@
     },
     "DeployRuleRequest" : {
       "type" : "object",
-      "required" : [ "content" ],
+      "required" : [ "content", "loopcontrolname" ],
       "properties" : {
         "content" : {
           "type" : "string"
