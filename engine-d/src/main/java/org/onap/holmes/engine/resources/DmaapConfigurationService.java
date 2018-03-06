@@ -50,7 +50,7 @@ public class DmaapConfigurationService {
                     + " and <b>url</b>. Both fields are required.") DmaapConfigRequest config,
             @Context HttpServletRequest request){
         String url = config.getUrl();
-        if (url.startsWith("http://")) {
+        if (url.startsWith("http://") || url.startsWith("https://")) {
             Subscriber subscriber = new Subscriber();
             subscriber.setTopic(config.getName());
             subscriber.setUrl(url);
@@ -64,7 +64,7 @@ public class DmaapConfigurationService {
 
             return "{\"message\": \"Succeeded!\", \"topic\": \"" + config.getName() + "\"}";
         }
-        return "{\"message\": \"Only the HTTP protocol is supported!\"}";
+        return "{\"message\": \"Only the HTTP or HTTPS protocol is supported!\"}";
     }
 
     @DELETE
@@ -92,7 +92,7 @@ public class DmaapConfigurationService {
                 + " and <b>url</b>. Both fields are required.") DmaapConfigRequest config,
             @Context HttpServletRequest request){
         String url = config.getUrl();
-        if (url.startsWith("http://")) {
+        if (url.startsWith("http://") || url.startsWith("https://")) {
             SecurityInfo securityInfo = new SecurityInfo();
             SecurityInfo.DmaapInfo dmaapInfo = new SecurityInfo().new DmaapInfo();
             dmaapInfo.setTopicUrl(config.getUrl());
@@ -100,6 +100,6 @@ public class DmaapConfigurationService {
             DcaeConfigurationsCache.addPubSecInfo(config.getName(), securityInfo);
             return "{\"message\": \"Succeeded!\", \"topic\": \"" + config.getName() + "\"}";
         }
-        return "{\"message\": \"Only the HTTP protocol is supported!\"}";
+        return "{\"message\": \"Only the HTTP or HTTPS protocol is supported!\"}";
     }
 }

@@ -15,7 +15,6 @@
  */
 package org.onap.holmes.engine.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,14 +23,11 @@ import lombok.Setter;
 @Setter
 public class DeployRuleRequest {
 
-    @JsonProperty(value = "content")
     @NotNull
     private String content;
 
-    @JsonProperty(value = "engineid")
     private String engineId;
 
-    @JsonProperty(value = "loopcontrolname")
     @NotNull
     private String loopControlName;
 }

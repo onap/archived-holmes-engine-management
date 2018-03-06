@@ -70,6 +70,13 @@ fi
 #ActiveMQ IP Configurations
 sed -i "s|brokerIp:.*|brokerIp: $SERVICE_IP|" "$main_path/conf/engine-d.yml"
 
+KEY_PATH="$main_path/conf/holmes.keystore"
+KEY_PASSWORD="holmes"
+
+#HTTPS Configurations
+sed -i "s|keyStorePath:.*|keyStorePath: $KEY_PATH|" "$main_path/conf/engine-d.yml"
+sed -i "s|keyStorePassword:.*|keyStorePassword: $KEY_PASSWORD|" "$main_path/conf/engine-d.yml"
+
 cat "$main_path/conf/engine-d.yml"
 
 

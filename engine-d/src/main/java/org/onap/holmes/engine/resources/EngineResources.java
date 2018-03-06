@@ -61,8 +61,8 @@ public class EngineResources {
     @Timed
     public CorrelationRuleResponse deployRule(
             @ApiParam(value = "The request entity of the HTTP call, which comprises three "
-                    + "fields: \"content\" , \"loopcontrolname\" and \"engineid\". "
-                    + "The \"content\" should be a valid Drools rule string and the \"engineid\" "
+                    + "fields: \"content\" , \"loopControlName\" and \"engineId\". "
+                    + "The \"content\" should be a valid Drools rule string and the \"engineId\" "
                     + "has to be \"engine-d\" in the Amsterdam release.", required = true) DeployRuleRequest deployRuleRequest,
             @Context HttpServletRequest httpRequest) {
 

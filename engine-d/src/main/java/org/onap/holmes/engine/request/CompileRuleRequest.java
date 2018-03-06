@@ -24,7 +24,6 @@ import lombok.Setter;
 @Setter
 public class CompileRuleRequest {
 
-    @JsonProperty(value = "content")
     @NotNull
     private String content;
 }

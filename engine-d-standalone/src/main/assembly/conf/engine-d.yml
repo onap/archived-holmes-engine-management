@@ -19,8 +19,12 @@ server:
   applicationContextPath: /
   adminContextPath: /admin
   connector:
-    type: http
+    type: https
     port: 9102
+    keyStorePath: /home/holmes/conf/holmes.keystore
+    keyStorePassword: holmes
+    validateCerts: false
+    validatePeers: false
 
 
 # Logging settings.
