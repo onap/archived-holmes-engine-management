@@ -50,9 +50,9 @@ public class MQConsumer {
 
     public void registerAlarmTopicListener() {
         String brokerURL =
-                "tcp://" + mqConfigProvider.get().brokerIp + ":" + mqConfigProvider.get().brokerPort;
-        connectionFactory = new ActiveMQConnectionFactory(mqConfigProvider.get().brokerUsername,
-                mqConfigProvider.get().brokerPassword, brokerURL);
+                "tcp://" + mqConfigProvider.get().getBrokerIp() + ":" + mqConfigProvider.get().getBrokerPort();
+        connectionFactory = new ActiveMQConnectionFactory(mqConfigProvider.get().getBrokerUsername(),
+                mqConfigProvider.get().getBrokerPassword(), brokerURL);
 
         AlarmMqMessageListener listener = new AlarmMqMessageListener();
         listener.receive();
