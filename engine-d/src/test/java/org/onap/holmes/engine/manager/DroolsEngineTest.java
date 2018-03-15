@@ -23,15 +23,18 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import org.drools.KnowledgeBase;
-import org.drools.KnowledgeBaseConfiguration;
-import org.drools.KnowledgeBaseFactory;
-import org.drools.conf.EventProcessingOption;
-import org.drools.runtime.StatefulKnowledgeSession;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.kie.api.KieBase;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieBuilder;
+import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.KieRepository;
+import org.kie.api.io.KieResources;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.onap.holmes.common.api.entity.CorrelationRule;
@@ -39,7 +42,6 @@ import org.onap.holmes.common.constant.AlarmConst;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.powermock.reflect.Whitebox;
 
 public class DroolsEngineTest {
@@ -47,37 +49,45 @@ public class DroolsEngineTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @Rule
-    public PowerMockRule powerMockRule = new PowerMockRule();
-
     private RuleMgtWrapper ruleMgtWrapper;
 
-    private KnowledgeBase kbase;
-
-    private KnowledgeBaseConfiguration kconf;
-
-    private StatefulKnowledgeSession ksession;
+    private KieBase kieBase;
+    private KieSession kieSession;
+    private KieContainer kieContainer;
+    private KieFileSystem kfs;
+    private KieServices ks;
+    private KieBuilder kieBuilder;
+    private KieResources resources;
+    private KieRepository kieRepository;
 
 
     private DroolsEngine droolsEngine;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         droolsEngine = new DroolsEngine();
 
-        this.kconf = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
-        this.kconf.setOption(EventProcessingOption.STREAM);
-        this.kconf.setProperty("drools.assertBehaviour", "equality");
-        this.kbase = KnowledgeBaseFactory.newKnowledgeBase("D-ENGINE", this.kconf);
-        this.ksession = kbase.newStatefulKnowledgeSession();
+        ks = KieServices.Factory.get();
+        resources = ks.getResources();
+        kieRepository = ks.getRepository();
+        kfs = Whitebox.invokeMethod(droolsEngine, "createKieFileSystemWithKProject", ks);
+        kieBuilder = ks.newKieBuilder(kfs).buildAll();
+        kieContainer = ks.newKieContainer(kieRepository.getDefaultReleaseId());
+        kieBase = kieContainer.getKieBase();
+        kieSession = kieContainer.newKieSession();
 
         ruleMgtWrapper = PowerMock.createMock(RuleMgtWrapper.class);
 
         Whitebox.setInternalState(droolsEngine, "ruleMgtWrapper", ruleMgtWrapper);
 
-        Whitebox.setInternalState(droolsEngine, "kconf", kconf);
-        Whitebox.setInternalState(droolsEngine, "kbase", kbase);
-        Whitebox.setInternalState(droolsEngine, "ksession", ksession);
+        Whitebox.setInternalState(droolsEngine, "kieBase", kieBase);
+        Whitebox.setInternalState(droolsEngine, "kieSession", kieSession);
+        Whitebox.setInternalState(droolsEngine, "kieContainer", kieContainer);
+        Whitebox.setInternalState(droolsEngine, "kfs", kfs);
+        Whitebox.setInternalState(droolsEngine, "ks", ks);
+        Whitebox.setInternalState(droolsEngine, "kieBuilder", kieBuilder);
+        Whitebox.setInternalState(droolsEngine, "resources", resources);
+        Whitebox.setInternalState(droolsEngine, "kieRepository", kieRepository);
 
         PowerMock.resetAll();
     }
@@ -87,7 +97,7 @@ public class DroolsEngineTest {
 
         List<CorrelationRule> rules = new ArrayList<CorrelationRule>();
         CorrelationRule rule = new CorrelationRule();
-        rule.setContent("content");
+        rule.setContent("package content");
         rule.setClosedControlLoopName("test");
         rule.setPackageName("org.onap.holmes");
         rules.add(rule);

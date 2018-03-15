@@ -20,17 +20,14 @@ import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.common.config.MQConfig;
 
 @Service
 public class EngineDAppConfig extends Configuration {
 
-    @NotEmpty
     private String defaultName = "Correlation-Rule";
 
-    @NotEmpty
     private String apidescription = "Holmes rule management rest API";
 
     @JsonProperty

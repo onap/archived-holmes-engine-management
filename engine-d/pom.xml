@@ -30,7 +30,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <drools.version>5.4.0.Final</drools.version>
+        <drools.version>6.5.0.Final</drools.version>
     </properties>
 
     <dependencies>
@@ -45,8 +45,27 @@
             <artifactId>json-lib</artifactId>
             <version>2.4</version>
             <classifier>jdk15</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-beanutils</groupId>
+                    <artifactId>commons-beanutils</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
         <dependency>
             <groupId>org.onap.msb.java-sdk</groupId>
             <artifactId>msb-java-sdk</artifactId>
