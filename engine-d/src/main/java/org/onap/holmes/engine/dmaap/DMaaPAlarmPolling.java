@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 package org.onap.holmes.engine.dmaap;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
-
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;

@@ -35,19 +35,21 @@ public class SubscriberAction {
     private HashMap<String, DMaaPAlarmPolling> pollingTasks = new HashMap<>();
 
     public synchronized void addSubscriber(Subscriber subscriber) {
-        if (!pollingTasks.containsKey(subscriber.getTopic())) {
+        String topic = subscriber.getTopic();
+        if (topic != null && !pollingTasks.containsKey(topic)) {
             DMaaPAlarmPolling pollingTask = new DMaaPAlarmPolling(subscriber, droolsEngine);
             Thread thread = new Thread(pollingTask);
             thread.start();
-            pollingTasks.put(subscriber.getTopic(), pollingTask);
+            pollingTasks.put(topic, pollingTask);
             log.info("Subscribe to topic: " + subscriber.getUrl());
         }
     }
 
     public synchronized void removeSubscriber(Subscriber subscriber) {
-        if (pollingTasks.containsKey(subscriber.getTopic())) {
-            pollingTasks.get(subscriber.getTopic()).stopTask();
-            pollingTasks.remove(subscriber.getTopic());
+        String topic = subscriber.getTopic();
+        if (topic != null && pollingTasks.containsKey(topic)) {
+            pollingTasks.get(topic).stopTask();
+            pollingTasks.remove(topic);
         }
         log.info("Topic unsubscribed: " + subscriber.getUrl());
     }
