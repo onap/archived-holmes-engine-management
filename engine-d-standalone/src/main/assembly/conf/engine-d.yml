@@ -31,24 +31,30 @@ server:
 logging:
 
   # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
-  level: INFO
+  level: ALL
 
   # Logger-specific levels.
   loggers:
 
     # Sets the level for 'com.example.app' to DEBUG.
-    com.example: DEBUG
+    org.onap.holmes.engine: ALL
 
   appenders:
     - type: console
-      threshold: INFO
+      threshold: ALL
       timeZone: UTC
-      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] - %m%n"
+      logFormat: "%nopexception%logger\n|%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}\n|%level\n|%message\n|[%mdc]\n|%rootException\n|%marker\n|%thread\n|%n \r\n"
     - type: file
-      threshold: INFO
-      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] - %m%n"
-      currentLogFilename: ../logs/holmes-engine-d.log
-      archivedLogFilenamePattern: ../logs/zip/holmes-engine-d-%d{yyyy-MM-dd}.log.gz
+      threshold: ERROR
+      logFormat: "%nopexception%logger\n|%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}\n|%level\n|%message\n|%X{InvocationID}\n|%rootException\n|%marker\n|%thread\n|%n \r\n"
+      currentLogFilename: /var/log/ONAP/holmes/engine-d-error.log
+      archivedLogFilenamePattern: /var/log/ONAP/holmes/zip/engine-d-error-%d{yyyy-MM-dd}.log.gz
+      archivedFileCount: 7
+    - type: file
+      threshold: DEBUG
+      logFormat: "%nopexception%logger\n|%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}\n|%level\n|%message\n|%X{InvocationID}\n|%rootException\n|%marker\n|%thread\n|%n \r\n"
+      currentLogFilename: /var/log/ONAP/holmes/engine-d-debug.log
+      archivedLogFilenamePattern: /var/log/ONAP/holmes/zip/engine-d-debug-%d{yyyy-MM-dd}.log.gz
       archivedFileCount: 7
 
 
