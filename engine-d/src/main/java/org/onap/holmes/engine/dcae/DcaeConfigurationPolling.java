@@ -15,7 +15,6 @@
  */
 package org.onap.holmes.engine.dcae;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.onap.holmes.common.dcae.DcaeConfigurationQuery;
 import org.onap.holmes.common.dcae.DcaeConfigurationsCache;
