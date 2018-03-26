@@ -45,6 +45,11 @@
             <version>5.4.2.Final</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+        <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
             <version>2.4</version>
@@ -70,16 +75,16 @@
             <artifactId>msb-java-sdk</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>com.eclipsesource.jaxrs</groupId>
-                    <artifactId>jersey-all</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
                     <artifactId>jackson-databind</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -98,6 +103,10 @@
                 <exclusion>
                     <groupId>org.onap.holmes.common</groupId>
                     <artifactId>holmes-actions</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.onap.msb.java-sdk</groupId>
+                    <artifactId>msb-java-sdk</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -183,12 +192,12 @@
                     <groupId>org.slf4j</groupId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-core</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.hibernate</groupId>
                     <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -309,6 +318,7 @@
                             <artifact>org.onap.holmes.dsa:dmaap-dsa</artifact>
                             <excludes>
                                 <exclude>org/onap/holmes/common/**</exclude>
+                                <exclude>com/fasterxml/jackson/core/jackson-databind/**</exclude>
                             </excludes>
                         </filter>
                     </filters>
