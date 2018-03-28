@@ -15,9 +15,52 @@
  */
 package org.onap.holmes.engine;
 
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.onap.holmes.common.config.MicroServiceConfig;
+import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
+import org.onap.msb.sdk.discovery.entity.Node;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+@PrepareForTest(MicroServiceConfig.class)
+@RunWith(PowerMockRunner.class)
 public class EngineDActiveAppTest {
+
     public static void main(String[] args) throws Exception {
         String filePath = "C:\\engine-d.yml";
         new EngineDActiveApp().run(new String[]{"server", filePath});
+    }
+
+    @Test
+    public void testCreateMicroServiceInfo() throws Exception {
+        EngineDActiveApp engineDActiveApp = new EngineDActiveApp();
+        PowerMock.mockStatic(MicroServiceConfig.class);
+        String[] serviceAddrInfo = new String[2];
+        serviceAddrInfo[0] = "10.74.216.82";
+        serviceAddrInfo[1] = "80";
+        EasyMock.expect(MicroServiceConfig.getMicroServiceIpAndPort()).andReturn(serviceAddrInfo);
+        EasyMock.expectLastCall();
+        PowerMock.replayAll();
+
+        MicroServiceInfo msinfo = Whitebox.invokeMethod(engineDActiveApp,"createMicroServiceInfo");
+
+        PowerMock.verifyAll();
+
+        assertThat(msinfo.getServiceName(), equalTo("holmes-engine-mgmt"));
+        assertThat(msinfo.getVersion(), equalTo("v1"));
+        assertThat(msinfo.getUrl(), equalTo("/api/holmes-engine-mgmt/v1"));
+        assertThat(msinfo.getProtocol(), equalTo("REST"));
+        assertThat(msinfo.getVisualRange(), equalTo("0|1"));
+        assertThat(msinfo.isEnable_ssl(), is(true));
+        assertThat(msinfo.getNodes().toArray(new Node[0])[0].getIp(), equalTo(serviceAddrInfo[0]));
+        assertThat(msinfo.getNodes().toArray(new Node[0])[0].getPort(), equalTo(serviceAddrInfo[1]));
     }
 }

@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 package org.onap.holmes.engine.dmaap;
-import java.util.ArrayList;
-import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
+import org.onap.holmes.common.api.entity.AlarmInfo;
 import org.onap.holmes.common.api.stat.VesAlarm;
+import org.onap.holmes.common.exception.AlarmInfoException;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
+import org.onap.holmes.engine.db.AlarmInfoDao;
 import org.onap.holmes.engine.manager.DroolsEngine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public class DMaaPAlarmPolling implements Runnable {
@@ -28,10 +33,13 @@ public class DMaaPAlarmPolling implements Runnable {
     private Subscriber subscriber;
     private DroolsEngine droolsEngine;
     private volatile boolean isAlive = true;
+    private AlarmInfoDao alarmInfoDao;
 
-    public DMaaPAlarmPolling(Subscriber subscriber, DroolsEngine droolsEngine) {
+
+    public DMaaPAlarmPolling(Subscriber subscriber, DroolsEngine droolsEngine, AlarmInfoDao alarmInfoDao) {
         this.subscriber = subscriber;
         this.droolsEngine = droolsEngine;
+        this.alarmInfoDao = alarmInfoDao;
     }
 
     public void run() {
@@ -39,7 +47,14 @@ public class DMaaPAlarmPolling implements Runnable {
             List<VesAlarm> vesAlarmList = new ArrayList<>();
             try {
                 vesAlarmList = subscriber.subscribe();
-                vesAlarmList.forEach(vesAlarm -> droolsEngine.putRaisedIntoStream(vesAlarm));
+                vesAlarmList.forEach(vesAlarm -> {
+                    try {
+                        alarmInfoDao.saveAlarm(getAlarmInfo(vesAlarm));
+                        droolsEngine.putRaisedIntoStream(vesAlarm);
+                    } catch(AlarmInfoException e) {
+                        log.error("Failed to save alarm to database", e);
+                    }
+                });
             } catch (CorrelationException e) {
                 log.error("Failed to process alarms. Sleep for 60 seconds to restart.", e);
                 try {
@@ -58,6 +73,18 @@ public class DMaaPAlarmPolling implements Runnable {
                 }
             }
         }
+    }
+    private AlarmInfo getAlarmInfo(VesAlarm vesAlarm) {
+        AlarmInfo alarmInfo = new AlarmInfo();
+        alarmInfo.setAlarmIsCleared(vesAlarm.getAlarmIsCleared());
+        alarmInfo.setSourceName(vesAlarm.getSourceName());
+        alarmInfo.setSourceId(vesAlarm.getSourceId());
+        alarmInfo.setStartEpochMicroSec(vesAlarm.getStartEpochMicrosec());
+        alarmInfo.setLastEpochMicroSec(vesAlarm.getLastEpochMicrosec());
+        alarmInfo.setEventId(vesAlarm.getEventId());
+        alarmInfo.setEventName(vesAlarm.getEventName());
+        alarmInfo.setRootFlag(vesAlarm.getRootFlag());
+        return alarmInfo;
     }
 
     public void stopTask() {

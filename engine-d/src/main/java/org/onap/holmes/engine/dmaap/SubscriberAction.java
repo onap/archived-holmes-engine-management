@@ -23,7 +23,9 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
+import org.onap.holmes.common.utils.DbDaoUtil;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
+import org.onap.holmes.engine.db.AlarmInfoDao;
 import org.onap.holmes.engine.manager.DroolsEngine;
 
 @Service
@@ -32,12 +34,15 @@ public class SubscriberAction {
 
     @Inject
     private DroolsEngine droolsEngine;
+    @Inject
+    private DbDaoUtil daoUtil;
     private HashMap<String, DMaaPAlarmPolling> pollingTasks = new HashMap<>();
 
     public synchronized void addSubscriber(Subscriber subscriber) {
         String topic = subscriber.getTopic();
         if (topic != null && !pollingTasks.containsKey(topic)) {
-            DMaaPAlarmPolling pollingTask = new DMaaPAlarmPolling(subscriber, droolsEngine);
+            AlarmInfoDao alarmInfoDao = daoUtil.getJdbiDaoByOnDemand(AlarmInfoDao.class);
+            DMaaPAlarmPolling pollingTask = new DMaaPAlarmPolling(subscriber, droolsEngine, alarmInfoDao);
             Thread thread = new Thread(pollingTask);
             thread.start();
             pollingTasks.put(topic, pollingTask);

@@ -16,13 +16,7 @@
 
 package org.onap.holmes.engine.manager;
 
-import static org.easymock.EasyMock.anyInt;
-import static org.easymock.EasyMock.expect;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,14 +29,25 @@ import org.kie.api.builder.KieRepository;
 import org.kie.api.io.KieResources;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.onap.holmes.common.api.stat.VesAlarm;
-import org.onap.holmes.engine.request.DeployRuleRequest;
+import org.onap.holmes.common.api.entity.AlarmInfo;
 import org.onap.holmes.common.api.entity.CorrelationRule;
+import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.constant.AlarmConst;
 import org.onap.holmes.common.exception.CorrelationException;
+import org.onap.holmes.common.utils.DbDaoUtil;
+import org.onap.holmes.engine.db.AlarmInfoDao;
+import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.reflect.Whitebox;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 public class DroolsEngineTest {
 
@@ -60,8 +65,11 @@ public class DroolsEngineTest {
     private KieResources resources;
     private KieRepository kieRepository;
 
+    private AlarmInfoDao alarmInfoDaoMock;
 
     private DroolsEngine droolsEngine;
+
+    private DbDaoUtil dbDaoUtilMock;
 
     @Before
     public void setUp() throws Exception {
@@ -76,9 +84,9 @@ public class DroolsEngineTest {
         kieBase = kieContainer.getKieBase();
         kieSession = kieContainer.newKieSession();
 
-        ruleMgtWrapper = PowerMock.createMock(RuleMgtWrapper.class);
+        alarmInfoDaoMock = PowerMock.createMock(AlarmInfoDao.class);
+        dbDaoUtilMock = PowerMock.createMock(DbDaoUtil.class);
 
-        Whitebox.setInternalState(droolsEngine, "ruleMgtWrapper", ruleMgtWrapper);
 
         Whitebox.setInternalState(droolsEngine, "kieBase", kieBase);
         Whitebox.setInternalState(droolsEngine, "kieSession", kieSession);
@@ -88,6 +96,9 @@ public class DroolsEngineTest {
         Whitebox.setInternalState(droolsEngine, "kieBuilder", kieBuilder);
         Whitebox.setInternalState(droolsEngine, "resources", resources);
         Whitebox.setInternalState(droolsEngine, "kieRepository", kieRepository);
+
+        Whitebox.setInternalState(droolsEngine, "daoUtil", dbDaoUtilMock);
+        Whitebox.setInternalState(droolsEngine, "alarmInfoDao", alarmInfoDaoMock);
 
         PowerMock.resetAll();
     }
@@ -102,12 +113,11 @@ public class DroolsEngineTest {
         rule.setPackageName("org.onap.holmes");
         rules.add(rule);
 
-        expect(ruleMgtWrapper.queryRuleByEnable(anyInt())).andReturn(rules);
+//        expect(ruleMgtWrapper.queryRuleByEnable(anyInt())).andReturn(rules);
+        List<AlarmInfo> alarmInfoList = new ArrayList<AlarmInfo>();
+        EasyMock.expect(dbDaoUtilMock.getJdbiDaoByOnDemand(AlarmInfoDao.class)).andReturn(alarmInfoDaoMock).anyTimes();
+        EasyMock.expect(alarmInfoDaoMock.queryAllAlarm()).andReturn(alarmInfoList).anyTimes();
         PowerMock.replayAll();
-
-        Method method = DroolsEngine.class.getDeclaredMethod("init");
-        method.setAccessible(true);
-        method.invoke(droolsEngine);
 
         PowerMock.verifyAll();
     }
@@ -197,5 +207,31 @@ public class DroolsEngineTest {
     @Test
     public void stop() throws Exception {
         droolsEngine.stop();
+    }
+
+    @Test
+    public void testConvertAlarmInfo2VesAlarm() throws Exception {
+        AlarmInfo alarmInfo = new AlarmInfo();
+        alarmInfo.setEventId("eventId");
+        alarmInfo.setEventName("eventName");
+        alarmInfo.setStartEpochMicroSec(1L);
+        alarmInfo.setLastEpochMicroSec(1L);
+        alarmInfo.setSourceId("sourceId");
+        alarmInfo.setSourceName("sourceName");
+        alarmInfo.setRootFlag(0);
+        alarmInfo.setAlarmIsCleared(1);
+
+        PowerMock.replayAll();
+        VesAlarm vesAlarm = Whitebox.invokeMethod(droolsEngine,"convertAlarmInfo2VesAlarm",alarmInfo);
+        PowerMock.verifyAll();
+
+        assertThat(vesAlarm.getAlarmIsCleared(), is(1));
+        assertThat(vesAlarm.getSourceName(), equalTo("sourceName"));
+        assertThat(vesAlarm.getSourceId(), equalTo("sourceId"));
+        assertThat(vesAlarm.getStartEpochMicrosec(), is(1L));
+        assertThat(vesAlarm.getLastEpochMicrosec(), is(1L));
+        assertThat(vesAlarm.getEventName(), equalTo("eventName"));
+        assertThat(vesAlarm.getEventId(), equalTo("eventId"));
+        assertThat(vesAlarm.getRootFlag(), is(0));
     }
 }

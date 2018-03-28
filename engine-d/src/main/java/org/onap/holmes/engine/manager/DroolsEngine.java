@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.jvnet.hk2.annotations.Service;
+
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -45,8 +45,14 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.conf.ClockTypeOption;
 import org.kie.api.runtime.rule.FactHandle;
+
+import org.onap.holmes.common.api.entity.AlarmInfo;
+
 import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.dmaap.DmaapService;
+import org.onap.holmes.common.exception.AlarmInfoException;
+import org.onap.holmes.common.utils.DbDaoUtil;
+import org.onap.holmes.engine.db.AlarmInfoDao;
 import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.onap.holmes.common.api.entity.CorrelationRule;
 import org.onap.holmes.common.exception.CorrelationException;
@@ -62,6 +68,7 @@ public class DroolsEngine {
     @Inject
     private RuleMgtWrapper ruleMgtWrapper;
 
+
     private KieBase kieBase;
     private KieSession kieSession;
     private KieContainer kieContainer;
@@ -71,8 +78,14 @@ public class DroolsEngine {
     private KieResources resources;
     private KieRepository kieRepository;
 
+    private AlarmInfoDao alarmInfoDao;
+    @Inject
+    private DbDaoUtil daoUtil;
+
+
     @PostConstruct
     private void init() {
+        alarmInfoDao = daoUtil.getJdbiDaoByOnDemand(AlarmInfoDao.class);
         try {
             // start engine
             start();
@@ -82,13 +95,14 @@ public class DroolsEngine {
         }
     }
 
-    private void start() throws CorrelationException {
+    private void start() throws AlarmInfoException {
         log.info("Drools Engine Initialize Beginning...");
 
         initEngineParameter();
-        initDeployRule();
+        alarmSynchronization();
+//        initDeployRule();
 
-        log.info("Business Rule Engine Initialize Successfully.");
+        log.info("Alarm synchronization Successfully.");
     }
 
     public void stop() {
@@ -220,6 +234,7 @@ public class DroolsEngine {
         }
         this.kieSession.insert(raiseAlarm);
         this.kieSession.fireAllRules();
+
     }
 
     public List<String> queryAllPackage() {
@@ -259,6 +274,24 @@ public class DroolsEngine {
 
         KiePackage kiePackage = kieBase.getKiePackage(packageName);
         kieBase.removeKiePackage(kiePackage.getName());
+    }
+
+    public void alarmSynchronization() throws AlarmInfoException {
+        alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> alarmInfoDao.deleteClearedAlarm(alarmInfo));
+        alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> putRaisedIntoStream(convertAlarmInfo2VesAlarm(alarmInfo)));
+    }
+
+    private VesAlarm convertAlarmInfo2VesAlarm(AlarmInfo alarmInfo) {
+        VesAlarm vesAlarm = new VesAlarm();
+        vesAlarm.setEventId(alarmInfo.getEventId());
+        vesAlarm.setEventName(alarmInfo.getEventName());
+        vesAlarm.setStartEpochMicrosec(alarmInfo.getStartEpochMicroSec());
+        vesAlarm.setSourceId(alarmInfo.getSourceId());
+        vesAlarm.setSourceName(alarmInfo.getSourceName());
+        vesAlarm.setRootFlag(alarmInfo.getRootFlag());
+        vesAlarm.setAlarmIsCleared(alarmInfo.getAlarmIsCleared());
+        vesAlarm.setLastEpochMicrosec(alarmInfo.getLastEpochMicroSec());
+        return vesAlarm;
     }
 
 }

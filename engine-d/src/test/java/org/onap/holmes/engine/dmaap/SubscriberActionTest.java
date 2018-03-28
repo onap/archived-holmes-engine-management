@@ -30,9 +30,9 @@ public class SubscriberActionTest {
     public void setUp() {
         subscriberAction = new SubscriberAction();
         HashMap<String, DMaaPAlarmPolling> dMaaPAlarmPollingHashMap = new HashMap<>();
-        DMaaPAlarmPolling dMaaPAlarmPolling = new DMaaPAlarmPolling(null, null);
+        DMaaPAlarmPolling dMaaPAlarmPolling = new DMaaPAlarmPolling(null, null,null);
         dMaaPAlarmPollingHashMap.put("test", dMaaPAlarmPolling);
-        DMaaPAlarmPolling dMaaPAlarmPolling1 = new DMaaPAlarmPolling(null, null);
+        DMaaPAlarmPolling dMaaPAlarmPolling1 = new DMaaPAlarmPolling(null, null,null);
         dMaaPAlarmPollingHashMap.put("testTopic", dMaaPAlarmPolling1);
         Whitebox.setInternalState(subscriberAction, "pollingTasks", dMaaPAlarmPollingHashMap);
         PowerMock.replayAll();
