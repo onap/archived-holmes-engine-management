@@ -30,7 +30,7 @@ port=8312
 #JAVA_OPTS="$JAVA_OPTS -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=$port,server=y,suspend=n"
 echo @JAVA_OPTS@ $JAVA_OPTS
 
-class_path="$main_path/:$main_path/holmes-engine-d.jar"
+class_path="$main_path/*:$main_path/lib/*:$main_path/holmes-engine-d.jar"
 echo @class_path@ $class_path
 
 sed -i "s/activemq.username=.*/activemq.username=activemq/" /home/activemq/apache-activemq-5.9.0/conf/credentials.properties
