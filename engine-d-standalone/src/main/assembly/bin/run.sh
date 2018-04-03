@@ -67,6 +67,12 @@ if [ ! -z ${TESTING} ] && [ ${TESTING} == 1 ]; then
     fi
 fi
 
+export DB_PORT=5432
+if [ ! -z ${URL_JDBC} ] && [ `expr index $URL_JDBC :` != 0 ]; then
+    export DB_PORT="${URL_JDBC##*:}"
+fi
+echo DB_PORT=$DB_PORT
+
 #ActiveMQ IP Configurations
 sed -i "s|brokerIp:.*|brokerIp: $SERVICE_IP|" "$main_path/conf/engine-d.yml"
 
@@ -79,6 +85,7 @@ sed -i "s|keyStorePassword:.*|keyStorePassword: $KEY_PASSWORD|" "$main_path/conf
 
 cat "$main_path/conf/engine-d.yml"
 
+./bin/initDB.sh $JDBC_USERNAME $JDBC_PASSWORD $DB_NAME $DB_PORT "${URL_JDBC%:*}"
 
 "$JAVA" $JAVA_OPTS -classpath "$class_path" org.onap.holmes.engine.EngineDActiveApp server "$main_path/conf/engine-d.yml"
 

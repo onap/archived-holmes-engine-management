@@ -19,17 +19,34 @@ DIRNAME=`dirname $0`
 HOME=`cd $DIRNAME/; pwd`
 user=$1
 password=$2
-port=$3
-host=$4
-echo "start init holmes engine-d db"
-main_path=$HOME/../
-cat $main_path
-mysql -u$user -p$password -P$port -h$host <$main_path/dbscripts/mysql/onap-holmes_engine_d-createobj.sql
+dbname=$3
+port=$4
+host=$5
+echo "Initializing the holmes engine management database..."
+main_path=$HOME/..
+
+sed -i "s|DBNAME|$dbname|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
+sed -i "s|DBUSER|$user|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
+sed -i "s|DBPWD|$password|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
+
+cat $main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql
+
+echo "dbname=$dbname"
+echo "user=$user"
+echo "password=$password"
+echo "port=$port"
+echo "host=$host"
+
+export PGPASSWORD=$password
+psql -U $user -p $port -h $host -d $dbname -f $main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql
+psql -U $user -p $port -h $host -d $dbname --command 'select * from alarm_info;'
 sql_result=$?
+unset PGPASSWORD
+cat "sql_result="$sql_result
 if [ $sql_result != 0 ] ; then
-   echo "failed to init engine-d database!"
+   echo "Failed to initialize the database!"
    exit 1
 fi
-echo "init engine-d success!"
+echo "The database is initialized successfully!"
 exit 0
 

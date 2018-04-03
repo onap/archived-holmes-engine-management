@@ -26,6 +26,9 @@ RUN wget http://archive.apache.org/dist/activemq/apache-activemq/5.9.0/apache-ac
 RUN tar -xzvf apache-activemq-5.9.0-bin.tar.gz -C /home/activemq/
 RUN rm -rf /home/downloads
 
+#install the postgres client
+RUN apt-get install -y postgresql-client-9.5 postgresql-contrib-9.5
+
 #add holmes related resources to the docker image
 RUN mkdir /home/holmes
 WORKDIR /home/holmes
