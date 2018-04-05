@@ -32,7 +32,7 @@
 
     <properties>
 	<holmes.engine.project.version>${project.version}</holmes.engine.project.version>
-	<maven.build.timestamp.format>yyMMdd-HHmmss</maven.build.timestamp.format>
+	<maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <build.number>${maven.build.timestamp}</build.number>
     </properties>
 
