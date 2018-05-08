@@ -24,6 +24,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DELETE;
@@ -51,7 +54,8 @@ import org.onap.holmes.engine.response.CorrelationRuleResponse;
 @Produces(MediaType.APPLICATION_JSON)
 @Slf4j
 public class EngineResources {
-
+	private Pattern packagePattern = Pattern.compile("package[\\s]+([^;]+)[;\\s]*");
+    
     @Inject
     DroolsEngine droolsEngine;
 
@@ -70,6 +74,10 @@ public class EngineResources {
         Locale locale = LanguageUtil.getLocale(httpRequest);
         try {
             String packageName = getPackageName(deployRuleRequest.getContent());
+            if(packageName == null) {
+            	throw new CorrelationException("Could not find package name in rule: "+deployRuleRequest.getContent());
+            }
+            
             DmaapService.loopControlNames
                     .put(packageName, deployRuleRequest.getLoopControlName());
             String packageNameRet = droolsEngine.deployRule(deployRuleRequest, locale);
@@ -79,8 +87,8 @@ public class EngineResources {
                 DmaapService.loopControlNames
                         .put(packageNameRet, deployRuleRequest.getLoopControlName());
             }
-            log.info("Rule deployed. Package name: " + packageName);
-            crResponse.setPackageName(packageName);
+            log.info("Rule deployed. Package name: " + packageNameRet);
+            crResponse.setPackageName(packageNameRet);
 
         } catch (CorrelationException correlationException) {
             log.error(correlationException.getMessage(), correlationException);
@@ -131,10 +139,14 @@ public class EngineResources {
         }
         return true;
     }
-
+    
     private String getPackageName(String contents){
-        String ret = contents.trim();
-        ret = ret.substring(7, ret.indexOf("import")).trim();
-        return ret.endsWith(";") ? ret.substring(0, ret.length() - 1) : ret;
+        Matcher m = packagePattern.matcher(contents);
+        
+        if (m.find( )) {
+           return m.group(1);
+        }else {
+           return null;
+        }
     }
 }
