@@ -1,6 +1,6 @@
 Holmes Engine Management Component Offered APIs
 ==================================
-The rule management module provides the following APIs.
+The engine management module provides the following APIs.
 
 * Rule Deployment
 * Rule Undeployment
