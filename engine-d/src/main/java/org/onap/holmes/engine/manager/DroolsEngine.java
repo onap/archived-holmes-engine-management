@@ -223,16 +223,22 @@ public class DroolsEngine {
         }
     }
 
-    public void putRaisedIntoStream(VesAlarm raiseAlarm) {
-        FactHandle factHandle = this.kieSession.getFactHandle(raiseAlarm);
+    public void putRaisedIntoStream(VesAlarm alarm) {
+        FactHandle factHandle = this.kieSession.getFactHandle(alarm);
         if (factHandle != null) {
             Object obj = this.kieSession.getObject(factHandle);
             if (obj != null && obj instanceof VesAlarm) {
-                raiseAlarm.setRootFlag(((VesAlarm) obj).getRootFlag());
+                alarm.setRootFlag(((VesAlarm) obj).getRootFlag());
             }
             this.kieSession.delete(factHandle);
+            
+            if (alarm.getAlarmIsCleared() == 1) {
+                alarmInfoDao.deleteClearedAlarm(convertVesAlarm2AlarmInfo(alarm));
+            }
+        } else {
+            this.kieSession.insert(alarm);
         }
-        this.kieSession.insert(raiseAlarm);
+
         this.kieSession.fireAllRules();
 
     }
@@ -292,6 +298,20 @@ public class DroolsEngine {
         vesAlarm.setAlarmIsCleared(alarmInfo.getAlarmIsCleared());
         vesAlarm.setLastEpochMicrosec(alarmInfo.getLastEpochMicroSec());
         return vesAlarm;
+    }
+
+    private AlarmInfo convertVesAlarm2AlarmInfo(VesAlarm vesAlarm){
+        AlarmInfo alarmInfo = new AlarmInfo();
+        alarmInfo.setEventId(vesAlarm.getEventId());
+        alarmInfo.setEventName(vesAlarm.getEventName());
+        alarmInfo.setStartEpochMicroSec(vesAlarm.getStartEpochMicrosec());
+        alarmInfo.setLastEpochMicroSec(vesAlarm.getLastEpochMicrosec());
+        alarmInfo.setSourceId(vesAlarm.getSourceId());
+        alarmInfo.setSourceName(vesAlarm.getSourceName());
+        alarmInfo.setAlarmIsCleared(vesAlarm.getAlarmIsCleared());
+        alarmInfo.setRootFlag(vesAlarm.getRootFlag());
+
+        return alarmInfo;
     }
 
 }
