@@ -41,6 +41,7 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         new EngineDActiveApp().run(args);
     }
 
+    @Override
     public void run(EngineDAppConfig configuration, Environment environment) throws Exception {
         super.run(configuration, environment);
 

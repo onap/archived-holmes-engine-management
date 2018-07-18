@@ -26,8 +26,6 @@ import org.onap.holmes.common.config.MQConfig;
 @Service
 public class EngineDAppConfig extends Configuration {
 
-    private String defaultName = "Correlation-Rule";
-
     private String apidescription = "Holmes rule management rest API";
 
     @JsonProperty

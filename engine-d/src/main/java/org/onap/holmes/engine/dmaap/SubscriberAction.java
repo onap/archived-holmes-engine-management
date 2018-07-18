@@ -18,7 +18,6 @@ package org.onap.holmes.engine.dmaap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;

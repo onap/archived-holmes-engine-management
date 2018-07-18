@@ -63,8 +63,12 @@ import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
 @Service
 public class DroolsEngine {
 
-    private final static int ENABLE = 1;
+    private static final int ENABLE = 1;
+    public static final String UTF_8 = "UTF-8";
+    public static final String K_BASE = "KBase";
+    private static final String RULES_FILE_NAME = "src/main/resources/rules/rule.drl";
     private final Set<String> packageNames = new HashSet<String>();
+
     @Inject
     private RuleMgtWrapper ruleMgtWrapper;
 
@@ -139,8 +143,8 @@ public class DroolsEngine {
     private void deployRuleFromDB(String ruleContent) throws CorrelationException {
         avoidDeployBug();
         StringReader reader = new StringReader(ruleContent);
-        kfs.write("src/main/resources/rules/rule.drl",
-                this.resources.newReaderResource(reader,"UTF-8").setResourceType(ResourceType.DRL));
+        kfs.write(RULES_FILE_NAME,
+                this.resources.newReaderResource(reader, UTF_8).setResourceType(ResourceType.DRL));
         kieBuilder = ks.newKieBuilder(kfs).buildAll();
         try {
             InternalKieModule internalKieModule = (InternalKieModule)kieBuilder.getKieModule();
@@ -155,14 +159,14 @@ public class DroolsEngine {
         throws CorrelationException {
         avoidDeployBug();
         StringReader reader = new StringReader(rule.getContent());
-        kfs.write("src/main/resources/rules/rule.drl",
-                this.resources.newReaderResource(reader,"UTF-8").setResourceType(ResourceType.DRL));
+        kfs.write(RULES_FILE_NAME,
+                this.resources.newReaderResource(reader, UTF_8).setResourceType(ResourceType.DRL));
         kieBuilder = ks.newKieBuilder(kfs).buildAll();
 
         judgeRuleContent(locale, kieBuilder, true);
 
         InternalKieModule internalKieModule = (InternalKieModule)kieBuilder.getKieModule();;
-        String packageName = internalKieModule.getKnowledgePackagesForKieBase("KBase").iterator().next().getName();
+        String packageName = internalKieModule.getKnowledgePackagesForKieBase(K_BASE).iterator().next().getName();
         try {
             kieContainer.updateToVersion(internalKieModule.getReleaseId());
         } catch (Exception e) {
@@ -191,8 +195,8 @@ public class DroolsEngine {
         throws CorrelationException {
         StringReader reader = new StringReader(content);
 
-        kfs.write("src/main/resources/rules/rule.drl",
-                this.resources.newReaderResource(reader,"UTF-8").setResourceType(ResourceType.DRL));
+        kfs.write(RULES_FILE_NAME,
+                this.resources.newReaderResource(reader, UTF_8).setResourceType(ResourceType.DRL));
 
         kieBuilder = ks.newKieBuilder(kfs).buildAll();
 
@@ -216,7 +220,7 @@ public class DroolsEngine {
         if (internalKieModule == null) {
             throw new CorrelationException("There are errors in the rule!");
         }
-        String packageName = internalKieModule.getKnowledgePackagesForKieBase("KBase").iterator().next().getName();
+        String packageName = internalKieModule.getKnowledgePackagesForKieBase(K_BASE).iterator().next().getName();
 
         if (queryAllPackage().contains(packageName) && judgePackageName) {
             throw new CorrelationException("The rule " + packageName + " already exists in the drools engine.");
@@ -254,7 +258,7 @@ public class DroolsEngine {
 
     private KieFileSystem createKieFileSystemWithKProject(KieServices ks) {
         KieModuleModel kieModuleModel = ks.newKieModuleModel();
-        KieBaseModel kieBaseModel = kieModuleModel.newKieBaseModel("KBase")
+        KieBaseModel kieBaseModel = kieModuleModel.newKieBaseModel(K_BASE)
                 .addPackage("rules")
                 .setDefault(true)
                 .setEqualsBehavior(EqualityBehaviorOption.EQUALITY)
@@ -271,10 +275,10 @@ public class DroolsEngine {
     private void avoidDeployBug() {
         String tmp = Math.random() + "";
         String rule = "package justInOrderToAvoidDeployBug" + tmp.substring(2);
-        kfs.write("src/main/resources/rules/rule.drl", rule);
+        kfs.write(RULES_FILE_NAME, rule);
         kieBuilder = ks.newKieBuilder(kfs).buildAll();
         InternalKieModule internalKieModule = (InternalKieModule)kieBuilder.getKieModule();
-        String packageName = internalKieModule.getKnowledgePackagesForKieBase("KBase").iterator().next().getName();
+        String packageName = internalKieModule.getKnowledgePackagesForKieBase(K_BASE).iterator().next().getName();
         kieRepository.addKieModule(internalKieModule);
         kieContainer.updateToVersion(internalKieModule.getReleaseId());
 

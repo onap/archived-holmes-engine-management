@@ -15,7 +15,6 @@
  */
 package org.onap.holmes.engine.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

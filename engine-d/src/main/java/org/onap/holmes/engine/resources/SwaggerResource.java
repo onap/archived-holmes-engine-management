@@ -16,14 +16,10 @@
 
 package org.onap.holmes.engine.resources;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.SwaggerDefinition;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import javax.ws.rs.GET;
@@ -44,30 +40,29 @@ public class SwaggerResource {
     public String getSwaggerJson() {
         URL url = SwaggerResource.class.getResource("/swagger.json");
         String ret = "{}";
-        BufferedReader br = null;
+        File file = null;
+
         try {
             System.out.println(URLDecoder.decode(url.getPath(), "UTF-8"));
-            File file = new File(URLDecoder.decode(url.getPath(), "UTF-8"));
+            file = new File(URLDecoder.decode(url.getPath(), "UTF-8"));
+        } catch (IOException e) {
+            log.warn("An error occurred while decoding url");
+        }
 
-            br = new BufferedReader(new FileReader(file));
+        if (file == null) {
+            log.warn("Unable to get Swagger Json since API description file could not be read");
+            return ret;
+        }
+
+        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
             StringBuffer buffer = new StringBuffer();
             String line = " ";
             while ((line = br.readLine()) != null) {
                 buffer.append(line);
             }
             ret = buffer.toString();
-        } catch (FileNotFoundException e) {
-            log.warn("Failed to read the API description file.");
         } catch (IOException e) {
             log.warn("An error occurred while reading swagger.json.");
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    log.warn("Failed to close the file reader. This may cause memory leak.");
-                }
-            }
         }
         return ret;
     }
