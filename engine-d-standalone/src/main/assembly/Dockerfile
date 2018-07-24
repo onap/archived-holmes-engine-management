@@ -1,22 +1,40 @@
-FROM ubuntu:16.04
+FROM openresty/openresty:alpine
 
 MAINTAINER "Guangrong Fu" <fu.guangrong@zte.com.cn>
 
-EXPOSE 9102
-
-#install openjdk-1.8
-#RUN sed -i 's#http://archive.ubuntu.com#http://mirrors.163.com#g' /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y openjdk-8-jdk wget
-
-#configure the JDK
-RUN sed -i 's|#networkaddress.cache.ttl=-1|networkaddress.cache.ttl=10|' /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/java.security
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-ENV PATH $PATH:/usr/lib/jvm/java-8-openjdk-amd64/jre/bin:/usr/lib/jvm/java-8-openjdk-amd64/bin
-ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib
-ENV JRE_HOME ${JAVA_HOME}/jre
+EXPOSE 9102 9202 8312
 
 ENV HOSTNAME holmes-engine-mgmt
+
+ENV LANG C.UTF-8
+
+#install java-1.8-openjdk
+
+# add a simple script that can auto-detect the appropriate JAVA_HOME value
+# based on whether the JDK or only the JRE is installed
+RUN { \
+		echo '#!/bin/sh'; \
+		echo 'set -e'; \
+		echo; \
+		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
+	} > /usr/local/bin/docker-java-home \
+	&& chmod +x /usr/local/bin/docker-java-home
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
+ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
+
+ENV JAVA_ALPINE_VERSION 8.171.11-r0
+
+RUN set -x \
+	&& apk add --no-cache \
+		openjdk8="$JAVA_ALPINE_VERSION" \
+	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
+
+#install neccessary tools
+RUN apk upgrade \
+    && apk update \
+    && apk add --no-cache curl \
+    && apk add --no-cache wget \
+    && apk add --no-cache postgresql-client=10.4-r0
 
 #install ActiveMQ
 RUN mkdir /home/downloads
@@ -26,14 +44,14 @@ RUN wget http://archive.apache.org/dist/activemq/apache-activemq/5.9.0/apache-ac
 RUN tar -xzvf apache-activemq-5.9.0-bin.tar.gz -C /home/activemq/
 RUN rm -rf /home/downloads
 
-#install the postgres client
-RUN apt-get install -y postgresql-client-9.5 postgresql-contrib-9.5
-
-#add holmes related resources to the docker image
+#add the backend package to the docker image
 RUN mkdir /home/holmes
 WORKDIR /home/holmes
 ADD holmes-engine-d-standalone-*-linux64.tar.gz /home/holmes/
 RUN chmod 755 /home/holmes/bin/*.sh
 
+CMD ["sh", "/home/holmes/bin/run.sh"]
 
-ENTRYPOINT /home/holmes/bin/run.sh
+
+
+

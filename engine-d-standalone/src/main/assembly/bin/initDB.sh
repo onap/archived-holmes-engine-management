@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2017 ZTE Corporation.
 #
@@ -42,7 +42,7 @@ psql -U $user -p $port -h $host -d $dbname -f $main_path/dbscripts/postgresql/on
 psql -U $user -p $port -h $host -d $dbname --command 'select * from alarm_info;'
 sql_result=$?
 unset PGPASSWORD
-cat "sql_result="$sql_result
+echo "sql_result=$sql_result"
 if [ $sql_result != 0 ] ; then
    echo "Failed to initialize the database!"
    exit 1
