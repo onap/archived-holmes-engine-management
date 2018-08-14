@@ -44,7 +44,7 @@ public class EngineResourcesTest {
         droolsEngine = PowerMock.createMock(DroolsEngine.class);
         engineResources = new EngineResources();
 
-        Whitebox.setInternalState(engineResources,"droolsEngine",droolsEngine);
+        Whitebox.setInternalState(engineResources,"droolsEngine", droolsEngine);
         PowerMock.resetAll();
     }
 
@@ -56,7 +56,7 @@ public class EngineResourcesTest {
         thrown.expect(WebApplicationException.class);
 
         expect(httpRequest.getHeader("language-option")).andReturn("en_US");
-        expect(droolsEngine.deployRule(anyObject(DeployRuleRequest.class), anyObject(Locale.class))).
+        expect(droolsEngine.deployRule(anyObject(DeployRuleRequest.class))).
                 andThrow(new CorrelationException(""));
         PowerMock.replayAll();
         engineResources.deployRule(deployRuleRequest, httpRequest);
@@ -71,8 +71,7 @@ public class EngineResourcesTest {
         HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 
         expect(httpRequest.getHeader("language-option")).andReturn("en_US");
-        expect(droolsEngine.deployRule(anyObject(DeployRuleRequest.class),
-                anyObject(Locale.class))).andReturn("packageName");
+        expect(droolsEngine.deployRule(anyObject(DeployRuleRequest.class))).andReturn("packageName");
         PowerMock.replayAll();
         engineResources.deployRule(deployRuleRequest, httpRequest);
         PowerMock.verifyAll();
@@ -86,7 +85,7 @@ public class EngineResourcesTest {
         thrown.expect(WebApplicationException.class);
 
         expect(httpRequest.getHeader("language-option")).andReturn("en_US");
-        droolsEngine.undeployRule(anyObject(String.class), anyObject(Locale.class));
+        droolsEngine.undeployRule(anyObject(String.class));
         expectLastCall().andThrow(new CorrelationException(""));
         PowerMock.replayAll();
         engineResources.undeployRule(packageName, httpRequest);
@@ -99,7 +98,7 @@ public class EngineResourcesTest {
         HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 
         expect(httpRequest.getHeader("language-option")).andReturn("en_US");
-        droolsEngine.undeployRule(anyObject(String.class), anyObject(Locale.class));
+        droolsEngine.undeployRule(anyObject(String.class));
         PowerMock.replayAll();
         engineResources.undeployRule(packageName, httpRequest);
         PowerMock.verifyAll();
@@ -113,7 +112,7 @@ public class EngineResourcesTest {
         thrown.expect(WebApplicationException.class);
 
         expect(httpRequest.getHeader("language-option")).andReturn("en_US");
-        droolsEngine.compileRule(anyObject(String.class),anyObject(Locale.class));
+        droolsEngine.compileRule(anyObject(String.class));
         expectLastCall().andThrow(new CorrelationException(""));
         PowerMock.replayAll();
         engineResources.compileRule(compileRuleRequest, httpRequest);
@@ -126,7 +125,7 @@ public class EngineResourcesTest {
         HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 
         expect(httpRequest.getHeader("language-option")).andReturn("en_US");
-        droolsEngine.compileRule(anyObject(String.class),anyObject(Locale.class));
+        droolsEngine.compileRule(anyObject(String.class));
         PowerMock.replayAll();
         engineResources.compileRule(compileRuleRequest, httpRequest);
         PowerMock.verifyAll();

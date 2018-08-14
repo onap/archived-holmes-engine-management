@@ -1,12 +1,12 @@
 /**
  * Copyright 2017 ZTE Corporation.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,36 +14,24 @@
  * limitations under the License.
  */
 package org.onap.holmes.engine.manager;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+
 import lombok.extern.slf4j.Slf4j;
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
+import org.drools.core.util.StringUtils;
 import org.jvnet.hk2.annotations.Service;
 
-import org.kie.api.KieBase;
 import org.kie.api.KieServices;
-import org.kie.api.builder.KieBuilder;
-import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.KieRepository;
-import org.kie.api.builder.Message;
+import org.kie.api.builder.*;
 import org.kie.api.builder.Message.Level;
-import org.kie.api.builder.model.KieBaseModel;
-import org.kie.api.builder.model.KieModuleModel;
-import org.kie.api.builder.model.KieSessionModel;
-import org.kie.api.conf.EqualityBehaviorOption;
-import org.kie.api.conf.EventProcessingOption;
-import org.kie.api.definition.KiePackage;
-import org.kie.api.io.KieResources;
-import org.kie.api.io.ResourceType;
+import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.conf.ClockTypeOption;
 import org.kie.api.runtime.rule.FactHandle;
 
 import org.onap.holmes.common.api.entity.AlarmInfo;
@@ -63,233 +51,181 @@ import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
 @Service
 public class DroolsEngine {
 
-    private static final int ENABLE = 1;
-    public static final String UTF_8 = "UTF-8";
-    public static final String K_BASE = "KBase";
-    private static final String RULES_FILE_NAME = "src/main/resources/rules/rule.drl";
-    private final Set<String> packageNames = new HashSet<String>();
-
     @Inject
     private RuleMgtWrapper ruleMgtWrapper;
-
-
-    private KieBase kieBase;
-    private KieSession kieSession;
-    private KieContainer kieContainer;
-    private KieFileSystem kfs;
-    private KieServices ks;
-    private KieBuilder kieBuilder;
-    private KieResources resources;
-    private KieRepository kieRepository;
-
-    private AlarmInfoDao alarmInfoDao;
     @Inject
     private DbDaoUtil daoUtil;
 
+    private final static int ENABLE = 1;
+    private AlarmInfoDao alarmInfoDao;
+    private final Map<String, String> deployed = new ConcurrentHashMap<>();
+    private KieServices ks = KieServices.Factory.get();
+    private ReleaseId releaseId = ks.newReleaseId("org.onap.holmes", "rules", "1.0.0-SNAPSHOT");
+    private ReleaseId compilationRelease = ks.newReleaseId("org.onap.holmes", "compilation", "1.0.0-SNAPSHOT");
+    private KieContainer container;
+    private KieSession session;
 
     @PostConstruct
     private void init() {
         alarmInfoDao = daoUtil.getJdbiDaoByOnDemand(AlarmInfoDao.class);
         try {
-            // start engine
-            start();
+            log.info("Drools engine initializing...");
+            initEngine();
+            log.info("Drools engine initialized.");
+
+            log.info("Start deploy existing rules...");
+            initRules();
+            log.info("All rules were deployed.");
+
+            log.info("Synchronizing alarms...");
+            syncAlarms();
+            log.info("Alarm synchronization succeeded.");
         } catch (Exception e) {
-            log.error("Failed to start the service: " + e.getMessage(), e);
-            throw ExceptionUtil.buildExceptionResponse("Failed to start the drools engine!");
+            log.error("Failed to startup the engine of Holmes: " + e.getMessage(), e);
+            throw ExceptionUtil.buildExceptionResponse("Failed to startup Drools!");
         }
-    }
-
-    private void start() throws AlarmInfoException {
-        log.info("Drools Engine Initialize Beginning...");
-
-        initEngineParameter();
-        alarmSynchronization();
-//        initDeployRule();
-
-        log.info("Alarm synchronization Successfully.");
     }
 
     public void stop() {
-        this.kieSession.dispose();
+        session.dispose();
     }
 
-    public void initEngineParameter() {
-        this.ks = KieServices.Factory.get();
-        this.resources = ks.getResources();
-        this.kieRepository = ks.getRepository();
-        this.kfs = createKieFileSystemWithKProject(ks);
-
-        this.kieBuilder = ks.newKieBuilder(kfs).buildAll();
-        this.kieContainer = ks.newKieContainer(kieRepository.getDefaultReleaseId());
-
-        this.kieBase = kieContainer.getKieBase();
-        this.kieSession = kieContainer.newKieSession();
+    public void initEngine() {
+        KieModule km = null;
+        try {
+            String drl = "package holmes;";
+            deployed.put(getPackageName(drl), drl);
+            km = createAndDeployJar(ks, releaseId, new ArrayList<>(deployed.values()));
+        } catch (Exception e) {
+            log.error("Failed to initialize the engine service module.", e);
+        }
+        container = ks.newKieContainer(km.getReleaseId());
+        session = container.newKieSession();
+        deployed.clear();
     }
 
-    private void initDeployRule() throws CorrelationException {
+    private void initRules() throws CorrelationException {
         List<CorrelationRule> rules = ruleMgtWrapper.queryRuleByEnable(ENABLE);
-
         if (rules.isEmpty()) {
             return;
         }
+
         for (CorrelationRule rule : rules) {
-            if (rule.getContent() != null) {
-                deployRuleFromDB(rule.getContent());
+            if (!StringUtils.isEmpty(rule.getContent())) {
+                deployRule(rule.getContent());
                 DmaapService.loopControlNames.put(rule.getPackageName(), rule.getClosedControlLoopName());
             }
         }
+
+        session.fireAllRules();
     }
 
-    private void deployRuleFromDB(String ruleContent) throws CorrelationException {
-        avoidDeployBug();
-        StringReader reader = new StringReader(ruleContent);
-        kfs.write(RULES_FILE_NAME,
-                this.resources.newReaderResource(reader, UTF_8).setResourceType(ResourceType.DRL));
-        kieBuilder = ks.newKieBuilder(kfs).buildAll();
-        try {
-            InternalKieModule internalKieModule = (InternalKieModule)kieBuilder.getKieModule();
-            kieContainer.updateToVersion(internalKieModule.getReleaseId());
-        } catch (Exception e) {
-            throw new CorrelationException(e.getMessage(), e);
-        }
-        kieSession.fireAllRules();
+    public void syncAlarms() throws AlarmInfoException {
+        alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> alarmInfoDao.deleteClearedAlarm(alarmInfo));
+        alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> putRaisedIntoStream(convertAlarmInfo2VesAlarm(alarmInfo)));
     }
 
-    public synchronized String deployRule(DeployRuleRequest rule, Locale locale)
-        throws CorrelationException {
-        avoidDeployBug();
-        StringReader reader = new StringReader(rule.getContent());
-        kfs.write(RULES_FILE_NAME,
-                this.resources.newReaderResource(reader, UTF_8).setResourceType(ResourceType.DRL));
-        kieBuilder = ks.newKieBuilder(kfs).buildAll();
+    public String deployRule(DeployRuleRequest rule) throws CorrelationException {
+        return deployRule(rule.getContent());
+    }
 
-        judgeRuleContent(locale, kieBuilder, true);
+    private synchronized String deployRule(String rule) throws CorrelationException {
+        final String packageName = getPackageName(rule);
 
-        InternalKieModule internalKieModule = (InternalKieModule)kieBuilder.getKieModule();;
-        String packageName = internalKieModule.getKnowledgePackagesForKieBase(K_BASE).iterator().next().getName();
-        try {
-            kieContainer.updateToVersion(internalKieModule.getReleaseId());
-        } catch (Exception e) {
-            throw new CorrelationException("Failed to deploy the rule.", e);
+        if (StringUtils.isEmpty(packageName)) {
+            throw new CorrelationException("The package name can not be empty.");
         }
-        packageNames.add(packageName);
-        kieSession.fireAllRules();
+
+        if (deployed.containsKey(packageName)) {
+            throw new CorrelationException("A rule with the same package name already exists in the system.");
+        }
+
+        if (!StringUtils.isEmpty(rule)) {
+            deployed.put(packageName, rule);
+            try {
+                refreshInMemRules();
+            } catch (CorrelationException e) {
+                deployed.remove(packageName);
+                throw e;
+            }
+            session.fireAllRules();
+        }
+
         return packageName;
     }
 
-    public synchronized void undeployRule(String packageName, Locale locale)
-        throws CorrelationException {
-        KiePackage kiePackage = kieBase.getKiePackage(packageName);
-        if (null == kiePackage) {
+    public synchronized void undeployRule(String packageName) throws CorrelationException {
+
+        if (StringUtils.isEmpty(packageName)) {
+            throw new CorrelationException("The package name should not be null.");
+        }
+
+        if (!deployed.containsKey(packageName)) {
             throw new CorrelationException("The rule " + packageName + " does not exist!");
         }
+
+        String removed = deployed.remove(packageName);
         try {
-            kieBase.removeKiePackage(kiePackage.getName());
+            refreshInMemRules();
         } catch (Exception e) {
+            deployed.put(packageName, removed);
             throw new CorrelationException("Failed to delete the rule: " + packageName, e);
         }
-        packageNames.remove(kiePackage.getName());
     }
 
-    public void compileRule(String content, Locale locale)
-        throws CorrelationException {
-        StringReader reader = new StringReader(content);
-
-        kfs.write(RULES_FILE_NAME,
-                this.resources.newReaderResource(reader, UTF_8).setResourceType(ResourceType.DRL));
-
-        kieBuilder = ks.newKieBuilder(kfs).buildAll();
-
-        judgeRuleContent(locale, kieBuilder, false);
+    private void refreshInMemRules() throws CorrelationException {
+        KieModule km = createAndDeployJar(ks, releaseId, new ArrayList<>(deployed.values()));
+        container.updateToVersion(km.getReleaseId());
     }
 
-    private void judgeRuleContent(Locale locale, KieBuilder kbuilder, boolean judgePackageName)
-        throws CorrelationException {
-        if (kbuilder.getResults().hasMessages(Message.Level.ERROR)) {
-            String errorMsg = "There are errors in the rule: " + kbuilder.getResults()
+    public void compileRule(String content)
+            throws CorrelationException {
+
+        KieFileSystem kfs = ks.newKieFileSystem().generateAndWritePomXML(compilationRelease);
+        kfs.write("src/main/resources/rules/rule.drl", content);
+        KieBuilder builder = ks.newKieBuilder(kfs).buildAll();
+        if (builder.getResults().hasMessages(Message.Level.ERROR)) {
+            String errorMsg = "There are errors in the rule: " + builder.getResults()
                     .getMessages(Level.ERROR).toString();
-            log.error(errorMsg);
+            log.info("Compilation failure: " + errorMsg);
             throw new CorrelationException(errorMsg);
         }
-        InternalKieModule internalKieModule = null;
-        try {
-            internalKieModule = (InternalKieModule) kbuilder.getKieModule();
-        } catch (Exception e) {
-            throw new CorrelationException("There are errors in the rule!" + e.getMessage(), e);
-        }
-        if (internalKieModule == null) {
-            throw new CorrelationException("There are errors in the rule!");
-        }
-        String packageName = internalKieModule.getKnowledgePackagesForKieBase(K_BASE).iterator().next().getName();
 
-        if (queryAllPackage().contains(packageName) && judgePackageName) {
-            throw new CorrelationException("The rule " + packageName + " already exists in the drools engine.");
+        if (deployed.containsKey(getPackageName(content))) {
+            throw new CorrelationException("There's no compilation error. But a rule with the same package name already " +
+                    "exists in the engine, which may cause a deployment failure.");
         }
+
+        ks.getRepository().removeKieModule(compilationRelease);
     }
 
     public void putRaisedIntoStream(VesAlarm alarm) {
-        FactHandle factHandle = this.kieSession.getFactHandle(alarm);
+        FactHandle factHandle = this.session.getFactHandle(alarm);
         if (factHandle != null) {
-            Object obj = this.kieSession.getObject(factHandle);
+            Object obj = this.session.getObject(factHandle);
             if (obj != null && obj instanceof VesAlarm) {
                 alarm.setRootFlag(((VesAlarm) obj).getRootFlag());
             }
-            this.kieSession.delete(factHandle);
-            
+            this.session.delete(factHandle);
+
             if (alarm.getAlarmIsCleared() == 1) {
                 alarmInfoDao.deleteClearedAlarm(convertVesAlarm2AlarmInfo(alarm));
             }
         } else {
-            this.kieSession.insert(alarm);
+            this.session.insert(alarm);
         }
 
-        this.kieSession.fireAllRules();
-
+        this.session.fireAllRules();
     }
 
-    public List<String> queryAllPackage() {
-        List<KiePackage> kiePackages = (List<KiePackage>)kieBase.getKiePackages();
-        List<String> list = new ArrayList<>();
-        for(KiePackage kiePackage : kiePackages) {
-            list.add(kiePackage.getName());
-        }
-        return list;
+    public List<String> queryPackagesFromEngine() {
+        return container.getKieBase().getKiePackages().stream()
+                .filter(pkg -> pkg.getRules().size() != 0)
+                .map(pkg -> pkg.getName())
+                .collect(Collectors.toList());
     }
 
-    private KieFileSystem createKieFileSystemWithKProject(KieServices ks) {
-        KieModuleModel kieModuleModel = ks.newKieModuleModel();
-        KieBaseModel kieBaseModel = kieModuleModel.newKieBaseModel(K_BASE)
-                .addPackage("rules")
-                .setDefault(true)
-                .setEqualsBehavior(EqualityBehaviorOption.EQUALITY)
-                .setEventProcessingMode(EventProcessingOption.STREAM);
-        KieSessionModel kieSessionModel = kieBaseModel.newKieSessionModel("KSession")
-                .setDefault( true )
-                .setType( KieSessionModel.KieSessionType.STATEFUL )
-                .setClockType( ClockTypeOption.get("realtime") );
-        KieFileSystem kfs = ks.newKieFileSystem();
-        kfs.writeKModuleXML(kieModuleModel.toXML());
-        return kfs;
-    }
 
-    private void avoidDeployBug() {
-        String tmp = Math.random() + "";
-        String rule = "package justInOrderToAvoidDeployBug" + tmp.substring(2);
-        kfs.write(RULES_FILE_NAME, rule);
-        kieBuilder = ks.newKieBuilder(kfs).buildAll();
-        InternalKieModule internalKieModule = (InternalKieModule)kieBuilder.getKieModule();
-        String packageName = internalKieModule.getKnowledgePackagesForKieBase(K_BASE).iterator().next().getName();
-        kieRepository.addKieModule(internalKieModule);
-        kieContainer.updateToVersion(internalKieModule.getReleaseId());
-
-        KiePackage kiePackage = kieBase.getKiePackage(packageName);
-        kieBase.removeKiePackage(kiePackage.getName());
-    }
-
-    public void alarmSynchronization() throws AlarmInfoException {
-        alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> alarmInfoDao.deleteClearedAlarm(alarmInfo));
-        alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> putRaisedIntoStream(convertAlarmInfo2VesAlarm(alarmInfo)));
-    }
 
     private VesAlarm convertAlarmInfo2VesAlarm(AlarmInfo alarmInfo) {
         VesAlarm vesAlarm = new VesAlarm();
@@ -304,7 +240,7 @@ public class DroolsEngine {
         return vesAlarm;
     }
 
-    private AlarmInfo convertVesAlarm2AlarmInfo(VesAlarm vesAlarm){
+    private AlarmInfo convertVesAlarm2AlarmInfo(VesAlarm vesAlarm) {
         AlarmInfo alarmInfo = new AlarmInfo();
         alarmInfo.setEventId(vesAlarm.getEventId());
         alarmInfo.setEventName(vesAlarm.getEventName());
@@ -316,6 +252,57 @@ public class DroolsEngine {
         alarmInfo.setRootFlag(vesAlarm.getRootFlag());
 
         return alarmInfo;
+    }
+
+    private String getPackageName(String contents) {
+        String ret = contents.trim();
+        StringBuilder stringBuilder = new StringBuilder();
+        if (ret.startsWith("package")) {
+            ret = ret.substring(7).trim();
+            for (int i = 0; i < ret.length(); i++) {
+                char tmp = ret.charAt(i);
+                if (tmp == ';' || tmp == ' ' || tmp == '\n') {
+                    break;
+                }
+                stringBuilder.append(tmp);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private KieModule createAndDeployJar(KieServices ks, ReleaseId releaseId, List<String> drls) throws CorrelationException {
+        byte[] jar = createJar(ks, releaseId, drls);
+        KieModule km = deployJarIntoRepository(ks, jar);
+        return km;
+    }
+
+    private byte[] createJar(KieServices ks, ReleaseId releaseId, List<String> drls) throws CorrelationException {
+        KieFileSystem kfs = ks.newKieFileSystem().generateAndWritePomXML(releaseId);
+        int i = 0;
+        for (String drl : drls) {
+            if (!StringUtils.isEmpty(drl)) {
+                kfs.write("src/main/resources/" + getPackageName(drl) + ".drl", drl);
+            }
+        }
+        KieBuilder kb = ks.newKieBuilder(kfs).buildAll();
+        if (kb.getResults().hasMessages(Message.Level.ERROR)) {
+            StringBuilder sb = new StringBuilder();
+            for (Message msg : kb.getResults().getMessages()) {
+                sb.append(String.format("[%s]Line: %d, Col: %d\t%s\n", msg.getLevel().toString(), msg.getLine(),
+                        msg.getColumn(), msg.getText()));
+            }
+            throw new CorrelationException("Failed to compile JAR. Details: \n" + sb.toString());
+        }
+
+        InternalKieModule kieModule = (InternalKieModule) ks.getRepository()
+                .getKieModule(releaseId);
+
+        return kieModule.getBytes();
+    }
+
+    private KieModule deployJarIntoRepository(KieServices ks, byte[] jar) {
+        Resource jarRes = ks.getResources().newByteArrayResource(jar);
+        return ks.getRepository().addKieModule(jarRes);
     }
 
 }
