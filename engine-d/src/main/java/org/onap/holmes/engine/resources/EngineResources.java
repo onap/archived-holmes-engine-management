@@ -72,7 +72,7 @@ public class EngineResources {
             String packageName = getPackageName(deployRuleRequest.getContent());
             DmaapService.loopControlNames
                     .put(packageName, deployRuleRequest.getLoopControlName());
-            String packageNameRet = droolsEngine.deployRule(deployRuleRequest, locale);
+            String packageNameRet = droolsEngine.deployRule(deployRuleRequest);
             if (!packageName.equals(packageNameRet)) {
                 log.info("The parsed package name is different from that returned by the engine.");
                 DmaapService.loopControlNames.remove(packageName);
@@ -104,12 +104,13 @@ public class EngineResources {
         Locale locale = LanguageUtil.getLocale(httpRequest);
 
         try {
-            droolsEngine.undeployRule(packageName, locale);
+            droolsEngine.undeployRule(packageName);
             DmaapService.loopControlNames.remove(packageName);
         } catch (CorrelationException correlationException) {
             log.error(correlationException.getMessage(), correlationException);
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
         }
+
         return true;
     }
 
@@ -124,7 +125,7 @@ public class EngineResources {
         Locale locale = LanguageUtil.getLocale(httpRequest);
 
         try {
-            droolsEngine.compileRule(compileRuleRequest.getContent(), locale);
+            droolsEngine.compileRule(compileRuleRequest.getContent());
         } catch (CorrelationException correlationException) {
             log.error(correlationException.getMessage(), correlationException);
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());
