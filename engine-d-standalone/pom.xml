@@ -209,10 +209,10 @@
                                 println project.properties['holmes.engine.project.version'];
                                 def versionArray;
                                 if ( project.properties['holmes.engine.project.version'] != null ) {
-                                    versionArray = project.properties['holmes.engine.project.version'].split('\\.');
+                                    versionArray = project.properties['holmes.engine.project.version'].split('-');
                                 }
 
-								project.properties['project.docker.latesttag.version']=versionArray[0] + "-STAGING-latest";
+                                project.properties['project.docker.latesttag.version']=versionArray[0] + "-STAGING-latest";
 
                                 println 'New Tag for docker:' +
                                 project.properties['project.docker.latesttag.version'];
