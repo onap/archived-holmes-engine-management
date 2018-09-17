@@ -2,8 +2,7 @@ Holmes Engine Management Component Offered APIs
 ==================================
 The engine management module provides the following APIs.
 
-* Rule Deployment
-* Rule Undeployment
+* Health Check
 * Rule Verification
 
 .. swaggerv2doc:: ../engine-d/src/main/resources/swagger.json
