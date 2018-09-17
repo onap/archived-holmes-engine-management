@@ -57,7 +57,6 @@ public class EngineResources {
     DroolsEngine droolsEngine;
 
     @PUT
-    @ApiOperation(value = "Deploy a rule into the Drools engine.", response = CorrelationRuleResponse.class)
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     public CorrelationRuleResponse deployRule(
@@ -99,7 +98,6 @@ public class EngineResources {
     }
 
     @DELETE
-    @ApiOperation(value = "Undeploy a rule from the Drools engine.")
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @Path("/{packageName}")
