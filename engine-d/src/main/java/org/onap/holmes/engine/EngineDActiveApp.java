@@ -54,7 +54,7 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
             log.warn(e.getMessage(), e);
         }
 
-        if (!System.getenv("TESTING").equals("1")) {
+        if (!"1".equals(System.getenv("TESTING"))) {
             ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
             service.scheduleAtFixedRate(
                     new DcaeConfigurationPolling(MicroServiceConfig.getEnv(MicroServiceConfig.HOSTNAME)), 0,
