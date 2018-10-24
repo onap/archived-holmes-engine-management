@@ -61,6 +61,6 @@ public class EngineDActiveAppTest {
         assertThat(msinfo.getVisualRange(), equalTo("0|1"));
         assertThat(msinfo.isEnable_ssl(), is(true));
         assertThat(msinfo.getNodes().toArray(new Node[0])[0].getIp(), equalTo(serviceAddrInfo[0]));
-        assertThat(msinfo.getNodes().toArray(new Node[0])[0].getPort(), equalTo(serviceAddrInfo[1]));
+        assertThat(msinfo.getNodes().toArray(new Node[0])[0].getPort(), equalTo("9102"));
     }
 }

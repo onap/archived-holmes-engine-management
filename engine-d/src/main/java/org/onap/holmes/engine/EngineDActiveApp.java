@@ -77,7 +77,7 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         Set<Node> nodes = new HashSet<>();
         Node node = new Node();
         node.setIp(serviceAddrInfo[0]);
-        node.setPort(serviceAddrInfo[1]);
+        node.setPort("9102");
         node.setCheckType("HTTP");
         node.setCheckUrl(String.format("https://%s:%s/api/holmes-engine-mgmt/v1/healthcheck", serviceAddrInfo[0], "9102"));
         node.setCheckTimeOut("60s");
