@@ -213,6 +213,7 @@
                                 }
 
                                 project.properties['project.docker.latesttag.version']=versionArray[0] + "-STAGING-latest";
+                                project.properties['project.docker.latesttag.version.with.timestamp'] = versionArray[0] + "-STAGING-" + ${build.number};
 
                                 println 'New Tag for docker:' +
                                 project.properties['project.docker.latesttag.version'];
@@ -244,8 +245,9 @@
                                         <dockerFile>${basedir}/target/version/Dockerfile</dockerFile>
                                         <tags>
                                             <tag>${project.version}</tag>
-                                            <tag>${project.version}-STAGING-${maven.build.timestamp}</tag>
+                                            <tag>${project.version}-${build.number}</tag>
                                             <tag>${project.docker.latesttag.version}</tag>
+                                            <tag>${project.docker.latesttag.version.with.timestamp}</tag>
                                         </tags>
                                     </build>
                                 </image>
