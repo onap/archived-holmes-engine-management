@@ -26,7 +26,7 @@
 
     <groupId>org.onap.holmes.engine-management</groupId>
     <artifactId>holmes-engine-parent</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>holmes-engine-management</name>
     <modules>
@@ -94,7 +94,7 @@
             <dependency>
                 <groupId>org.onap.holmes.common</groupId>
                 <artifactId>holmes-actions</artifactId>
-                <version>1.2.3</version>
+                <version>1.2.4</version>
             </dependency>
             <dependency>
                 <groupId>org.onap.holmes.dsa</groupId>
