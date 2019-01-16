@@ -99,7 +99,9 @@ public class DroolsEngine {
         } catch (Exception e) {
             log.error("Failed to initialize the engine service module.", e);
         }
-        container = ks.newKieContainer(km.getReleaseId());
+        if(null!=km) {
+        	container = ks.newKieContainer(km.getReleaseId());
+        }
         session = container.newKieSession();
         deployed.clear();
     }
