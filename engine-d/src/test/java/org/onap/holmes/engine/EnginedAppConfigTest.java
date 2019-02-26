@@ -22,7 +22,6 @@ import org.hamcrest.core.IsNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.holmes.common.config.MQConfig;
 import org.powermock.api.easymock.PowerMock;
 
 public class EnginedAppConfigTest {
@@ -32,20 +31,6 @@ public class EnginedAppConfigTest {
     @Before
     public void setUp() {
         engineAppConfig = new EngineDAppConfig();
-    }
-
-    @Test
-    public void getMqConfig() {
-        MQConfig mqConfig = PowerMock.createMock(MQConfig.class);
-        engineAppConfig.setMqConfig(mqConfig);
-        Assert.assertThat(engineAppConfig.getMqConfig(), IsNull.notNullValue());
-    }
-
-    @Test
-    public void setMqConfig() {
-        MQConfig mqConfig = PowerMock.createMock(MQConfig.class);
-        engineAppConfig.setMqConfig(mqConfig);
-        Assert.assertThat(engineAppConfig.getMqConfig(), IsEqual.equalTo(mqConfig));
     }
 
     @Test

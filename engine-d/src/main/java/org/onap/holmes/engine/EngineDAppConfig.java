@@ -21,28 +21,15 @@ import io.dropwizard.db.DataSourceFactory;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.jvnet.hk2.annotations.Service;
-import org.onap.holmes.common.config.MQConfig;
 
 @Service
 public class EngineDAppConfig extends Configuration {
 
     private String apidescription = "Holmes rule management rest API";
 
-    @JsonProperty
-    @NotNull
-    @Valid
-    private MQConfig mqConfig;
     @Valid
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();
-
-    public MQConfig getMqConfig() {
-        return mqConfig;
-    }
-
-    public void setMqConfig(MQConfig mqConfig) {
-        this.mqConfig = mqConfig;
-    }
 
     @JsonProperty("database")
     public DataSourceFactory getDataSourceFactory() {

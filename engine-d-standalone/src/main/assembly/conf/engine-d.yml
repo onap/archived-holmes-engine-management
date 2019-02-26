@@ -73,8 +73,3 @@ database:
   evictionInterval: 10s
   minIdleTime: 1s
 
-mqConfig:
-  brokerIp: 10.74.156.206
-  brokerPort: 61616
-  brokerUsername: activemq
-  brokerPassword: v1

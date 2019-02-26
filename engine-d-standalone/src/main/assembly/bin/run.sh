@@ -33,10 +33,6 @@ echo @JAVA_OPTS@ $JAVA_OPTS
 class_path="$main_path/:$main_path/holmes-engine-d.jar"
 echo @class_path@ $class_path
 
-sed -i "s/activemq.username=.*/activemq.username=activemq/" /home/activemq/apache-activemq-5.9.0/conf/credentials.properties
-sed -i "s/activemq.password=.*/activemq.password=v1/" /home/activemq/apache-activemq-5.9.0/conf/credentials.properties
-/home/activemq/apache-activemq-5.9.0/bin/activemq start
-
 if [ -z ${JDBC_USERNAME} ]; then
     export JDBC_USERNAME=holmes
     echo "No user name is specified for the database. Use the default value \"$JDBC_USERNAME\"."
@@ -72,9 +68,6 @@ if [ ! -z ${URL_JDBC} ] && [ `expr index $URL_JDBC :` != 0 ]; then
     export DB_PORT="${URL_JDBC##*:}"
 fi
 echo DB_PORT=$DB_PORT
-
-#ActiveMQ IP Configurations
-sed -i "s|brokerIp:.*|brokerIp: $SERVICE_IP|" "$main_path/conf/engine-d.yml"
 
 KEY_PATH="$main_path/conf/holmes.keystore"
 KEY_PASSWORD="holmes"
