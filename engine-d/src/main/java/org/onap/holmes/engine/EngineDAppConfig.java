@@ -28,21 +28,9 @@ public class EngineDAppConfig extends Configuration {
 
     private String apidescription = "Holmes rule management rest API";
 
-    @JsonProperty
-    @NotNull
-    @Valid
-    private MQConfig mqConfig;
     @Valid
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();
-
-    public MQConfig getMqConfig() {
-        return mqConfig;
-    }
-
-    public void setMqConfig(MQConfig mqConfig) {
-        this.mqConfig = mqConfig;
-    }
 
     @JsonProperty("database")
     public DataSourceFactory getDataSourceFactory() {

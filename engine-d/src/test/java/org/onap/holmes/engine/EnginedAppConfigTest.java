@@ -35,20 +35,6 @@ public class EnginedAppConfigTest {
     }
 
     @Test
-    public void getMqConfig() {
-        MQConfig mqConfig = PowerMock.createMock(MQConfig.class);
-        engineAppConfig.setMqConfig(mqConfig);
-        Assert.assertThat(engineAppConfig.getMqConfig(), IsNull.notNullValue());
-    }
-
-    @Test
-    public void setMqConfig() {
-        MQConfig mqConfig = PowerMock.createMock(MQConfig.class);
-        engineAppConfig.setMqConfig(mqConfig);
-        Assert.assertThat(engineAppConfig.getMqConfig(), IsEqual.equalTo(mqConfig));
-    }
-
-    @Test
     public void getDataSourceFactory() {
         Assert.assertThat(engineAppConfig.getDataSourceFactory(), IsNull.<DataSourceFactory>notNullValue());
     }
