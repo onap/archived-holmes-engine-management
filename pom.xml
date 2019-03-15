@@ -47,7 +47,7 @@
 
         <stringtemplate.version>3.2.1</stringtemplate.version>
         <postgres.jdbc.driver.version>42.2.5</postgres.jdbc.driver.version>
-        <dropwizard.version>1.3.0</dropwizard.version>
+        <dropwizard.version>1.3.9</dropwizard.version>
         <swagger.version>1.5.3</swagger.version>
         <lombok.version>1.16.8</lombok.version>
         <jersey.version>2.22.2</jersey.version>
@@ -94,7 +94,7 @@
             <dependency>
                 <groupId>org.onap.holmes.common</groupId>
                 <artifactId>holmes-actions</artifactId>
-                <version>1.2.6</version>
+                <version>1.2.7</version>
             </dependency>
             <dependency>
                 <groupId>io.dropwizard</groupId>
