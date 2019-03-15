@@ -1,0 +1,42 @@
+---
+project: 'holmes-engine-management'
+project_creation_date: '2017-01-17'
+lifecycle_state: 'Incubation'
+project_lead: &onap_releng_ptl
+    name: 'Guangrong Fu'
+    email: 'fu.guangrong@zte.com.cn'
+    id: 'GuangrongFu'
+    company: 'ZTE'
+    timezone: 'China/Chengdu'
+project_category: ''
+primary_contact: *onap_releng_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.onap.org/projects/HOLMES'
+    key: 'HOLMES'
+mailing_list:
+    type: 'groups.io'
+    url: 'lists.onap.org'
+    tag: '<[sub-project_name]>'
+realtime_discussion: ''
+meetings:
+    - type: 'zoom'
+      agenda: 'https://wiki.onap.org/pages/viewpage.action?pageId=8231935'
+      url: 'https://wiki.onap.org/pages/viewpage.action?pageId=8231935'
+      server: 'n/a'
+      channel: 'n/a'
+      repeats: 'weekly'
+      time: '12:00 UTC'
+repositories:
+    - 'holmes-common'
+    - 'holmes-engine-management'
+    - 'holmes-rule-management'
+committers:
+    - <<: *onap_releng_ptl
+    - name: 'Tang Peng'
+      email: 'tang.peng5@zte.com.cn'
+      company: 'ZTE'
+      id: 'tangpeng'
+      timezone: 'China/Beijing'
+tsc:
+    approval: 'https://lists.onap.org/pipermail/onap-tsc'
