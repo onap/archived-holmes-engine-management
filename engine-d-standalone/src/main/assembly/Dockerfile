@@ -35,6 +35,7 @@ RUN apk upgrade \
     && apk add --no-cache curl \
     && apk add --no-cache wget \
     && apk add --no-cache postgresql-client=10.5-r0
+    && apk add --no-cache nss
 
 #switch the user to holmes
 RUN addgroup -S holmes && adduser -S -G holmes holmes
