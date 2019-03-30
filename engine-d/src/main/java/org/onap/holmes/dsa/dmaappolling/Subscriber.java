@@ -87,7 +87,7 @@ public class Subscriber {
         CloseableHttpClient closeableHttpClient = null;
         HttpGet httpGet = new HttpGet(url + "/" + consumerGroup + "/" + consumer + "?timeout=" + period);
         try {
-            closeableHttpClient = HttpsUtils.getHttpClient(timeout);
+            closeableHttpClient = HttpsUtils.getConditionalHttpsClient(timeout);
             HttpResponse httpResponse = HttpsUtils
                     .get(httpGet, new HashMap<>(), closeableHttpClient);
             response = HttpsUtils.extractResponseEntity(httpResponse);

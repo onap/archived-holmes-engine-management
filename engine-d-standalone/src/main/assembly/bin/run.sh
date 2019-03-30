@@ -69,12 +69,30 @@ if [ ! -z ${URL_JDBC} ] && [ `expr index $URL_JDBC :` != 0 ]; then
 fi
 echo DB_PORT=$DB_PORT
 
-KEY_PATH="$main_path/conf/holmes.keystore"
-KEY_PASSWORD="holmes"
+if [ -z ${ENABLE_ENCRYPT} ]; then
+    export ENABLE_ENCRYPT=true
+fi
+echo ENABLE_ENCRYPT=$ENABLE_ENCRYPT
 
+KEY_PATH="/home/holmes/conf/holmes.keystore"
+KEY_PASSWORD="holmes"
 #HTTPS Configurations
 sed -i "s|keyStorePath:.*|keyStorePath: $KEY_PATH|" "$main_path/conf/engine-d.yml"
 sed -i "s|keyStorePassword:.*|keyStorePassword: $KEY_PASSWORD|" "$main_path/conf/engine-d.yml"
+
+if [ ${ENABLE_ENCRYPT} == true ]; then
+    sed -i "s|type:\s*https\?$|type: https|" "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?keyStorePath|keyStorePath|" "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?keyStorePassword|keyStorePassword|" "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?validateCerts|validateCerts|" "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?validatePeers|validatePeers|" "$main_path/conf/engine-d.yml"
+else
+    sed -i 's|type:\s*https\?$|type: http|' "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?keyStorePath|#keyStorePath|" "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?keyStorePassword|#keyStorePassword|" "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?validateCerts|#validateCerts|" "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?validatePeers|#validatePeers|" "$main_path/conf/engine-d.yml"
+fi
 
 cat "$main_path/conf/engine-d.yml"
 
