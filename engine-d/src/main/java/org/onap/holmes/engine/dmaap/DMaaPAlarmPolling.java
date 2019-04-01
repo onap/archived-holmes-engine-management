@@ -49,9 +49,15 @@ public class DMaaPAlarmPolling implements Runnable {
                 vesAlarmList = subscriber.subscribe();
                 vesAlarmList.forEach(vesAlarm -> {
                     try {
-                        alarmInfoDao.saveAlarm(getAlarmInfo(vesAlarm));
+                        AlarmInfo alarmInfo = getAlarmInfo(vesAlarm);
+                        if (alarmInfo.getAlarmIsCleared() != 1) {
+                            alarmInfoDao.saveAlarm(alarmInfo);
+                        } else {
+                            alarmInfoDao.deleteAlarm(alarmInfo);
+                        }
                         droolsEngine.putRaisedIntoStream(vesAlarm);
-                    } catch(AlarmInfoException e) {
+
+                    } catch (AlarmInfoException e) {
                         log.error("Failed to save alarm to database", e);
                     }
                 });
@@ -74,6 +80,7 @@ public class DMaaPAlarmPolling implements Runnable {
             }
         }
     }
+
     private AlarmInfo getAlarmInfo(VesAlarm vesAlarm) {
         AlarmInfo alarmInfo = new AlarmInfo();
         alarmInfo.setAlarmIsCleared(vesAlarm.getAlarmIsCleared());

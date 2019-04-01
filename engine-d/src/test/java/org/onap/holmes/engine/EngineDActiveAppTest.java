@@ -35,8 +35,8 @@ import static org.junit.Assert.assertThat;
 public class EngineDActiveAppTest {
 
     public static void main(String[] args) throws Exception {
-        String filePath = "C:\\engine-d.yml";
-        new EngineDActiveApp().run(new String[]{"server", filePath});
+        String str = "CPU OverloadCleared";
+        System.out.println(str.substring(0, str.lastIndexOf("Cleared")));
     }
 
     @Test
