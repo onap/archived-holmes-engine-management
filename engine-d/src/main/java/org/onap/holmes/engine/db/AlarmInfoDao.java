@@ -1,12 +1,12 @@
 /**
  * Copyright 2017 ZTE Corporation.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,14 +33,16 @@ public abstract class AlarmInfoDao {
     @SqlQuery("SELECT * FROM ALARM_INFO")
     protected abstract List<AlarmInfo> queryAlarm();
 
-    @SqlUpdate("DELETE FROM ALARM_INFO WHERE ALARMISCLEARED=:alarmiscleared")
-    protected abstract int deleteAlarmByAlarmIsCleared(@Bind("alarmiscleared") int alarmIsCleared);
+    @SqlUpdate("DELETE FROM ALARM_INFO WHERE EVENTNAME=:eventName AND SOURCEID=:sourceId AND SOURCENAME=:sourceName")
+    protected abstract int deleteAlarmByAlarmIsCleared(@Bind("eventName") String eventName,
+                                                       @Bind("sourceId") String sourceId,
+                                                       @Bind("sourceName") String sourceName);
 
     public AlarmInfo saveAlarm(AlarmInfo alarmInfo) throws AlarmInfoException {
         try {
             addAlarm(alarmInfo);
             return alarmInfo;
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new AlarmInfoException("Can not access the database. Please contact the administrator for help.", e);
         }
     }
@@ -48,15 +50,21 @@ public abstract class AlarmInfoDao {
     public List<AlarmInfo> queryAllAlarm() throws AlarmInfoException {
         try {
             return queryAlarm();
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new AlarmInfoException("Can not access the database. Please contact the administrator for help.", e);
         }
     }
 
-    public void deleteClearedAlarm(AlarmInfo alarmInfo) {
-       int alarmIsCleared = alarmInfo.getAlarmIsCleared();
-        if(alarmIsCleared == 1) {
-           deleteAlarmByAlarmIsCleared(alarmIsCleared);
-       }
+    public void deleteAlarm(AlarmInfo alarmInfo) {
+        if (alarmInfo.getAlarmIsCleared() != 1) {
+            return;
+        }
+
+        String sourceId = alarmInfo.getSourceId();
+        String sourceName = alarmInfo.getSourceName();
+        String eventName = alarmInfo.getEventName();
+        eventName = eventName.substring(0, eventName.lastIndexOf("Cleared"));
+
+        deleteAlarmByAlarmIsCleared(eventName, sourceId, sourceName);
     }
 }

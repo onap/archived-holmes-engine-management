@@ -15,17 +15,10 @@
  */
 package org.onap.holmes.engine.manager;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
 import lombok.extern.slf4j.Slf4j;
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.drools.core.util.StringUtils;
 import org.jvnet.hk2.annotations.Service;
-
 import org.kie.api.KieServices;
 import org.kie.api.builder.*;
 import org.kie.api.builder.Message.Level;
@@ -33,19 +26,25 @@ import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
-
 import org.onap.holmes.common.api.entity.AlarmInfo;
-
+import org.onap.holmes.common.api.entity.CorrelationRule;
 import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.dmaap.DmaapService;
 import org.onap.holmes.common.exception.AlarmInfoException;
+import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.DbDaoUtil;
+import org.onap.holmes.common.utils.ExceptionUtil;
 import org.onap.holmes.engine.db.AlarmInfoDao;
 import org.onap.holmes.engine.request.DeployRuleRequest;
-import org.onap.holmes.common.api.entity.CorrelationRule;
-import org.onap.holmes.common.exception.CorrelationException;
-import org.onap.holmes.common.utils.ExceptionUtil;
 import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -99,8 +98,8 @@ public class DroolsEngine {
         } catch (Exception e) {
             log.error("Failed to initialize the engine service module.", e);
         }
-        if(null!=km) {
-        	container = ks.newKieContainer(km.getReleaseId());
+        if (null != km) {
+            container = ks.newKieContainer(km.getReleaseId());
         }
         session = container.newKieSession();
         deployed.clear();
@@ -123,7 +122,6 @@ public class DroolsEngine {
     }
 
     public void syncAlarms() throws AlarmInfoException {
-        alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> alarmInfoDao.deleteClearedAlarm(alarmInfo));
         alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> putRaisedIntoStream(convertAlarmInfo2VesAlarm(alarmInfo)));
     }
 
@@ -209,13 +207,9 @@ public class DroolsEngine {
                 alarm.setRootFlag(((VesAlarm) obj).getRootFlag());
             }
             this.session.delete(factHandle);
-
-            if (alarm.getAlarmIsCleared() == 1) {
-                alarmInfoDao.deleteClearedAlarm(convertVesAlarm2AlarmInfo(alarm));
-            }
-        } else {
-            this.session.insert(alarm);
         }
+
+        this.session.insert(alarm);
 
         this.session.fireAllRules();
     }
@@ -226,8 +220,6 @@ public class DroolsEngine {
                 .map(pkg -> pkg.getName())
                 .collect(Collectors.toList());
     }
-
-
 
     private VesAlarm convertAlarmInfo2VesAlarm(AlarmInfo alarmInfo) {
         VesAlarm vesAlarm = new VesAlarm();

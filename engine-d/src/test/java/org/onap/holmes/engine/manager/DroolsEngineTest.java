@@ -17,7 +17,6 @@
 package org.onap.holmes.engine.manager;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,12 +31,11 @@ import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.reflect.Whitebox;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.easymock.EasyMock.anyObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -295,17 +293,18 @@ class AlarmInfoDaoStub extends AlarmInfoDao {
     }
 
     @Override
-    protected int deleteAlarmByAlarmIsCleared(int alarmIsCleared) {
+    protected int deleteAlarmByAlarmIsCleared(String alarmName, String sourceName, String sourceId) {
         return 1;
     }
 }
 
 class DbDaoUtilStub extends DbDaoUtil {
     private AlarmInfoDao dao = new AlarmInfoDaoStub();
+
     @Override
     public <T> T getJdbiDaoByOnDemand(Class<T> daoClazz) {
 
-        return (T)dao;
+        return (T) dao;
 
     }
 }
