@@ -22,16 +22,19 @@ import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
 import org.onap.msb.sdk.discovery.entity.Node;
 import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @PrepareForTest(MicroServiceConfig.class)
 @RunWith(PowerMockRunner.class)
+@PowerMockIgnore("javax.net.ssl.*")
 public class EngineDActiveAppTest {
 
     public static void main(String[] args) throws Exception {
@@ -48,6 +51,7 @@ public class EngineDActiveAppTest {
         serviceAddrInfo[1] = "80";
         EasyMock.expect(MicroServiceConfig.getMicroServiceIpAndPort()).andReturn(serviceAddrInfo);
         EasyMock.expectLastCall();
+        EasyMock.expect(MicroServiceConfig.getEnv(anyObject(String.class))).andReturn("true").times(2);
         PowerMock.replayAll();
 
         MicroServiceInfo msinfo = Whitebox.invokeMethod(engineDActiveApp,"createMicroServiceInfo");
