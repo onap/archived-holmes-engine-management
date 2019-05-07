@@ -25,7 +25,7 @@ JAVA="$JAVA_HOME/bin/java"
 echo @JAVA@ $JAVA
 main_path=$RUNHOME/..
 cd $main_path
-JAVA_OPTS="-Xms50m -Xmx128m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=9202,server=y,suspend=n"
+JAVA_OPTS="-Xms128m -Xmx512m"
 port=8312
 #JAVA_OPTS="$JAVA_OPTS -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=$port,server=y,suspend=n"
 echo @JAVA_OPTS@ $JAVA_OPTS
