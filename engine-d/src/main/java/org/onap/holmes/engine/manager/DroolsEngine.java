@@ -22,9 +22,15 @@ import org.jvnet.hk2.annotations.Service;
 import org.kie.api.KieServices;
 import org.kie.api.builder.*;
 import org.kie.api.builder.Message.Level;
+import org.kie.api.builder.model.KieBaseModel;
+import org.kie.api.builder.model.KieModuleModel;
+import org.kie.api.builder.model.KieSessionModel;
+import org.kie.api.conf.EqualityBehaviorOption;
+import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.conf.ClockTypeOption;
 import org.kie.api.runtime.rule.FactHandle;
 import org.onap.holmes.common.api.entity.AlarmInfo;
 import org.onap.holmes.common.api.entity.CorrelationRule;
@@ -271,7 +277,15 @@ public class DroolsEngine {
     }
 
     private byte[] createJar(KieServices ks, ReleaseId releaseId, List<String> drls) throws CorrelationException {
-        KieFileSystem kfs = ks.newKieFileSystem().generateAndWritePomXML(releaseId);
+        KieModuleModel kieModuleModel = ks.newKieModuleModel();
+        KieBaseModel kieBaseModel = kieModuleModel.newKieBaseModel("KBase")
+                .setDefault(true)
+                .setEqualsBehavior(EqualityBehaviorOption.EQUALITY);
+        kieBaseModel.newKieSessionModel("KSession")
+                .setDefault(true)
+                .setType(KieSessionModel.KieSessionType.STATEFUL);
+        KieFileSystem kfs = ks.newKieFileSystem().writeKModuleXML(kieModuleModel.toXML()).generateAndWritePomXML(releaseId);
+
         int i = 0;
         for (String drl : drls) {
             if (!StringUtils.isEmpty(drl)) {
