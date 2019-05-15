@@ -31,7 +31,7 @@
 
     <properties>
         <drools.version>6.5.0.Final</drools.version>
-        <jetty.version>9.4.17.v20190418</jetty.version>
+        <jetty.version>9.4.18.v20190429</jetty.version>
     </properties>
 
     <dependencies>
