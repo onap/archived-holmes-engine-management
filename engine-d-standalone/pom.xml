@@ -17,8 +17,8 @@
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.onap.holmes.engine-management</groupId>
         <artifactId>holmes-engine-parent</artifactId>
@@ -31,8 +31,8 @@
     <packaging>pom</packaging>
 
     <properties>
-	<holmes.engine.project.version>${project.version}</holmes.engine.project.version>
-	<maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
+        <holmes.engine.project.version>${project.version}</holmes.engine.project.version>
+        <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <build.number>${maven.build.timestamp}</build.number>
     </properties>
 
@@ -60,7 +60,7 @@
                                         <exclude>**/*.bat</exclude>
                                     </excludes>
                                 </resource>
-								<resource>
+                                <resource>
                                     <directory>../engine-d/src/main/resources</directory>
                                     <filtering>false</filtering>
                                 </resource>
@@ -87,7 +87,7 @@
                                         <exclude>**/*.sh</exclude>
                                     </excludes>
                                 </resource>
-								<resource>
+                                <resource>
                                     <directory>../engine-d/src/main/resources</directory>
                                     <filtering>false</filtering>
                                 </resource>
@@ -208,15 +208,15 @@
                             <source>
                                 println project.properties['holmes.engine.project.version'];
                                 def versionArray;
-                                if ( project.properties['holmes.engine.project.version'] != null ) {
+                                if (project.properties['holmes.engine.project.version'] != null) {
                                     versionArray = project.properties['holmes.engine.project.version'].split('-');
                                 }
 
-                                project.properties['project.docker.latesttag.version']=versionArray[0] + "-STAGING-latest";
+                                project.properties['project.docker.latesttag.version'] = versionArray[0] + "-STAGING-latest";
                                 project.properties['project.docker.latesttag.version.with.timestamp'] = versionArray[0] + "-STAGING-${build.number}";
 
                                 println 'New Tag for docker:' +
-                                project.properties['project.docker.latesttag.version'];
+                                        project.properties['project.docker.latesttag.version'];
                             </source>
                         </configuration>
                     </execution>
@@ -282,6 +282,36 @@
             <groupId>org.onap.holmes.engine-management</groupId>
             <artifactId>holmes-engine-d</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-http</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-util</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-servlet</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
