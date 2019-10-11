@@ -26,7 +26,7 @@
 
     <groupId>org.onap.holmes.engine-management</groupId>
     <artifactId>holmes-engine-parent</artifactId>
-    <version>1.2.5-SNAPSHOT</version>
+    <version>1.2.6</version>
     <packaging>pom</packaging>
     <name>holmes-engine-management</name>
     <modules>
@@ -93,7 +93,7 @@
             <dependency>
                 <groupId>org.onap.holmes.common</groupId>
                 <artifactId>holmes-actions</artifactId>
-                <version>1.2.10</version>
+                <version>1.2.13</version>
             </dependency>
             <dependency>
                 <groupId>io.dropwizard</groupId>
