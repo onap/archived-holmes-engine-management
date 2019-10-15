@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b930541_50b582b4",
+        "filename": "releases/container-1.2.6.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2019-10-15T17:06:48Z",
+      "side": 1,
+      "message": "Remove the \"onap\" prefix, we just need the name of the image\nholmes/engine-management\n\n\"onap\" is the org where this image belongs to and the job already adds it in the search.",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 39
+      },
+      "revId": "3d394f988907f80a36f92a4acc02091d35cb4fae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
