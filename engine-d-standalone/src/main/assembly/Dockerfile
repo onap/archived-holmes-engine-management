@@ -8,7 +8,8 @@ ENV HOSTNAME=holmes-engine-mgmt \
     LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
     PATH=$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin \
-    JAVA_ALPINE_VERSION=8.242.08-r2
+    JAVA_ALPINE_VERSION=8.242.08-r2 \
+    PG_VERSION=12.3-r2
 
 #add the backend package to the docker image
 WORKDIR /home/holmes
@@ -32,7 +33,7 @@ RUN { \
     && apk update \
     && apk add --no-cache curl \
     && apk add --no-cache wget \
-    && apk add --no-cache postgresql-client=11.5-r0 \
+    && apk add --no-cache postgresql-client="$PG_VERSION" \
     && apk add --no-cache nss \
 
     #switch the user to holmes
