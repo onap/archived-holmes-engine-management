@@ -8,8 +8,8 @@ ENV HOSTNAME=holmes-engine-mgmt \
     LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
     PATH=$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin \
-    JAVA_ALPINE_VERSION=8.242.08-r2 \
-    PG_VERSION=12.3-r2
+    JAVA_ALPINE_VERSION=8.242.08-r0 \
+    PG_VERSION=12.2-r0
 
 #add the backend package to the docker image
 WORKDIR /home/holmes
