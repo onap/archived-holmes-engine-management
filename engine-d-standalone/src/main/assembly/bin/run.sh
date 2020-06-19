@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright 2017 ZTE Corporation.
+# Copyright 2017-2020 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ port=8312
 #JAVA_OPTS="$JAVA_OPTS -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=$port,server=y,suspend=n"
 echo @JAVA_OPTS@ $JAVA_OPTS
 
-class_path="$main_path/:$main_path/holmes-engine-d.jar"
+class_path="$main_path/lib/*"
 echo @class_path@ $class_path
 
 if [ -z ${JDBC_USERNAME} ]; then
