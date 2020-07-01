@@ -1,49 +1,25 @@
-FROM openresty/openresty:alpine
+FROM onap/integration-java11:7.0.0
 
 MAINTAINER "Guangrong Fu" <fu.guangrong@zte.com.cn>
 
+USER root
+
+# 9102 - service port
+# 9202 - debugging port
 EXPOSE 9102 9202
 
 ENV HOSTNAME=holmes-engine-mgmt \
-    LANG=C.UTF-8 \
-    JAVA_HOME=/usr/lib/jvm/java-11-openjdk \
-    PATH=$PATH:/usr/lib/jvm/java-11-openjdk/jre/bin:/usr/lib/jvm/java-11-openjdk/bin \
-    JAVA_ALPINE_VERSION=11.0.5_p10-r0 \
-    PG_VERSION=12.2-r0
+    LANG=C.UTF-8
 
-#add the backend package to the docker image
-WORKDIR /home/holmes
-ADD holmes-engine-d-standalone-*-linux64.tar.gz /home/holmes/
+ADD holmes-engine-d-standalone-*-linux64.tar.gz /opt/onap/
 
-# add a simple script that can auto-detect the appropriate JAVA_HOME value
-# based on whether the JDK or only the JRE is installed
-RUN { \
-        echo '#!/bin/sh'; \
-        echo 'set -e'; \
-        echo; \
-        echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
-    } > /usr/local/bin/docker-java-home \
-    && chmod +x /usr/local/bin/docker-java-home \
-    && set -x \
-    #install java-11-openjdk
-    && apk add --no-cache openjdk11="$JAVA_ALPINE_VERSION" \
-    && [ "$JAVA_HOME" = "$(docker-java-home)" ] \
-    #install neccessary tools
-    && apk upgrade \
-    && apk update \
-    && apk add --no-cache curl \
-    && apk add --no-cache wget \
-    && apk add --no-cache postgresql-client="$PG_VERSION" \
-    && apk add --no-cache nss \
-
-    #switch the user to holmes
-    && addgroup -S holmes && adduser -S -G holmes holmes \
-
-    && chmod -R a+rw /home/holmes/ \
+RUN apt-get upgrade \
+    && apt-get update \
+    && apt-get install -y curl postgresql-client-11 \
+    && chmod -R a+rw /opt/onap/ \
     && chmod -R a+rw /var/log/ \
-    && chmod 755 /home/holmes/bin/*.sh
+    && chmod 755 /opt/onap/bin/*.sh
 
-USER holmes
-
-CMD ["sh", "/home/holmes/bin/run.sh"]
+USER onap
+ENTRYPOINT ["sh", "/opt/onap/bin/run.sh"]
 
