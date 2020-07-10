@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 ZTE Corporation.
+ * Copyright 2017-2020 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,20 +18,18 @@ package org.onap.holmes.dsa.dmaappolling;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.easymock.EasyMock;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.onap.holmes.common.api.stat.AlarmAdditionalField;
 import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
 import org.onap.holmes.common.utils.GsonUtil;
 import org.onap.holmes.common.utils.HttpsUtils;
-import org.onap.holmes.dsa.dmaappolling.DMaaPResponseUtil;
-import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -42,23 +40,23 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
-@PrepareForTest({ServiceLocatorHolder.class, ServiceLocator.class, HttpsUtils.class})
 @RunWith(PowerMockRunner.class)
+@PrepareForTest({ServiceLocatorHolder.class, ServiceLocator.class, HttpsUtils.class, Subscriber.class})
+@PowerMockIgnore("javax.net.ssl.*")
 public class SubscriberTest {
 
     private DMaaPResponseUtil util = new DMaaPResponseUtil();
 
     @Before
     public void init() {
-        PowerMockito.mockStatic(ServiceLocatorHolder.class);
-        ServiceLocator serviceLocator = PowerMockito.mock(ServiceLocator.class);
-        PowerMockito.when(ServiceLocatorHolder.getLocator()).thenReturn(serviceLocator);
-        PowerMockito.when(serviceLocator.getService(DMaaPResponseUtil.class)).thenReturn(util);
+        PowerMock.mockStatic(ServiceLocatorHolder.class);
+        ServiceLocator serviceLocator = PowerMock.createMock(ServiceLocator.class);
+        EasyMock.expect(ServiceLocatorHolder.getLocator()).andReturn(serviceLocator).anyTimes();
+        EasyMock.expect(serviceLocator.getService(DMaaPResponseUtil.class)).andReturn(util).anyTimes();
     }
 
     @Test
     public void subscribe() throws Exception {
-        PowerMock.resetAll();
         VesAlarm vesAlarm = new VesAlarm();
         vesAlarm.setDomain("ONAP");
         vesAlarm.setEventId("123");
@@ -118,23 +116,29 @@ public class SubscriberTest {
                 "\"specificProblem\": \"specificProblem\"," +
                 "\"vfStatus\": \"vfStatus\"" +
                 "}}}";
-        Subscriber subscriber = new Subscriber();
-        subscriber.setUrl("https://www.onap.org");
-        subscriber.setConsumerGroup("group");
-        subscriber.setConsumer("consumer");
+
         List<String> responseList = new ArrayList<>();
         responseList.add(eventString);
         String responseJson = GsonUtil.beanToJson(responseList);
 
-        PowerMockito.mockStatic(HttpsUtils.class);
-        HttpResponse httpResponse = PowerMockito.mock(HttpResponse.class);
-        PowerMockito.when(HttpsUtils.get(Matchers.any(HttpGet.class),
-                Matchers.any(HashMap.class), Matchers.any(CloseableHttpClient.class))).thenReturn(httpResponse);
-        PowerMockito.when(HttpsUtils.extractResponseEntity(httpResponse)).thenReturn(responseJson);
+        PowerMock.mockStatic(HttpsUtils.class);
+        CloseableHttpClient mockedCloseableHttpClient = PowerMock.createMock(CloseableHttpClient.class);
+        HttpResponse httpResponse = PowerMock.createMock(HttpResponse.class);
+        EasyMock.expect(HttpsUtils.getConditionalHttpsClient(15000)).andReturn(mockedCloseableHttpClient);
+        EasyMock.expect(HttpsUtils.get(EasyMock.anyObject(HttpGet.class),
+                EasyMock.anyObject(HashMap.class), EasyMock.anyObject(CloseableHttpClient.class))).andReturn(httpResponse);
+        EasyMock.expect(HttpsUtils.extractResponseEntity(httpResponse)).andReturn(responseJson);
+        mockedCloseableHttpClient.close();
+        EasyMock.expectLastCall();
 
         PowerMock.replayAll();
 
+        Subscriber subscriber = new Subscriber();
+        subscriber.setUrl("https://www.onap.org");
+        subscriber.setConsumerGroup("group");
+        subscriber.setConsumer("consumer");
         List<VesAlarm> vesAlarms = subscriber.subscribe();
+
         PowerMock.verifyAll();
 
         assertThat(vesAlarm.getEventName(), equalTo(vesAlarms.get(0).getEventName()));

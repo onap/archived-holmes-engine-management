@@ -21,7 +21,7 @@ server:
   connector:
     type: https
     port: 9102
-    keyStorePath: /home/holmes/conf/holmes.keystore
+    keyStorePath: /opt/onap/conf/holmes.keystore
     keyStorePassword: holmes
     validateCerts: false
     validatePeers: false

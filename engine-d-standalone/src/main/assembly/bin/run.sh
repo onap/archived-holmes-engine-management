@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright 2017 ZTE Corporation.
+# Copyright 2017-2020 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ JAVA="$JAVA_HOME/bin/java"
 echo @JAVA@ $JAVA
 main_path=$RUNHOME/..
 cd $main_path
-JAVA_OPTS="-Xms128m -Xmx512m"
+JAVA_OPTS="-Xms256m -Xmx1g"
 port=8312
-#JAVA_OPTS="$JAVA_OPTS -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=$port,server=y,suspend=n"
+#JAVA_OPTS="$JAVA_OPTS -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=*:$port,server=y,suspend=n"
 echo @JAVA_OPTS@ $JAVA_OPTS
 
-class_path="$main_path/:$main_path/holmes-engine-d.jar"
+class_path="$main_path/lib/*"
 echo @class_path@ $class_path
 
 if [ -z ${JDBC_USERNAME} ]; then
@@ -55,7 +55,7 @@ sed -i "s|password:.*|password: $JDBC_PASSWORD|" "$main_path/conf/engine-d.yml"
 export SERVICE_IP=`hostname -i`
 echo SERVICE_IP=${SERVICE_IP}
 
-if [ ! -z ${TESTING} ] && [ ${TESTING} == 1 ]; then
+if [ ! -z ${TESTING} -a ${TESTING} = 1 ]; then
     if [ ! -z ${HOST_IP} ]; then
         export HOSTNAME=${HOST_IP}:9102
     else
@@ -64,7 +64,7 @@ if [ ! -z ${TESTING} ] && [ ${TESTING} == 1 ]; then
 fi
 
 export DB_PORT=5432
-if [ ! -z ${URL_JDBC} ] && [ `expr index $URL_JDBC :` != 0 ]; then
+if [ ! -z ${URL_JDBC} -a `expr index $URL_JDBC :` != 0 ]; then
     export DB_PORT="${URL_JDBC##*:}"
 fi
 echo DB_PORT=$DB_PORT
@@ -74,13 +74,13 @@ if [ -z ${ENABLE_ENCRYPT} ]; then
 fi
 echo ENABLE_ENCRYPT=$ENABLE_ENCRYPT
 
-KEY_PATH="/home/holmes/conf/holmes.keystore"
+KEY_PATH="/opt/onap/conf/holmes.keystore"
 KEY_PASSWORD="holmes"
 #HTTPS Configurations
 sed -i "s|keyStorePath:.*|keyStorePath: $KEY_PATH|" "$main_path/conf/engine-d.yml"
 sed -i "s|keyStorePassword:.*|keyStorePassword: $KEY_PASSWORD|" "$main_path/conf/engine-d.yml"
 
-if [ ${ENABLE_ENCRYPT} == true ]; then
+if [ ${ENABLE_ENCRYPT} = true ]; then
     sed -i "s|type:\s*https\?$|type: https|" "$main_path/conf/engine-d.yml"
     sed -i "s|#\?keyStorePath|keyStorePath|" "$main_path/conf/engine-d.yml"
     sed -i "s|#\?keyStorePassword|keyStorePassword|" "$main_path/conf/engine-d.yml"
