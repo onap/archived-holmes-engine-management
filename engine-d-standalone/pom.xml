@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright 2017 ZTE Corporation.
+    Copyright 2017-2020 ZTE Corporation.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -36,8 +36,33 @@
         <build.number>${maven.build.timestamp}</build.number>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.holmes.engine-management</groupId>
+            <artifactId>holmes-engine-d</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>${linux64outputdir}/lib</outputDirectory>
+                    <includeScope>runtime</includeScope>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
@@ -58,33 +83,6 @@
                                     </includes>
                                     <excludes>
                                         <exclude>**/*.bat</exclude>
-                                    </excludes>
-                                </resource>
-                                <resource>
-                                    <directory>../engine-d/src/main/resources</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-resources-${win64id}</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${win64outputdir}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/assembly/</directory>
-                                    <filtering>false</filtering>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>**/*.sh</exclude>
                                     </excludes>
                                 </resource>
                                 <resource>
@@ -119,50 +117,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-jar-${linux64id}</id>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.onap.holmes.engine-management</groupId>
-                                    <artifactId>holmes-engine-d</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${linux64outputdir}</outputDirectory>
-                                    <destFileName>holmes-engine-d.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-jar-${win64id}</id>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.onap.holmes.engine-management</groupId>
-                                    <artifactId>holmes-engine-d</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${win64outputdir}</outputDirectory>
-                                    <destFileName>holmes-engine-d.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
@@ -179,25 +133,11 @@
                             <goal>attached</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>win64</id>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>win64-assembly.xml</descriptor>
-                            </descriptors>
-                            <appendAssemblyId>true</appendAssemblyId>
-                            <outputDirectory>target/version</outputDirectory>
-                        </configuration>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attached</goal>
-                        </goals>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -276,42 +216,4 @@
             </build>
         </profile>
     </profiles>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.onap.holmes.engine-management</groupId>
-            <artifactId>holmes-engine-d</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-validator</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-http</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-util</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-server</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-servlet</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    </dependencies>
 </project>
