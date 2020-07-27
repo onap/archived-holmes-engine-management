@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.onap.holmes.common.dmaap.store.ClosedLoopControlNameCache;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.engine.manager.DroolsEngine;
 import org.onap.holmes.engine.request.CompileRuleRequest;
@@ -36,13 +37,16 @@ import static org.easymock.EasyMock.*;
 public class EngineResourcesTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-    DroolsEngine droolsEngine;
+    private DroolsEngine droolsEngine;
     private EngineResources engineResources;
+    private ClosedLoopControlNameCache closedLoopControlNameCache;
 
     @Before
     public void setUp() {
         droolsEngine = PowerMock.createMock(DroolsEngine.class);
+        closedLoopControlNameCache = new ClosedLoopControlNameCache();
         engineResources = new EngineResources();
+        engineResources.setClosedLoopControlNameCache(closedLoopControlNameCache);
 
         Whitebox.setInternalState(engineResources,"droolsEngine", droolsEngine);
         PowerMock.resetAll();

@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.holmes.common.api.stat.Alarm;
-import org.onap.holmes.common.producer.MQProducer;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.reflect.Whitebox;
 
@@ -126,11 +125,5 @@ public class AlarmUtilTest {
 
         Integer priority = alarmUtil.getPriority(ruleId, probableCauseStr, rootAlarmFeatureStr, equipTypeStr, alarm);
         Assert.assertThat(priority,IsEqual.equalTo(1));
-    }
-
-    @Test
-    public void getMqProducer() {
-        MQProducer mqProducer = alarmUtil.getMqProducer();
-        Assert.assertThat(mqProducer, IsNull.<MQProducer>notNullValue());
     }
 }

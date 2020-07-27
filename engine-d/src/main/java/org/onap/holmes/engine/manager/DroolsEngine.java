@@ -26,16 +26,14 @@ import org.kie.api.builder.model.KieBaseModel;
 import org.kie.api.builder.model.KieModuleModel;
 import org.kie.api.builder.model.KieSessionModel;
 import org.kie.api.conf.EqualityBehaviorOption;
-import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.conf.ClockTypeOption;
 import org.kie.api.runtime.rule.FactHandle;
 import org.onap.holmes.common.api.entity.AlarmInfo;
 import org.onap.holmes.common.api.entity.CorrelationRule;
 import org.onap.holmes.common.api.stat.VesAlarm;
-import org.onap.holmes.common.dmaap.DmaapService;
+import org.onap.holmes.common.dmaap.store.ClosedLoopControlNameCache;
 import org.onap.holmes.common.exception.AlarmInfoException;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.DbDaoUtil;
@@ -56,19 +54,32 @@ import java.util.stream.Collectors;
 @Service
 public class DroolsEngine {
 
-    @Inject
-    private RuleMgtWrapper ruleMgtWrapper;
-    @Inject
-    private DbDaoUtil daoUtil;
-
     private final static int ENABLE = 1;
-    private AlarmInfoDao alarmInfoDao;
     private final Map<String, String> deployed = new ConcurrentHashMap<>();
+    private RuleMgtWrapper ruleMgtWrapper;
+    private DbDaoUtil daoUtil;
+    private ClosedLoopControlNameCache closedLoopControlNameCache;
+    private AlarmInfoDao alarmInfoDao;
     private KieServices ks = KieServices.Factory.get();
     private ReleaseId releaseId = ks.newReleaseId("org.onap.holmes", "rules", "1.0.0-SNAPSHOT");
     private ReleaseId compilationRelease = ks.newReleaseId("org.onap.holmes", "compilation", "1.0.0-SNAPSHOT");
     private KieContainer container;
     private KieSession session;
+
+    @Inject
+    public void setRuleMgtWrapper(RuleMgtWrapper ruleMgtWrapper) {
+        this.ruleMgtWrapper = ruleMgtWrapper;
+    }
+
+    @Inject
+    public void setDaoUtil(DbDaoUtil daoUtil) {
+        this.daoUtil = daoUtil;
+    }
+
+    @Inject
+    public void setClosedLoopControlNameCache(ClosedLoopControlNameCache closedLoopControlNameCache) {
+        this.closedLoopControlNameCache = closedLoopControlNameCache;
+    }
 
     @PostConstruct
     private void init() {
@@ -120,7 +131,7 @@ public class DroolsEngine {
         for (CorrelationRule rule : rules) {
             if (!StringUtils.isEmpty(rule.getContent())) {
                 deployRule(rule.getContent());
-                DmaapService.loopControlNames.put(rule.getPackageName(), rule.getClosedControlLoopName());
+                closedLoopControlNameCache.put(rule.getPackageName(), rule.getClosedControlLoopName());
             }
         }
 

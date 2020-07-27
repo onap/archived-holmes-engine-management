@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.common.api.stat.Alarm;
-import org.onap.holmes.common.producer.MQProducer;
 
 @Service
 public class AlarmUtil {
@@ -90,10 +89,5 @@ public class AlarmUtil {
         }
 
         rootPriorityMap.put(ruleId, map);
-    }
-
-    public MQProducer getMqProducer() {
-        MQProducer mqProducer = new MQProducer();
-        return mqProducer;
     }
 }

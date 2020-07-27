@@ -24,7 +24,6 @@ import org.onap.holmes.common.utils.HttpsUtils;
 import org.onap.holmes.common.utils.MSBRegisterUtil;
 import org.onap.holmes.common.utils.transactionid.TransactionIdFilter;
 import org.onap.holmes.engine.dcae.DcaeConfigurationPolling;
-import org.onap.holmes.engine.resources.EngineResources;
 import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
 import org.onap.msb.sdk.discovery.entity.Node;
 
@@ -47,7 +46,6 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
     public void run(EngineDAppConfig configuration, Environment environment) throws Exception {
         super.run(configuration, environment);
 
-        environment.jersey().register(new EngineResources());
         try {
             new MSBRegisterUtil().register2Msb(createMicroServiceInfo());
         } catch (CorrelationException e) {

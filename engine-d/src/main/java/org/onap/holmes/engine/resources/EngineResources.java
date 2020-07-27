@@ -20,23 +20,9 @@ import com.codahale.metrics.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import lombok.extern.slf4j.Slf4j;
 import org.jvnet.hk2.annotations.Service;
-import org.onap.holmes.common.dmaap.DmaapService;
+import org.onap.holmes.common.dmaap.store.ClosedLoopControlNameCache;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.ExceptionUtil;
 import org.onap.holmes.common.utils.LanguageUtil;
@@ -45,16 +31,30 @@ import org.onap.holmes.engine.request.CompileRuleRequest;
 import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.onap.holmes.engine.response.CorrelationRuleResponse;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 @Path("/rule")
 @Api(tags = {"Holmes Engine Management"})
 @Produces(MediaType.APPLICATION_JSON)
 @Slf4j
 public class EngineResources {
-	private Pattern packagePattern = Pattern.compile("package[\\s]+([^;]+)[;\\s]*");
-    
     @Inject
     DroolsEngine droolsEngine;
+	private Pattern packagePattern = Pattern.compile("package[\\s]+([^;]+)[;\\s]*");
+    private ClosedLoopControlNameCache closedLoopControlNameCache;
+
+    @Inject
+    public void setClosedLoopControlNameCache(ClosedLoopControlNameCache closedLoopControlNameCache) {
+        this.closedLoopControlNameCache = closedLoopControlNameCache;
+    }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -74,13 +74,13 @@ public class EngineResources {
             	throw new CorrelationException("Could not find package name in rule: "+deployRuleRequest.getContent());
             }
             
-            DmaapService.loopControlNames
+            closedLoopControlNameCache
                     .put(packageName, deployRuleRequest.getLoopControlName());
             String packageNameRet = droolsEngine.deployRule(deployRuleRequest);
             if (!packageName.equals(packageNameRet)) {
                 log.info("The parsed package name is different from that returned by the engine.");
-                DmaapService.loopControlNames.remove(packageName);
-                DmaapService.loopControlNames
+                closedLoopControlNameCache.remove(packageName);
+                closedLoopControlNameCache
                         .put(packageNameRet, deployRuleRequest.getLoopControlName());
             }
             log.info("Rule deployed. Package name: " + packageNameRet);
@@ -108,7 +108,7 @@ public class EngineResources {
 
         try {
             droolsEngine.undeployRule(packageName);
-            DmaapService.loopControlNames.remove(packageName);
+            closedLoopControlNameCache.remove(packageName);
         } catch (CorrelationException correlationException) {
             log.error(correlationException.getMessage(), correlationException);
             throw ExceptionUtil.buildExceptionResponse(correlationException.getMessage());

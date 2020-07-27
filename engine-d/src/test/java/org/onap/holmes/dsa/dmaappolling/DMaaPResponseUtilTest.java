@@ -15,14 +15,12 @@
  */
 package org.onap.holmes.dsa.dmaappolling;
 
-import com.alibaba.fastjson.JSONException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.onap.holmes.common.api.stat.AlarmAdditionalField;
 import org.onap.holmes.common.api.stat.VesAlarm;
-import org.onap.holmes.dsa.dmaappolling.DMaaPResponseUtil;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.io.IOException;
@@ -164,7 +162,7 @@ public class DMaaPResponseUtilTest {
     @Test
     public void testDMaaPResponseUtil_input_illegal() throws Exception {
         String json = "***";
-        thrown.expect(JSONException.class);
+        thrown.expect(Exception.class);
         dMaaPResponseUtil.convertJsonToVesAlarm(json);
     }
 
@@ -302,6 +300,10 @@ public class DMaaPResponseUtilTest {
 
         List<AlarmAdditionalField> alarmAdditionalFields = new ArrayList<>();
         AlarmAdditionalField alarmAdditionalField = new AlarmAdditionalField();
+        alarmAdditionalField.setName(null);
+        alarmAdditionalField.setValue("1111");
+        alarmAdditionalFields.add(alarmAdditionalField);
+        alarmAdditionalField = new AlarmAdditionalField();
         alarmAdditionalField.setName("tian");
         alarmAdditionalField.setValue("22222");
         alarmAdditionalFields.add(alarmAdditionalField);

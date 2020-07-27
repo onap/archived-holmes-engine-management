@@ -23,6 +23,7 @@ import org.junit.rules.ExpectedException;
 import org.onap.holmes.common.api.entity.AlarmInfo;
 import org.onap.holmes.common.api.entity.CorrelationRule;
 import org.onap.holmes.common.api.stat.VesAlarm;
+import org.onap.holmes.common.dmaap.store.ClosedLoopControlNameCache;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.DbDaoUtil;
 import org.onap.holmes.engine.db.AlarmInfoDao;
@@ -47,18 +48,21 @@ public class DroolsEngineTest {
 
     private RuleMgtWrapper ruleMgtWrapper;
 
-    private AlarmInfoDao alarmInfoDaoMock;
-
     private DroolsEngine droolsEngine;
 
     private DbDaoUtil dbDaoUtilStub;
+
+    private ClosedLoopControlNameCache closedLoopControlNameCache;
 
     public DroolsEngineTest() throws Exception {
         droolsEngine = new DroolsEngine();
         ruleMgtWrapper = new RuleMgtWrapperStub();
         dbDaoUtilStub = new DbDaoUtilStub();
-        Whitebox.setInternalState(droolsEngine, "daoUtil", dbDaoUtilStub);
-        Whitebox.setInternalState(droolsEngine, "ruleMgtWrapper", ruleMgtWrapper);
+        closedLoopControlNameCache = new ClosedLoopControlNameCache();
+        droolsEngine.setClosedLoopControlNameCache(closedLoopControlNameCache);
+        droolsEngine.setDaoUtil(dbDaoUtilStub);
+        droolsEngine.setRuleMgtWrapper(ruleMgtWrapper);
+
         Whitebox.invokeMethod(droolsEngine, "init");
     }
 
