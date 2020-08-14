@@ -273,7 +273,7 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
 
         <!-- Do NOT remove org.reflections:reflections. Otherwise, the docker will fail to start. -->
