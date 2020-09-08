@@ -25,7 +25,7 @@ meetings:
       url: 'https://wiki.onap.org/pages/viewpage.action?pageId=8231935'
       server: 'n/a'
       channel: 'n/a'
-      repeats: 'weekly'
+      repeats: 'ad hoc'
       time: '12:00 UTC'
 repositories:
     - 'holmes-common'
