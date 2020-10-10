@@ -33,6 +33,7 @@ import org.kie.api.runtime.rule.FactHandle;
 import org.onap.holmes.common.api.entity.AlarmInfo;
 import org.onap.holmes.common.api.entity.CorrelationRule;
 import org.onap.holmes.common.api.stat.VesAlarm;
+import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.holmes.common.dmaap.store.ClosedLoopControlNameCache;
 import org.onap.holmes.common.exception.AlarmInfoException;
 import org.onap.holmes.common.exception.CorrelationException;
@@ -65,6 +66,7 @@ public class DroolsEngine {
     private ReleaseId compilationRelease = ks.newReleaseId("org.onap.holmes", "compilation", "1.0.0-SNAPSHOT");
     private KieContainer container;
     private KieSession session;
+    private String instanceIp;
 
     @Inject
     public void setRuleMgtWrapper(RuleMgtWrapper ruleMgtWrapper) {
@@ -100,6 +102,7 @@ public class DroolsEngine {
             log.error("Failed to startup the engine of Holmes: " + e.getMessage(), e);
             throw ExceptionUtil.buildExceptionResponse("Failed to startup Drools!");
         }
+        instanceIp = MicroServiceConfig.getMicroServiceIpAndPort()[0];
     }
 
     public void stop() {
@@ -123,7 +126,11 @@ public class DroolsEngine {
     }
 
     private void initRules() throws CorrelationException {
-        List<CorrelationRule> rules = ruleMgtWrapper.queryRuleByEnable(ENABLE);
+        List<CorrelationRule> rules = ruleMgtWrapper.queryRuleByEnable(ENABLE)
+                .stream()
+                .filter(r -> r.getEngineInstance().equals(instanceIp))
+                .collect(Collectors.toList());
+
         if (rules.isEmpty()) {
             return;
         }

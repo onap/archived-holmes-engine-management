@@ -26,7 +26,7 @@ echo @JAVA@ $JAVA
 main_path=$RUNHOME/..
 cd $main_path
 JAVA_OPTS="-Xms256m -Xmx1g"
-port=8312
+port=9202
 #JAVA_OPTS="$JAVA_OPTS -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=*:$port,server=y,suspend=n"
 echo @JAVA_OPTS@ $JAVA_OPTS
 
@@ -96,7 +96,7 @@ fi
 
 cat "$main_path/conf/engine-d.yml"
 
-./bin/initDB.sh $JDBC_USERNAME $JDBC_PASSWORD $DB_NAME $DB_PORT "${URL_JDBC%:*}"
+${RUNHOME}/initDB.sh $JDBC_USERNAME $JDBC_PASSWORD $DB_NAME $DB_PORT "${URL_JDBC%:*}"
 
 "$JAVA" $JAVA_OPTS -classpath "$class_path" org.onap.holmes.engine.EngineDActiveApp server "$main_path/conf/engine-d.yml"
 
