@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 ZTE Corporation.
+ * Copyright 2017-2020 ZTE Corporation.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.junit.rules.ExpectedException;
 import org.onap.holmes.common.api.entity.AlarmInfo;
 import org.onap.holmes.common.api.entity.CorrelationRule;
 import org.onap.holmes.common.api.stat.VesAlarm;
+import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.holmes.common.dmaap.store.ClosedLoopControlNameCache;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.DbDaoUtil;
@@ -55,6 +56,7 @@ public class DroolsEngineTest {
     private ClosedLoopControlNameCache closedLoopControlNameCache;
 
     public DroolsEngineTest() throws Exception {
+        System.setProperty(MicroServiceConfig.HOSTNAME, "127.0.0.1:80");
         droolsEngine = new DroolsEngine();
         ruleMgtWrapper = new RuleMgtWrapperStub();
         dbDaoUtilStub = new DbDaoUtilStub();
@@ -64,6 +66,7 @@ public class DroolsEngineTest {
         droolsEngine.setRuleMgtWrapper(ruleMgtWrapper);
 
         Whitebox.invokeMethod(droolsEngine, "init");
+        System.clearProperty(MicroServiceConfig.HOSTNAME);
     }
 
     @Before
