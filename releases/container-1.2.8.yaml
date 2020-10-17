@@ -1,0 +1,9 @@
+---
+distribution_type: 'container'
+container_release_tag: '1.2.8'
+project: 'holmes-engine-management'
+log_dir: 'holmes-engine-management-master-docker-java-daily/1279'
+ref: 1d6126005b3d1662c89c7a0066e8117d79d90d08
+containers:
+  - name: holmes/engine-management
+    version: 1.2.8-STAGING-20201017T000840Z
