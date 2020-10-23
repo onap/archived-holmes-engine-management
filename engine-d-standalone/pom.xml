@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.onap.holmes.engine-management</groupId>
         <artifactId>holmes-engine-parent</artifactId>
-        <version>1.2.8-SNAPSHOT</version>
+        <version>1.2.9-SNAPSHOT</version>
     </parent>
 
     <artifactId>holmes-engine-d-standalone</artifactId>
