@@ -1,6 +1,6 @@
 ---
 distribution_type: 'container'
-container_release_tag: '1.2.8'
+container_release_tag: '1.2.9'
 project: 'holmes-engine-management'
 log_dir: 'holmes-engine-management-master-docker-java-daily/1286'
 ref: cd29807dd92dd658ac5e0bc8840775121e4458e4
