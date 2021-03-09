@@ -25,9 +25,14 @@ host=$5
 echo "Initializing the holmes engine management database..."
 main_path=$HOME/..
 
-sed -i "s|DBNAME|$dbname|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
-sed -i "s|DBUSER|$user|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
-sed -i "s|DBPWD|$password|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
+# if deployed using helm, use the helm-generated configuration file.
+if [[ -d /opt/hemconfig ]]; then
+    cp /opt/hemconfig/onap-holmes_engine-createobj.sql "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
+else
+    sed -i "s|DBNAME|$dbname|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
+    sed -i "s|DBUSER|$user|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
+    sed -i "s|DBPWD|$password|g" "$main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql"
+fi
 
 cat $main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql
 
@@ -37,11 +42,19 @@ echo "password=$password"
 echo "port=$port"
 echo "host=$host"
 
-export PGPASSWORD=$password
-psql -U $user -p $port -h $host -d $dbname -f $main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql
-psql -U $user -p $port -h $host -d $dbname --command 'select * from alarm_info;'
+if [[ -z `env | grep PGPASSWORD` ]]; then
+    export PGPASSWORD=$password
+    need_unset=1
+fi
+
+psql -U "$user" -p "$port" -h "$host" -d "$dbname" -f $main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql
+psql -U "$user" -p "$port" -h "$host" -d "$dbname" --command 'select * from alarm_info;'
 sql_result=$?
-unset PGPASSWORD
+
+if [[ $need_unset -eq 1 ]]; then
+    unset PGPASSWORD
+fi
+
 echo "sql_result=$sql_result"
 if [ $sql_result != 0 ] ; then
    echo "Failed to initialize the database!"
