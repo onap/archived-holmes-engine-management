@@ -49,7 +49,7 @@ if [ -z ${DB_NAME} ]; then
 fi
 
 # if deployed using helm, use the helm-generated configuration file.
-if [[ -d /opt/hemconfig ]]; then
+if [ -d /opt/hemconfig ]; then
     cp /opt/hemconfig/engine-d.yml "$main_path/conf/engine-d.yml"
 else
     sed -i "s|url:.*|url: jdbc:postgresql://$URL_JDBC/$DB_NAME|" "$main_path/conf/engine-d.yml"
