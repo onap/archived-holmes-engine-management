@@ -60,7 +60,7 @@ fi
 export SERVICE_IP=`hostname -i`
 echo SERVICE_IP=${SERVICE_IP}
 
-if [ ! -z ${TESTING} -a ${TESTING} = 1 ]; then
+if [ ! -z ${TESTING} ] && [ ${TESTING} = 1 ]; then
     if [ ! -z ${HOST_IP} ]; then
         export HOSTNAME=${HOST_IP}:9102
     else
@@ -69,7 +69,7 @@ if [ ! -z ${TESTING} -a ${TESTING} = 1 ]; then
 fi
 
 export DB_PORT=5432
-if [ ! -z ${URL_JDBC} -a `expr index $URL_JDBC :` != 0 ]; then
+if [ ! -z ${URL_JDBC} ] && [ `expr index $URL_JDBC :` != 0 ]; then
     export DB_PORT="${URL_JDBC##*:}"
 fi
 echo DB_PORT=$DB_PORT
