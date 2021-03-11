@@ -51,7 +51,7 @@ psql -U "$user" -p "$port" -h "$host" -d "$dbname" -f $main_path/dbscripts/postg
 psql -U "$user" -p "$port" -h "$host" -d "$dbname" --command 'select * from alarm_info;'
 sql_result=$?
 
-if [ $need_unset = 1 ]; then
+if [ "$need_unset"x == "1"x ]; then
     unset PGPASSWORD
 fi
 
