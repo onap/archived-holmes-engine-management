@@ -47,8 +47,8 @@ if [ -z `env | grep PGPASSWORD` ]; then
     need_unset=1
 fi
 
-psql -U "$user" -p "$port" -h "$host" -d "$dbname" -f $main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql
-psql -U "$user" -p "$port" -h "$host" -d "$dbname" --command 'select * from alarm_info;'
+psql -U "'$user'" -p "'$port'" -h "'$host'" -d "'$dbname'" -f $main_path/dbscripts/postgresql/onap-holmes_engine-createobj.sql
+psql -U "'$user'" -p "'$port'" -h "'$host'" -d "'$dbname'" --command 'select * from alarm_info;'
 sql_result=$?
 
 if [ "$need_unset"x == "1"x ]; then
