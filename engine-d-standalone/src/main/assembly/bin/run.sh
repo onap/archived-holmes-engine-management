@@ -81,6 +81,15 @@ echo ENABLE_ENCRYPT=$ENABLE_ENCRYPT
 
 KEY_PATH="/opt/onap/conf/holmes.keystore"
 KEY_PASSWORD="holmes"
+
+if [ -f "/opt/app/osaaf/local/org.onap.holmes-engine-mgmt.p12" ]; then
+    KEY_PATH="/opt/app/osaaf/local/org.onap.holmes-engine-mgmt.p12"
+    KEY_PASSWORD=`head -n1 "/opt/app/osaaf/local/mycreds.prop" | cut -d= -f2`
+fi
+
+echo "KEY_PATH=$KEY_PATH"
+echo "KEY_PASS=$KEY_PASSWORD"
+
 #HTTPS Configurations
 sed -i "s|keyStorePath:.*|keyStorePath: $KEY_PATH|" "$main_path/conf/engine-d.yml"
 sed -i "s|keyStorePassword:.*|keyStorePassword: $KEY_PASSWORD|" "$main_path/conf/engine-d.yml"
