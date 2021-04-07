@@ -57,7 +57,7 @@ else
     sed -i "s|password:.*|password: $JDBC_PASSWORD|" "$main_path/conf/engine-d.yml"
 fi
 
-export SERVICE_IP=`hostname -i`
+export SERVICE_IP=`hostname -i | awk '{print $1}'`
 echo SERVICE_IP=${SERVICE_IP}
 
 if [ ! -z ${TESTING} ] && [ ${TESTING} = 1 ]; then
