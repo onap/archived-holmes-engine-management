@@ -1,0 +1,9 @@
+---
+distribution_type: 'container'
+container_release_tag: '1.3.3'
+project: 'holmes-engine-management'
+log_dir: 'holmes-engine-management-master-docker-java-daily/1462'
+ref: a836cf3d744580acd03718c5efbe068c3ecb7e4c
+containers:
+  - name: holmes/engine-management
+    version: 1.3.3-STAGING-20210407T030806Z
