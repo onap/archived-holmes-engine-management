@@ -19,18 +19,13 @@ package org.onap.holmes.dsa.dmaappolling;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
 import org.onap.holmes.common.exception.CorrelationException;
-import org.onap.holmes.common.utils.GsonUtil;
-import org.onap.holmes.common.utils.HttpsUtils;
+import org.onap.holmes.common.utils.JerseyClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -83,27 +78,11 @@ public class Subscriber {
     }
 
     private List<String> getDMaaPData() throws Exception {
-        String response;
-        CloseableHttpClient closeableHttpClient = null;
-        HttpGet httpGet = new HttpGet(url + "/" + consumerGroup + "/" + consumer + "?timeout=" + period);
-        try {
-            closeableHttpClient = HttpsUtils.getConditionalHttpsClient(timeout);
-            HttpResponse httpResponse = HttpsUtils
-                    .get(httpGet, new HashMap<>(), closeableHttpClient);
-            response = HttpsUtils.extractResponseEntity(httpResponse);
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            httpGet.releaseConnection();
-            if (closeableHttpClient != null) {
-                try {
-                    closeableHttpClient.close();
-                } catch (IOException e) {
-                    log.warn("Failed to close http client!");
-                }
-            }
-        }
-        return GsonUtil.jsonToBean(response, List.class);
+        return new JerseyClient()
+                .path(consumerGroup)
+                .path(consumer)
+                .queryParam("timeout", period)
+                .get(url, List.class);
     }
 
     private List<VesAlarm> extractVesAlarm(List<String> responseEntity) throws IOException {

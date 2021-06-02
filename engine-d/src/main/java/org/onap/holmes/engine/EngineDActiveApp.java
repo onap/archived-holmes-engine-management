@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 ZTE Corporation.
+ * Copyright 2017-2021 ZTE Corporation.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import io.dropwizard.setup.Environment;
 import lombok.extern.slf4j.Slf4j;
 import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.holmes.common.dropwizard.ioc.bundle.IOCApplication;
+import org.onap.holmes.common.utils.CommonUtils;
 import org.onap.holmes.common.utils.transactionid.TransactionIdFilter;
 import org.onap.holmes.engine.dcae.DcaeConfigurationPolling;
 
@@ -42,7 +43,7 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
         if (!"1".equals(System.getenv("TESTING"))) {
             ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
             service.scheduleAtFixedRate(
-                    new DcaeConfigurationPolling(MicroServiceConfig.getEnv(MicroServiceConfig.HOSTNAME)), 0,
+                    new DcaeConfigurationPolling(CommonUtils.getEnv(MicroServiceConfig.HOSTNAME)), 0,
                     DcaeConfigurationPolling.POLLING_PERIOD, TimeUnit.MILLISECONDS);
         }
 

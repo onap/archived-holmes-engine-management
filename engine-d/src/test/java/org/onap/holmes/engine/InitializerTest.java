@@ -22,13 +22,11 @@ import org.onap.holmes.common.utils.MsbRegister;
 import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.internal.WhiteboxImpl;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(MicroServiceConfig.class)
-@SuppressStaticInitializationFor("org.onap.holmes.common.utils.HttpsUtils")
 public class InitializerTest {
 
     @Test
@@ -38,7 +36,7 @@ public class InitializerTest {
 
         PowerMock.mockStaticPartial(MicroServiceConfig.class, "getMicroServiceIpAndPort", "getEnv");
         EasyMock.expect(MicroServiceConfig.getMicroServiceIpAndPort()).andReturn(new String[]{"127.0.0.1", "443"});
-        EasyMock.expect(MicroServiceConfig.getEnv("ENABLE_ENCRYPT")).andReturn("true");
+        System.setProperty("ENABLE_ENCRYPT", "true");
 
         mockedMsbRegister.register2Msb(EasyMock.anyObject(MicroServiceInfo.class));
         EasyMock.expectLastCall();
