@@ -15,48 +15,49 @@
  */
 package org.onap.holmes.dsa.dmaappolling;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.easymock.EasyMock;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.onap.holmes.common.api.stat.AlarmAdditionalField;
 import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
-import org.onap.holmes.common.utils.GsonUtil;
-import org.onap.holmes.common.utils.HttpsUtils;
+import org.onap.holmes.common.exception.CorrelationException;
+import org.onap.holmes.common.utils.JerseyClient;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import static org.easymock.EasyMock.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ServiceLocatorHolder.class, ServiceLocator.class, HttpsUtils.class, Subscriber.class})
+@PrepareForTest({ServiceLocatorHolder.class, ServiceLocator.class, Subscriber.class})
 @PowerMockIgnore("javax.net.ssl.*")
 public class SubscriberTest {
 
     private DMaaPResponseUtil util = new DMaaPResponseUtil();
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Before
     public void init() {
         PowerMock.mockStatic(ServiceLocatorHolder.class);
         ServiceLocator serviceLocator = PowerMock.createMock(ServiceLocator.class);
-        EasyMock.expect(ServiceLocatorHolder.getLocator()).andReturn(serviceLocator).anyTimes();
-        EasyMock.expect(serviceLocator.getService(DMaaPResponseUtil.class)).andReturn(util).anyTimes();
+        expect(ServiceLocatorHolder.getLocator()).andReturn(serviceLocator).anyTimes();
+        expect(serviceLocator.getService(DMaaPResponseUtil.class)).andReturn(util).anyTimes();
     }
 
     @Test
-    public void subscribe() throws Exception {
+    public void subscribe_normal() throws Exception {
         VesAlarm vesAlarm = new VesAlarm();
         vesAlarm.setDomain("ONAP");
         vesAlarm.setEventId("123");
@@ -119,17 +120,12 @@ public class SubscriberTest {
 
         List<String> responseList = new ArrayList<>();
         responseList.add(eventString);
-        String responseJson = GsonUtil.beanToJson(responseList);
 
-        PowerMock.mockStatic(HttpsUtils.class);
-        CloseableHttpClient mockedCloseableHttpClient = PowerMock.createMock(CloseableHttpClient.class);
-        HttpResponse httpResponse = PowerMock.createMock(HttpResponse.class);
-        EasyMock.expect(HttpsUtils.getConditionalHttpsClient(15000)).andReturn(mockedCloseableHttpClient);
-        EasyMock.expect(HttpsUtils.get(EasyMock.anyObject(HttpGet.class),
-                EasyMock.anyObject(HashMap.class), EasyMock.anyObject(CloseableHttpClient.class))).andReturn(httpResponse);
-        EasyMock.expect(HttpsUtils.extractResponseEntity(httpResponse)).andReturn(responseJson);
-        mockedCloseableHttpClient.close();
-        EasyMock.expectLastCall();
+        JerseyClient mockedClient = PowerMock.createMock(JerseyClient.class);
+        PowerMock.expectNew(JerseyClient.class).andReturn(mockedClient);
+        expect(mockedClient.path(anyString())).andReturn(mockedClient).times(2);
+        expect(mockedClient.queryParam(anyString(), anyInt())).andReturn(mockedClient);
+        expect(mockedClient.get(anyString(), anyObject())).andReturn(responseList);
 
         PowerMock.replayAll();
 
@@ -142,6 +138,91 @@ public class SubscriberTest {
         PowerMock.verifyAll();
 
         assertThat(vesAlarm.getEventName(), equalTo(vesAlarms.get(0).getEventName()));
+    }
+
+    @Test
+    public void subscribe_retrieve_data_exception() throws Exception {
+        thrown.expect(CorrelationException.class);
+        thrown.expectMessage("Failed to get data from DMaaP.");
+
+        VesAlarm vesAlarm = new VesAlarm();
+        vesAlarm.setDomain("ONAP");
+        vesAlarm.setEventId("123");
+        vesAlarm.setEventName("Event-123");
+        vesAlarm.setEventType("EventType");
+        vesAlarm.setLastEpochMicrosec(1000L);
+        vesAlarm.setNfcNamingCode("123");
+        vesAlarm.setNfNamingCode("123");
+        vesAlarm.setPriority("high");
+        vesAlarm.setReportingEntityId("ID-123");
+        vesAlarm.setReportingEntityName("Name-123");
+        vesAlarm.setSequence(1);
+        vesAlarm.setSourceId("Source-123");
+        vesAlarm.setSourceName("Source-123");
+        vesAlarm.setStartEpochMicrosec(500L);
+        vesAlarm.setVersion(1L);
+        List<AlarmAdditionalField> alarmAdditionalFields = new ArrayList<>();
+        AlarmAdditionalField field = new AlarmAdditionalField();
+        field.setName("addInfo");
+        field.setValue("addInfo");
+        alarmAdditionalFields.add(field);
+        vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
+        vesAlarm.setAlarmCondition("alarmCondition");
+        vesAlarm.setAlarmInterfaceA("alarmInterfaceA");
+        vesAlarm.setEventCategory("eventCategory");
+        vesAlarm.setEventSeverity("eventSeverity");
+        vesAlarm.setEventSourceType("eventSourceType");
+        vesAlarm.setFaultFieldsVersion(1L);
+        vesAlarm.setSpecificProblem("specificProblem");
+        vesAlarm.setVfStatus("vfStatus");
+
+        String eventString = "{\"event\": {\"commonEventHeader\": {" +
+                "\"domain\": \"ONAP\"," +
+                "\"eventId\": \"123\"," +
+                "\"eventName\": \"Event-123\"," +
+                "\"eventType\": \"EventType\"," +
+                "\"lastEpochMicrosec\": 1000," +
+                "\"nfcNamingCode\": \"123\"," +
+                "\"nfNamingCode\": \"123\"," +
+                "\"priority\": \"high\"," +
+                "\"reportingEntityId\": \"ID-123\"," +
+                "\"reportingEntityName\": \"Name-123\"," +
+                "\"sequence\": 1," +
+                "\"sourceId\": \"Source-123\"," +
+                "\"sourceName\": \"Source-123\"," +
+                "\"startEpochMicrosec\": 500," +
+                "\"version\": 1" +
+                "}," +
+                " \"faultFields\" : {" +
+                "\"alarmAdditionalInformation\": [{\"name\":\"addInfo\", \"value\":\"addInfo\"}]," +
+                "\"alarmCondition\": \"alarmCondition\"," +
+                "\"alarmInterfaceA\": \"alarmInterfaceA\"," +
+                "\"eventCategory\": \"eventCategory\"," +
+                "\"eventSeverity\": \"eventSeverity\"," +
+                "\"eventSourceType\": \"eventSourceType\"," +
+                "\"faultFieldsVersion\": 1," +
+                "\"specificProblem\": \"specificProblem\"," +
+                "\"vfStatus\": \"vfStatus\"" +
+                "}}}";
+
+        List<String> responseList = new ArrayList<>();
+        responseList.add(eventString);
+
+        JerseyClient mockedClient = PowerMock.createMock(JerseyClient.class);
+        PowerMock.expectNew(JerseyClient.class).andReturn(mockedClient);
+        expect(mockedClient.path(anyString())).andReturn(mockedClient).times(2);
+        expect(mockedClient.queryParam(anyString(), anyInt())).andReturn(mockedClient);
+        expect(mockedClient.get(anyString(), anyObject())).andThrow(new RuntimeException());
+
+        PowerMock.replayAll();
+
+        Subscriber subscriber = new Subscriber();
+        subscriber.setUrl("https://www.onap.org");
+        subscriber.setConsumerGroup("group");
+        subscriber.setConsumer("consumer");
+        List<VesAlarm> vesAlarms = subscriber.subscribe();
+
+        PowerMock.verifyAll();
     }
 
     @Test
