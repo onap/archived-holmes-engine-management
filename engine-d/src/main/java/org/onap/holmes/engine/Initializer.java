@@ -18,7 +18,7 @@ package org.onap.holmes.engine;
 
 import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.common.exception.CorrelationException;
-import org.onap.holmes.common.utils.HttpsUtils;
+import org.onap.holmes.common.utils.CommonUtils;
 import org.onap.holmes.common.utils.MsbRegister;
 import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
 import org.onap.msb.sdk.discovery.entity.Node;
@@ -30,7 +30,9 @@ import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.onap.holmes.common.config.MicroServiceConfig.*;
+import static org.onap.holmes.common.config.MicroServiceConfig.getMicroServiceIpAndPort;
+import static org.onap.holmes.common.utils.CommonUtils.getEnv;
+import static org.onap.holmes.common.utils.CommonUtils.isIpAddress;
 
 @Service
 public class Initializer {
@@ -61,13 +63,13 @@ public class Initializer {
         msinfo.setProtocol("REST");
         msinfo.setVisualRange("0|1");
         msinfo.setLb_policy("round-robin");
-        msinfo.setEnable_ssl(HttpsUtils.isHttpsEnabled());
+        msinfo.setEnable_ssl(CommonUtils.isHttpsEnabled());
         Set<Node> nodes = new HashSet<>();
         Node node = new Node();
         node.setIp(isIpAddress(serviceIpAndPort[0]) ? serviceIpAndPort[0] : getEnv("HOLMES_ENGINE_MGMT_SERVICE_HOST"));
         node.setPort("9102");
         /* Following codes will cause an unregistration from MSB (due to MSB malfunction), comment them for now
-        String msbAddrTemplate = (HttpsUtils.isHttpsEnabled() ? "https" : "http")
+        String msbAddrTemplate = (CommonUtils.isHttpsEnabled() ? "https" : "http")
                 + "://%s:%s/api/holmes-engine-mgmt/v1/healthcheck";
         node.setCheckType("HTTP");
         node.setCheckUrl(String.format(msbAddrTemplate, serviceAddrInfo[0], "9102"));
