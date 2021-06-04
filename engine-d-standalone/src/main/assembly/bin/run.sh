@@ -94,7 +94,7 @@ echo "KEY_PASS=$KEY_PASSWORD"
 sed -i "s|keyStorePath:.*|keyStorePath: $KEY_PATH|" "$main_path/conf/engine-d.yml"
 sed -i "s|keyStorePassword:.*|keyStorePassword: $KEY_PASSWORD|" "$main_path/conf/engine-d.yml"
 
-if [ ${ENABLE_ENCRYPT} = true ]; then
+if [ "${ENABLE_ENCRYPT}"x = "true"x ]; then
     sed -i "s|type:\s*https\?$|type: https|" "$main_path/conf/engine-d.yml"
     sed -i "s|#\?keyStorePath|keyStorePath|" "$main_path/conf/engine-d.yml"
     sed -i "s|#\?keyStorePassword|keyStorePassword|" "$main_path/conf/engine-d.yml"
