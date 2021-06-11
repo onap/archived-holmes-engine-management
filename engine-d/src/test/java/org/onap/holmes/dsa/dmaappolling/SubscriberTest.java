@@ -39,7 +39,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ServiceLocatorHolder.class, ServiceLocator.class, Subscriber.class})
+@PrepareForTest({ServiceLocatorHolder.class, ServiceLocator.class})
 @PowerMockIgnore("javax.net.ssl.*")
 public class SubscriberTest {
 
