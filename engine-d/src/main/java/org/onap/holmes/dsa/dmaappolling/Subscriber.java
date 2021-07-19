@@ -77,15 +77,15 @@ public class Subscriber {
         }
     }
 
-    private List<String> getDMaaPData() throws Exception {
-        return new JerseyClient()
+    private List<String> getDMaaPData() {
+        return JerseyClient.newInstance()
                 .path(consumerGroup)
                 .path(consumer)
                 .queryParam("timeout", period)
                 .get(url, List.class);
     }
 
-    private List<VesAlarm> extractVesAlarm(List<String> responseEntity) throws IOException {
+    private List<VesAlarm> extractVesAlarm(List<String> responseEntity) {
         List<VesAlarm> vesAlarmList = new ArrayList<>();
         for (String entity : responseEntity) {
             vesAlarmList.add(dMaaPResponseUtil.convertJsonToVesAlarm(entity));

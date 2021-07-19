@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 ZTE Corporation.
+ * Copyright 2017-2021 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ServiceLocatorHolder.class, ServiceLocator.class, Subscriber.class})
+@PrepareForTest({ServiceLocatorHolder.class, JerseyClient.class})
 @PowerMockIgnore("javax.net.ssl.*")
 public class SubscriberTest {
 
@@ -220,7 +220,8 @@ public class SubscriberTest {
         subscriber.setUrl("https://www.onap.org");
         subscriber.setConsumerGroup("group");
         subscriber.setConsumer("consumer");
-        List<VesAlarm> vesAlarms = subscriber.subscribe();
+
+        subscriber.subscribe();
 
         PowerMock.verifyAll();
     }
