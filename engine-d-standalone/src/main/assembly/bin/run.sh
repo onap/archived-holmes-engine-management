@@ -1,7 +1,6 @@
-#!/bin/sh
-
+#!/usr/bin/env bash
 #
-# Copyright 2017-2020 ZTE Corporation.
+# Copyright 2017-2021 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
