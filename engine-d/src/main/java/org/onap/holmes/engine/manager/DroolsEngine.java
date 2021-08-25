@@ -86,6 +86,7 @@ public class DroolsEngine {
     @PostConstruct
     private void init() {
         alarmInfoDao = daoUtil.getJdbiDaoByOnDemand(AlarmInfoDao.class);
+        instanceIp = MicroServiceConfig.getMicroServiceIpAndPort()[0];
         try {
             log.info("Drools engine initializing...");
             initEngine();
@@ -102,7 +103,6 @@ public class DroolsEngine {
             log.error("Failed to startup the engine of Holmes: " + e.getMessage(), e);
             throw ExceptionUtil.buildExceptionResponse("Failed to startup Drools!");
         }
-        instanceIp = MicroServiceConfig.getMicroServiceIpAndPort()[0];
     }
 
     public void stop() {
