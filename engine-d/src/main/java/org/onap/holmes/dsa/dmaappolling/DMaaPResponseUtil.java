@@ -18,10 +18,13 @@ package org.onap.holmes.dsa.dmaappolling;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.jvnet.hk2.annotations.Service;
-import org.onap.holmes.common.api.stat.AlarmAdditionalField;
 import org.onap.holmes.common.api.stat.VesAlarm;
-
+import org.onap.holmes.common.api.stat.AlarmAdditionalField;
+import com.google.gson.Gson;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.onap.holmes.common.utils.GsonUtil.*;
@@ -52,8 +55,10 @@ public class DMaaPResponseUtil {
         vesAlarm.setEventName(getAsString(commonEventHeaderJson, "eventName"));
         vesAlarm.setAlarmIsCleared(vesAlarm.getEventName().endsWith("Cleared") ? 1 : 0);
         vesAlarm.setEventType(getAsString(commonEventHeaderJson, "eventType"));
-        vesAlarm.setInternalHeaderFields(getAsString(commonEventHeaderJson, "internalHeaderFields"));
-        vesAlarm.setLastEpochMicrosec(getAsLong(commonEventHeaderJson, "lastEpochMicrosec"));
+        if (commonEventHeaderJson.has("internalHeaderFields")) {
+            vesAlarm.setInternalHeaderFields(commonEventHeaderJson.getAsJsonObject("internalHeaderFields").toString());
+        }
+	vesAlarm.setLastEpochMicrosec(getAsLong(commonEventHeaderJson, "lastEpochMicrosec"));
         vesAlarm.setNfcNamingCode(getAsString(commonEventHeaderJson, "nfcNamingCode"));
         vesAlarm.setNfNamingCode(getAsString(commonEventHeaderJson, "nfNamingCode"));
         vesAlarm.setPriority(getAsString(commonEventHeaderJson, "priority"));
@@ -63,19 +68,43 @@ public class DMaaPResponseUtil {
         vesAlarm.setSourceId(getAsString(commonEventHeaderJson, "sourceId"));
         vesAlarm.setSourceName(getAsString(commonEventHeaderJson, "sourceName"));
         vesAlarm.setStartEpochMicrosec(getAsLong(commonEventHeaderJson, "startEpochMicrosec"));
-        vesAlarm.setVersion(getAsLong(commonEventHeaderJson, "version"));
+        vesAlarm.setVersion(getAsString(commonEventHeaderJson, "version"));
+	vesAlarm.setNfVendorName(getAsString(commonEventHeaderJson, "nfVendorName"));
+	if (commonEventHeaderJson.has("timeZoneOffset")) {
+	    TimeZone timeZone = TimeZone.getTimeZone(getAsString(commonEventHeaderJson, "timeZoneOffset"));
+	    vesAlarm.setTimeZoneOffset(timeZone);
+	}
+	if (commonEventHeaderJson.has("vesEventListenerVersion")) {
+            vesAlarm.setVesEventListenerVersion(getAsString(commonEventHeaderJson, "vesEventListenerVersion"));
+        } else {
+            vesAlarm.setVesEventListenerVersion(null);
+        }
     }
 
     private void convertFaultFieldsJsonToEvent(JsonObject faultFieldsJson, VesAlarm vesAlarm) {
-        vesAlarm.setAlarmAdditionalInformation(getListElementByNode(faultFieldsJson, "alarmAdditionalInformation"));
         vesAlarm.setAlarmCondition(getAsString(faultFieldsJson, "alarmCondition"));
         vesAlarm.setAlarmInterfaceA(getAsString(faultFieldsJson, "alarmInterfaceA"));
         vesAlarm.setEventCategory(getAsString(faultFieldsJson, "eventCategory"));
         vesAlarm.setEventSeverity(getAsString(faultFieldsJson, "eventSeverity"));
         vesAlarm.setEventSourceType(getAsString(faultFieldsJson, "eventSourceType"));
-        vesAlarm.setFaultFieldsVersion(getAsLong(faultFieldsJson, "faultFieldsVersion"));
+        vesAlarm.setFaultFieldsVersion(getAsString(faultFieldsJson, "faultFieldsVersion"));
         vesAlarm.setSpecificProblem(getAsString(faultFieldsJson, "specificProblem"));
         vesAlarm.setVfStatus(getAsString(faultFieldsJson, "vfStatus"));
+	//Support VES Specificatin 5.4
+	if ("2.0".equals(vesAlarm.getFaultFieldsVersion())) {
+	    List<AlarmAdditionalField> alarmAdditionalFieldList = getListElementByNode(faultFieldsJson, "alarmAdditionalInformation");
+	    Map<String, String> alarmAdditionalInformation  = new HashMap<String,String>();
+	    for (AlarmAdditionalField field: alarmAdditionalFieldList) {
+		 alarmAdditionalInformation.put(field.getName(),field.getValue());
+	    }
+	    vesAlarm.setAlarmAdditionalInformation(alarmAdditionalInformation);
+	} //Support VES Specification 7.1
+	else if(faultFieldsJson.has("alarmAdditionalInformation")) {
+	    JsonObject alarmAddInfo = JsonParser.parseString(faultFieldsJson.get("alarmAdditionalInformation").toString()).getAsJsonObject();
+    	    Gson gson = new Gson();
+	    Map map = gson.fromJson(alarmAddInfo, Map.class);
+	    vesAlarm.setAlarmAdditionalInformation(map);
+	}
     }
 
     private List<AlarmAdditionalField> getListElementByNode(JsonObject jsonNode, String name) {

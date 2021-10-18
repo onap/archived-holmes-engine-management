@@ -81,7 +81,7 @@ public class DMaaPAlarmPolling implements Runnable {
         }
     }
 
-    private AlarmInfo getAlarmInfo(VesAlarm vesAlarm) {
+    public AlarmInfo getAlarmInfo(VesAlarm vesAlarm) {
         AlarmInfo alarmInfo = new AlarmInfo();
         alarmInfo.setAlarmIsCleared(vesAlarm.getAlarmIsCleared());
         alarmInfo.setSourceName(vesAlarm.getSourceName());
