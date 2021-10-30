@@ -33,6 +33,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.easymock.EasyMock.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -73,19 +75,16 @@ public class SubscriberTest {
         vesAlarm.setSourceId("Source-123");
         vesAlarm.setSourceName("Source-123");
         vesAlarm.setStartEpochMicrosec(500L);
-        vesAlarm.setVersion(1L);
-        List<AlarmAdditionalField> alarmAdditionalFields = new ArrayList<>();
-        AlarmAdditionalField field = new AlarmAdditionalField();
-        field.setName("addInfo");
-        field.setValue("addInfo");
-        alarmAdditionalFields.add(field);
-        vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
-        vesAlarm.setAlarmCondition("alarmCondition");
+        vesAlarm.setVersion("4.0");
+        Map alarmAdditionalFields = new HashMap<String, String>();
+	alarmAdditionalFields.put("addInfo", "addInfo");
+	vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
+	vesAlarm.setAlarmCondition("alarmCondition");
         vesAlarm.setAlarmInterfaceA("alarmInterfaceA");
         vesAlarm.setEventCategory("eventCategory");
         vesAlarm.setEventSeverity("eventSeverity");
         vesAlarm.setEventSourceType("eventSourceType");
-        vesAlarm.setFaultFieldsVersion(1L);
+        vesAlarm.setFaultFieldsVersion("2.0");
         vesAlarm.setSpecificProblem("specificProblem");
         vesAlarm.setVfStatus("vfStatus");
 
@@ -104,16 +103,16 @@ public class SubscriberTest {
                 "\"sourceId\": \"Source-123\"," +
                 "\"sourceName\": \"Source-123\"," +
                 "\"startEpochMicrosec\": 500," +
-                "\"version\": 1" +
+                "\"version\": \"4.0\"" +
                 "}," +
                 " \"faultFields\" : {" +
-                "\"alarmAdditionalInformation\": [{\"name\":\"addInfo\", \"value\":\"addInfo\"}]," +
+                "\"alarmAdditionalInformatiddon\":[{\"name\":\"addInfo\", \"value\":\"addInfo\"}]," +
                 "\"alarmCondition\": \"alarmCondition\"," +
                 "\"alarmInterfaceA\": \"alarmInterfaceA\"," +
                 "\"eventCategory\": \"eventCategory\"," +
                 "\"eventSeverity\": \"eventSeverity\"," +
                 "\"eventSourceType\": \"eventSourceType\"," +
-                "\"faultFieldsVersion\": 1," +
+                "\"faultFieldsVersion\": \"2.0\"," +
                 "\"specificProblem\": \"specificProblem\"," +
                 "\"vfStatus\": \"vfStatus\"" +
                 "}}}";
@@ -160,19 +159,16 @@ public class SubscriberTest {
         vesAlarm.setSourceId("Source-123");
         vesAlarm.setSourceName("Source-123");
         vesAlarm.setStartEpochMicrosec(500L);
-        vesAlarm.setVersion(1L);
-        List<AlarmAdditionalField> alarmAdditionalFields = new ArrayList<>();
-        AlarmAdditionalField field = new AlarmAdditionalField();
-        field.setName("addInfo");
-        field.setValue("addInfo");
-        alarmAdditionalFields.add(field);
-        vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
-        vesAlarm.setAlarmCondition("alarmCondition");
+        vesAlarm.setVersion("4.0");
+        Map alarmAdditionalFields = new HashMap<String, String>();
+	alarmAdditionalFields.put("addInfo", "addInfo");
+	vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
+	vesAlarm.setAlarmCondition("alarmCondition");
         vesAlarm.setAlarmInterfaceA("alarmInterfaceA");
         vesAlarm.setEventCategory("eventCategory");
         vesAlarm.setEventSeverity("eventSeverity");
         vesAlarm.setEventSourceType("eventSourceType");
-        vesAlarm.setFaultFieldsVersion(1L);
+        vesAlarm.setFaultFieldsVersion("2.0");
         vesAlarm.setSpecificProblem("specificProblem");
         vesAlarm.setVfStatus("vfStatus");
 
@@ -191,7 +187,7 @@ public class SubscriberTest {
                 "\"sourceId\": \"Source-123\"," +
                 "\"sourceName\": \"Source-123\"," +
                 "\"startEpochMicrosec\": 500," +
-                "\"version\": 1" +
+                "\"version\": \"4.0\"" +
                 "}," +
                 " \"faultFields\" : {" +
                 "\"alarmAdditionalInformation\": [{\"name\":\"addInfo\", \"value\":\"addInfo\"}]," +
@@ -200,7 +196,7 @@ public class SubscriberTest {
                 "\"eventCategory\": \"eventCategory\"," +
                 "\"eventSeverity\": \"eventSeverity\"," +
                 "\"eventSourceType\": \"eventSourceType\"," +
-                "\"faultFieldsVersion\": 1," +
+                "\"faultFieldsVersion\": \"2.0\"," +
                 "\"specificProblem\": \"specificProblem\"," +
                 "\"vfStatus\": \"vfStatus\"" +
                 "}}}";
