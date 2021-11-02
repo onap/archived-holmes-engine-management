@@ -88,8 +88,13 @@ public class Subscriber {
     private List<VesAlarm> extractVesAlarm(List<String> responseEntity) {
         List<VesAlarm> vesAlarmList = new ArrayList<>();
         for (String entity : responseEntity) {
-            vesAlarmList.add(dMaaPResponseUtil.convertJsonToVesAlarm(entity));
-        }
+            try {
+       		vesAlarmList.add(dMaaPResponseUtil.convertJsonToVesAlarm(entity));
+       	    } catch (Exception e) {
+        	log.error("Failed to convert the response data to VES alarm ", e);
+        	//Continue with other events
+            }
+	}
         return vesAlarmList;
     }
 }
