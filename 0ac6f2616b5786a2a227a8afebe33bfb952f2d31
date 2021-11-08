@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f89698ee_b91e53ed",
+        "filename": "engine-d/src/main/java/org/onap/holmes/engine/dmaap/DMaaPAlarmPolling.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1515
+      },
+      "writtenOn": "2021-11-08T07:33:57Z",
+      "side": 1,
+      "message": "Hi Ventaka,\nI don\u0027t see you use the method anywhere. Why did you make it public? Did I miss anything?",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 52
+      },
+      "revId": "0ac6f2616b5786a2a227a8afebe33bfb952f2d31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
