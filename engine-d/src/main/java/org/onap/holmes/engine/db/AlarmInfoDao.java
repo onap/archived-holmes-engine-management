@@ -27,7 +27,7 @@ import java.util.List;
 public abstract class AlarmInfoDao {
 
     @GetGeneratedKeys
-    @SqlUpdate("INSERT INTO ALARM_INFO  (EVENTID,EVENTNAME,STARTEPOCHMICROSEC,SOURCEID,SOURCENAME,ALARMISCLEARED,ROOTFLAG,LASTEPOCHMICROSEC) VALUES (:eventId,:eventName,:startEpochMicroSec,:sourceId,:sourceName,:alarmIsCleared,:rootFlag,:lastEpochMicroSec)")
+    @SqlUpdate("INSERT INTO ALARM_INFO  (EVENTID,EVENTNAME,STARTEPOCHMICROSEC,SOURCEID,SOURCENAME,SEQUENCE,ALARMISCLEARED,ROOTFLAG,LASTEPOCHMICROSEC) VALUES (:eventId,:eventName,:startEpochMicroSec,:sourceId,:sourceName,:sequence,:alarmIsCleared,:rootFlag,:lastEpochMicroSec)")
     protected abstract String addAlarm(@BindBean AlarmInfo alarmInfo);
 
     @SqlQuery("SELECT * FROM ALARM_INFO")
