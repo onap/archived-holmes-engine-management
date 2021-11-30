@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Venkata Molluru <venkatamuralimohanreddy.molluru@techmahindra.com>
+Code-Review+2: Guangrong Fu <fu.guangrong@zte.com.cn>
+Submitted-by: Guangrong Fu <fu.guangrong@zte.com.cn>
+Submitted-at: Tue, 30 Nov 2021 02:00:13 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/holmes/engine-management/+/125599
+Project: holmes/engine-management
+Branch: refs/heads/istanbul
