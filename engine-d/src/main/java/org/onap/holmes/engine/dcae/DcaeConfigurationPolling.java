@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 ZTE Corporation.
+ * Copyright 2017 - 2021 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.onap.holmes.engine.dmaap.SubscriberAction;
 
 @Slf4j
+@Deprecated
 public class DcaeConfigurationPolling implements Runnable {
 
     private String hostname;

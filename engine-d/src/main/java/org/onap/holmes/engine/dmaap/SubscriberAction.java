@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 ZTE Corporation.
+ * Copyright 2017 - 2021 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,13 +39,18 @@ public class SubscriberAction {
 
     public synchronized void addSubscriber(Subscriber subscriber) {
         String topic = subscriber.getTopic();
-        if (topic != null && !pollingTasks.containsKey(topic)) {
+        if (topic != null) {
+            if (pollingTasks.containsKey(topic)) {
+                removeSubscriber(subscriber);
+            }
             AlarmInfoDao alarmInfoDao = daoUtil.getJdbiDaoByOnDemand(AlarmInfoDao.class);
             DMaaPAlarmPolling pollingTask = new DMaaPAlarmPolling(subscriber, droolsEngine, alarmInfoDao);
             Thread thread = new Thread(pollingTask);
             thread.start();
             pollingTasks.put(topic, pollingTask);
-            log.info("Subscribe to topic: " + subscriber.getUrl());
+            log.info("Subscribed to topic: " + subscriber.getUrl());
+        } else {
+            log.info("The topic is null. Operation aborted.");
         }
     }
 

@@ -44,7 +44,7 @@ public class DMaaPAlarmPolling implements Runnable {
 
     public void run() {
         while (isAlive) {
-            List<VesAlarm> vesAlarmList = new ArrayList<>();
+            List<VesAlarm> vesAlarmList;
             try {
                 vesAlarmList = subscriber.subscribe();
                 vesAlarmList.forEach(vesAlarm -> {

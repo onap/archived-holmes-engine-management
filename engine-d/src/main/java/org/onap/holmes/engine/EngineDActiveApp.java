@@ -17,11 +17,10 @@ package org.onap.holmes.engine;
 
 import io.dropwizard.setup.Environment;
 import lombok.extern.slf4j.Slf4j;
-import org.onap.holmes.common.config.MicroServiceConfig;
+import org.onap.holmes.common.ConfigFileScanner;
 import org.onap.holmes.common.dropwizard.ioc.bundle.IOCApplication;
-import org.onap.holmes.common.utils.CommonUtils;
 import org.onap.holmes.common.utils.transactionid.TransactionIdFilter;
-import org.onap.holmes.engine.dcae.DcaeConfigurationPolling;
+import org.onap.holmes.engine.dcae.ConfigFileScanningTask;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
@@ -40,12 +39,12 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
     public void run(EngineDAppConfig configuration, Environment environment) throws Exception {
         super.run(configuration, environment);
 
-        if (!"1".equals(System.getenv("TESTING"))) {
-            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-            service.scheduleAtFixedRate(
-                    new DcaeConfigurationPolling(CommonUtils.getEnv(MicroServiceConfig.HOSTNAME)), 0,
-                    DcaeConfigurationPolling.POLLING_PERIOD, TimeUnit.MILLISECONDS);
-        }
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(
+                new ConfigFileScanningTask(new ConfigFileScanner()), 60L,
+                ConfigFileScanningTask.POLLING_PERIOD, TimeUnit.SECONDS);
+
 
         environment.servlets().addFilter("logFilter", new TransactionIdFilter()).addMappingForUrlPatterns(EnumSet
                 .allOf(DispatcherType.class), true, "/*");
