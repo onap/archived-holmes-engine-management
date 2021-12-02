@@ -59,15 +59,18 @@ public class ConfigFileScanningTask implements Runnable {
             DcaeConfigurations dcaeConfigurations = null;
             try {
                 dcaeConfigurations = DcaeConfigurationParser.parse(entry.getValue().toString());
+                if (dcaeConfigurations != null) {
+                    DcaeConfigurationsCache.setDcaeConfigurations(dcaeConfigurations);
+                    addSubscribers(dcaeConfigurations);
+                }
             } catch (CorrelationException e) {
                 LOGGER.error(e.getMessage(), e);
+                // reset the value of the pre-md5 so that configs could be re-processed during the next scanning.
+                prevConfigMd5 = null;
             } catch (Exception e) {
                 LOGGER.warn("Failed to deal with the new configurations.", e);
-            }
-
-            if (dcaeConfigurations != null) {
-                DcaeConfigurationsCache.setDcaeConfigurations(dcaeConfigurations);
-                addSubscribers(dcaeConfigurations);
+                // reset the value of the pre-md5 so that configs could be re-processed during the next scanning.
+                prevConfigMd5 = null;
             }
         }
     }
