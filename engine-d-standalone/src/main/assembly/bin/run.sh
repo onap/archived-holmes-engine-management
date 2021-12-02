@@ -59,12 +59,10 @@ fi
 export SERVICE_IP=`hostname -i | awk '{print $1}'`
 echo SERVICE_IP=${SERVICE_IP}
 
-if [ ! -z ${TESTING} ] && [ ${TESTING} = 1 ]; then
-    if [ ! -z ${HOST_IP} ]; then
-        export HOSTNAME=${HOST_IP}:9102
-    else
-        export HOSTNAME=${SERVICE_IP}:9102
-    fi
+if [ ! -z ${HOST_IP} ]; then
+    export HOSTNAME=${HOST_IP}:9102
+else
+    export HOSTNAME=${SERVICE_IP}:9102
 fi
 
 export DB_PORT=5432
