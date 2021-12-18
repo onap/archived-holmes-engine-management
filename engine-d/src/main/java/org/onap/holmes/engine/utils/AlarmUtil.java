@@ -1,12 +1,12 @@
 /**
  * Copyright 2017 ZTE Corporation.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,12 +15,11 @@
  */
 package org.onap.holmes.engine.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.common.api.stat.Alarm;
 
-@Service
+import java.util.HashMap;
+import java.util.Map;
+
 public class AlarmUtil {
 
     private final static AlarmUtil alarmUtil = new AlarmUtil();
@@ -28,7 +27,7 @@ public class AlarmUtil {
      * Map<ruleId, <ProbableCause-EquipType, priority>>
      */
     private final Map<String, Map<String, Integer>> rootPriorityMap =
-        new HashMap<String, Map<String, Integer>>();
+            new HashMap<String, Map<String, Integer>>();
     /**
      * Map<rule, ProbableCause+EquipType+priority>
      */
@@ -49,7 +48,7 @@ public class AlarmUtil {
         String[] probableCauseStrs = probableCauseStr.replace(" ", "").split(",");
         for (int i = 0; i < probableCauseStrs.length; i++) {
             if (alarm.getProbableCause() == Long.parseLong(probableCauseStrs[i])
-                && alarm.getEquipType().equals(equipTypes[i])) {
+                    && alarm.getEquipType().equals(equipTypes[i])) {
                 return true;
             }
         }
@@ -57,10 +56,10 @@ public class AlarmUtil {
     }
 
     public Integer getPriority(String ruleId, String probableCauseStr, String rootAlarmFeatureStr,
-        String equipTypeStr, Alarm alarm) {
+                               String equipTypeStr, Alarm alarm) {
         if (rootPriorityMap.containsKey(ruleId)) {
             if (!saveRuleMsg.get(ruleId)
-                .equals(probableCauseStr + equipTypeStr + rootAlarmFeatureStr)) {
+                    .equals(probableCauseStr + equipTypeStr + rootAlarmFeatureStr)) {
                 setPriority(ruleId, probableCauseStr, rootAlarmFeatureStr, equipTypeStr);
             }
         } else {
@@ -68,7 +67,7 @@ public class AlarmUtil {
         }
 
         Integer priority =
-            rootPriorityMap.get(ruleId).get(alarm.getProbableCause() + "-" + alarm.getEquipType());
+                rootPriorityMap.get(ruleId).get(alarm.getProbableCause() + "-" + alarm.getEquipType());
         if (priority == null) {
             priority = 0;
         }
@@ -76,7 +75,7 @@ public class AlarmUtil {
     }
 
     private void setPriority(String ruleId, String probableCauseStr, String rootAlarmFeatureStr,
-        String equipTypeStr) {
+                             String equipTypeStr) {
         saveRuleMsg.put(ruleId, probableCauseStr + equipTypeStr + rootAlarmFeatureStr);
 
         Map<String, Integer> map = new HashMap<String, Integer>();
@@ -85,7 +84,7 @@ public class AlarmUtil {
         String[] equipTypes = equipTypeStr.replace(" ", "").split(",");
         for (int i = 0; i < rootAlarmFeatureStrs.length; i++) {
             map.put(probableCauseStrs[i] + "-" + equipTypes[i],
-                Integer.parseInt(rootAlarmFeatureStrs[i]));
+                    Integer.parseInt(rootAlarmFeatureStrs[i]));
         }
 
         rootPriorityMap.put(ruleId, map);

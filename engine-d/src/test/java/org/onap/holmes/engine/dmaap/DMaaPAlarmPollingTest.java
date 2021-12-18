@@ -1,12 +1,12 @@
 /**
- * Copyright 2017 ZTE Corporation.
- *
+ * Copyright 2017-2021 ZTE Corporation.
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,39 +15,40 @@
  */
 package org.onap.holmes.engine.dmaap;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Field;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onap.holmes.common.api.entity.AlarmInfo;
 import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
-import org.onap.holmes.engine.db.AlarmInfoDao;
+import org.onap.holmes.engine.db.AlarmInfoDaoService;
 import org.onap.holmes.engine.manager.DroolsEngine;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-@PrepareForTest({Subscriber.class, DroolsEngine.class,DMaaPAlarmPolling.class})
+import java.lang.reflect.Field;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
+@PrepareForTest({Subscriber.class, DroolsEngine.class, DMaaPAlarmPolling.class})
 @RunWith(PowerMockRunner.class)
 public class DMaaPAlarmPollingTest {
 
     private DMaaPAlarmPolling dMaaPAlarmPolling;
     private Subscriber subscriber;
     private DroolsEngine droolsEngine;
-    private AlarmInfoDao alarmInfoDao;
+    private AlarmInfoDaoService alarmInfoDaoService;
 
     @Before
     public void setUp() {
         subscriber = PowerMock.createMock(Subscriber.class);
         droolsEngine = PowerMock.createMock(DroolsEngine.class);
-        alarmInfoDao = PowerMock.createMock(AlarmInfoDao.class);
-        dMaaPAlarmPolling = new DMaaPAlarmPolling(subscriber, droolsEngine,alarmInfoDao);
+        alarmInfoDaoService = PowerMock.createMock(AlarmInfoDaoService.class);
+        dMaaPAlarmPolling = new DMaaPAlarmPolling(subscriber, droolsEngine, alarmInfoDaoService);
         PowerMock.replayAll();
     }
 
@@ -72,7 +73,7 @@ public class DMaaPAlarmPollingTest {
         vesAlarm.setRootFlag(0);
 
         PowerMock.replayAll();
-        AlarmInfo alarmInfo = Whitebox.invokeMethod(dMaaPAlarmPolling,"getAlarmInfo",vesAlarm);
+        AlarmInfo alarmInfo = Whitebox.invokeMethod(dMaaPAlarmPolling, "getAlarmInfo", vesAlarm);
         PowerMock.verifyAll();
 
         assertThat(alarmInfo.getAlarmIsCleared(), is(1));

@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onap.holmes.engine.request;
+package org.onap.holmes.engine.db.jdbi;
 
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.onap.holmes.common.api.entity.CorrelationRule;
+import org.onap.holmes.common.utils.CorrelationRuleMapper;
 
-@Getter
-@Setter
-public class CompileRuleRequest {
+import java.util.List;
 
-    @NotNull
-    private String content;
+@RegisterRowMapper(CorrelationRuleMapper.class)
+public interface CorrelationRuleDao {
+    @SqlQuery("SELECT * FROM APLUS_RULE WHERE enable=:enable")
+    public List<CorrelationRule> queryRuleByEnable(@Bind("enable") int enable);
 }
+

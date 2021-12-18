@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 ZTE Corporation.
+ * Copyright 2020-2022 ZTE Corporation.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -23,7 +23,6 @@ import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.internal.WhiteboxImpl;
 
 import java.util.concurrent.TimeUnit;
 
@@ -47,7 +46,7 @@ public class InitializerTest {
 
         setReadyFlagAfter(3);
 
-        WhiteboxImpl.invokeMethod(initializer, "init");
+        initializer.run(null);
 
         TimeUnit.SECONDS.sleep(6);
 

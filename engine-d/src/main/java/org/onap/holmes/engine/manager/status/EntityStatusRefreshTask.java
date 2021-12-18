@@ -16,22 +16,22 @@
 
 package org.onap.holmes.engine.manager.status;
 
-import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.holmes.common.engine.entity.EngineEntity;
 import org.onap.holmes.common.engine.service.EngineEntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-@Service
+@Component
 public class EntityStatusRefreshTask extends TimerTask {
     private static final Logger logger = LoggerFactory.getLogger(EntityStatusRefreshTask.class);
     private final long INTERVAL = SECONDS.toMillis(15);
@@ -39,7 +39,7 @@ public class EntityStatusRefreshTask extends TimerTask {
     private Timer timer = new Timer("EntityStatusRefreshTimer", true);
     private EngineEntityService engineEntityService;
 
-    @Inject
+    @Autowired
     public EntityStatusRefreshTask(EngineEntityService engineEntityService) {
         this.engineEntityService = engineEntityService;
     }

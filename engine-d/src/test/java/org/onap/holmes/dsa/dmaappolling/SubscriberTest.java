@@ -15,25 +15,23 @@
  */
 package org.onap.holmes.dsa.dmaappolling;
 
-import org.glassfish.hk2.api.ServiceLocator;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.onap.holmes.common.api.stat.AlarmAdditionalField;
 import org.onap.holmes.common.api.stat.VesAlarm;
-import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.JerseyClient;
+import org.onap.holmes.common.utils.SpringContextUtil;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.easymock.EasyMock.*;
@@ -41,7 +39,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ServiceLocatorHolder.class, JerseyClient.class})
+@PrepareForTest({SpringContextUtil.class, JerseyClient.class})
 @PowerMockIgnore("javax.net.ssl.*")
 public class SubscriberTest {
 
@@ -52,10 +50,8 @@ public class SubscriberTest {
 
     @Before
     public void init() {
-        PowerMock.mockStatic(ServiceLocatorHolder.class);
-        ServiceLocator serviceLocator = PowerMock.createMock(ServiceLocator.class);
-        expect(ServiceLocatorHolder.getLocator()).andReturn(serviceLocator).anyTimes();
-        expect(serviceLocator.getService(DMaaPResponseUtil.class)).andReturn(util).anyTimes();
+        PowerMock.mockStatic(SpringContextUtil.class);
+        expect(SpringContextUtil.getBean(DMaaPResponseUtil.class)).andReturn(util).anyTimes();
     }
 
     @Test
@@ -77,9 +73,9 @@ public class SubscriberTest {
         vesAlarm.setStartEpochMicrosec(500L);
         vesAlarm.setVersion("4.0");
         Map alarmAdditionalFields = new HashMap<String, String>();
-	alarmAdditionalFields.put("addInfo", "addInfo");
-	vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
-	vesAlarm.setAlarmCondition("alarmCondition");
+        alarmAdditionalFields.put("addInfo", "addInfo");
+        vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
+        vesAlarm.setAlarmCondition("alarmCondition");
         vesAlarm.setAlarmInterfaceA("alarmInterfaceA");
         vesAlarm.setEventCategory("eventCategory");
         vesAlarm.setEventSeverity("eventSeverity");
@@ -161,9 +157,9 @@ public class SubscriberTest {
         vesAlarm.setStartEpochMicrosec(500L);
         vesAlarm.setVersion("4.0");
         Map alarmAdditionalFields = new HashMap<String, String>();
-	alarmAdditionalFields.put("addInfo", "addInfo");
-	vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
-	vesAlarm.setAlarmCondition("alarmCondition");
+        alarmAdditionalFields.put("addInfo", "addInfo");
+        vesAlarm.setAlarmAdditionalInformation(alarmAdditionalFields);
+        vesAlarm.setAlarmCondition("alarmCondition");
         vesAlarm.setAlarmInterfaceA("alarmInterfaceA");
         vesAlarm.setEventCategory("eventCategory");
         vesAlarm.setEventSeverity("eventSeverity");

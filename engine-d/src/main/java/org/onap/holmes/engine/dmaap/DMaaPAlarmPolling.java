@@ -21,10 +21,9 @@ import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.exception.AlarmInfoException;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
-import org.onap.holmes.engine.db.AlarmInfoDao;
+import org.onap.holmes.engine.db.AlarmInfoDaoService;
 import org.onap.holmes.engine.manager.DroolsEngine;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -33,13 +32,13 @@ public class DMaaPAlarmPolling implements Runnable {
     private Subscriber subscriber;
     private DroolsEngine droolsEngine;
     private volatile boolean isAlive = true;
-    private AlarmInfoDao alarmInfoDao;
+    private AlarmInfoDaoService alarmInfoDaoService;
 
 
-    public DMaaPAlarmPolling(Subscriber subscriber, DroolsEngine droolsEngine, AlarmInfoDao alarmInfoDao) {
+    public DMaaPAlarmPolling(Subscriber subscriber, DroolsEngine droolsEngine, AlarmInfoDaoService alarmInfoDaoService) {
         this.subscriber = subscriber;
         this.droolsEngine = droolsEngine;
-        this.alarmInfoDao = alarmInfoDao;
+        this.alarmInfoDaoService = alarmInfoDaoService;
     }
 
     public void run() {
@@ -51,9 +50,9 @@ public class DMaaPAlarmPolling implements Runnable {
                     try {
                         AlarmInfo alarmInfo = getAlarmInfo(vesAlarm);
                         if (alarmInfo.getAlarmIsCleared() != 1) {
-                            alarmInfoDao.saveAlarm(alarmInfo);
+                            alarmInfoDaoService.saveAlarm(alarmInfo);
                         } else {
-                            alarmInfoDao.deleteAlarm(alarmInfo);
+                            alarmInfoDaoService.deleteAlarm(alarmInfo);
                         }
                         droolsEngine.putRaisedIntoStream(vesAlarm);
 

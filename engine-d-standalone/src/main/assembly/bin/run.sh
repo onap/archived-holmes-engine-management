@@ -47,13 +47,19 @@ if [ -z ${DB_NAME} ]; then
     echo "No database is name is specified. Use the default value \"$DB_NAME\"."
 fi
 
+export DB_PORT=5432
+if [ ! -z ${URL_JDBC} ] && [ `expr index $URL_JDBC :` != 0 ]; then
+    export DB_PORT="${URL_JDBC##*:}"
+fi
+echo DB_PORT=$DB_PORT
+
 # if deployed using helm, use the helm-generated configuration file.
 if [ -d /opt/hemconfig ]; then
-    cp /opt/hemconfig/engine-d.yml "$main_path/conf/engine-d.yml"
+    cp /opt/hemconfig/application.yaml "$main_path/conf/application.yaml"
 else
-    sed -i "s|url:.*|url: jdbc:postgresql://$URL_JDBC/$DB_NAME|" "$main_path/conf/engine-d.yml"
-    sed -i "s|user:.*|user: $JDBC_USERNAME|" "$main_path/conf/engine-d.yml"
-    sed -i "s|password:.*|password: $JDBC_PASSWORD|" "$main_path/conf/engine-d.yml"
+    sed -i "s|url:.*|url: jdbc:postgresql://$URL_JDBC:$DB_PORT/$DB_NAME|" "$main_path/conf/application.yaml"
+    sed -i "s|username:.*|username: $JDBC_USERNAME|" "$main_path/conf/application.yaml"
+    sed -i "s|password:.*|password: $JDBC_PASSWORD|" "$main_path/conf/application.yaml"
 fi
 
 export SERVICE_IP=`hostname -i | awk '{print $1}'`
@@ -65,18 +71,12 @@ else
     export HOSTNAME=${SERVICE_IP}:9102
 fi
 
-export DB_PORT=5432
-if [ ! -z ${URL_JDBC} ] && [ `expr index $URL_JDBC :` != 0 ]; then
-    export DB_PORT="${URL_JDBC##*:}"
-fi
-echo DB_PORT=$DB_PORT
-
 if [ -z ${ENABLE_ENCRYPT} ]; then
     export ENABLE_ENCRYPT=true
 fi
 echo ENABLE_ENCRYPT=$ENABLE_ENCRYPT
 
-KEY_PATH="/opt/onap/conf/holmes.keystore"
+KEY_PATH="$main_path/conf/holmes.keystore"
 KEY_PASSWORD="holmes"
 
 if [ -f "/opt/app/osaaf/local/org.onap.holmes-engine-mgmt.p12" ]; then
@@ -88,8 +88,8 @@ echo "KEY_PATH=$KEY_PATH"
 echo "KEY_PASS=$KEY_PASSWORD"
 
 #HTTPS Configurations
-sed -i "s|keyStorePath:.*|keyStorePath: $KEY_PATH|" "$main_path/conf/engine-d.yml"
-sed -i "s|keyStorePassword:.*|keyStorePassword: $KEY_PASSWORD|" "$main_path/conf/engine-d.yml"
+sed -i "s|key-store:.*|key-store: $KEY_PATH|" "$main_path/conf/application.yaml"
+sed -i "s|key-store-password:.*|key-store-password: $KEY_PASSWORD|" "$main_path/conf/application.yaml"
 
 if [ "${ENABLE_ENCRYPT}"x = "true"x ]; then
     sed -i "s|type:\s*https\?$|type: https|" "$main_path/conf/engine-d.yml"
@@ -105,9 +105,10 @@ else
     sed -i "s|#\?validatePeers|#validatePeers|" "$main_path/conf/engine-d.yml"
 fi
 
-cat "$main_path/conf/engine-d.yml"
+cat "$main_path/conf/application.yaml"
 
 ${RUNHOME}/initDB.sh "$JDBC_USERNAME" "$JDBC_PASSWORD" "$DB_NAME" "$DB_PORT" "${URL_JDBC%:*}"
 
-"$JAVA" $JAVA_OPTS -classpath "$class_path" org.onap.holmes.engine.EngineDActiveApp server "$main_path/conf/engine-d.yml"
+JAR=`ls -lt $main_path/lib | grep -e "holmes-engine-.*jar$" | awk '{print $9}'`
+"$JAVA" $JAVA_OPTS -jar "$main_path/lib/$JAR" -classpath "$class_path" --spring.config.location="$main_path/conf/application.yaml"
 
