@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 ZTE Corporation.
+ * Copyright 2017-2021 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,45 +16,38 @@
 
 package org.onap.holmes.engine.wrapper;
 
-import static org.easymock.EasyMock.anyInt;
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.expect;
-
-import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.onap.holmes.common.api.entity.CorrelationRule;
 import org.onap.holmes.common.exception.CorrelationException;
-import org.onap.holmes.common.utils.DbDaoUtil;
-import org.onap.holmes.engine.db.CorrelationRuleDao;
+import org.onap.holmes.engine.db.CorrelationRuleDaoService;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.reflect.Whitebox;
+
+import java.util.ArrayList;
+
+import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.expect;
 
 public class RuleMgtWrapperTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-    private DbDaoUtil daoUtil;
+    private CorrelationRuleDaoService correlationRuleDaoService;
     private RuleMgtWrapper ruleMgtWrapper;
 
     @Before
     public void setUp() {
-        daoUtil = PowerMock.createMock(DbDaoUtil.class);
-        ruleMgtWrapper = new RuleMgtWrapper();
+        correlationRuleDaoService = PowerMock.createMock(CorrelationRuleDaoService.class);
+        ruleMgtWrapper = new RuleMgtWrapper(correlationRuleDaoService);
 
-        Whitebox.setInternalState(ruleMgtWrapper, "daoUtil", daoUtil);
         PowerMock.resetAll();
     }
 
     @Test
     public void queryRuleByEnable_normal() throws CorrelationException {
         int enable = 3;
-
-        CorrelationRuleDao correlationRuleDao = PowerMock.createMock(CorrelationRuleDao.class);
-        expect(daoUtil.getJdbiDaoByOnDemand(anyObject(Class.class))).andReturn(correlationRuleDao);
-        expect(correlationRuleDao.queryRuleByRuleEnable(anyInt())).andReturn(new ArrayList<CorrelationRule>());
+        expect(correlationRuleDaoService.queryRuleByRuleEnable(anyInt())).andReturn(new ArrayList());
         PowerMock.replayAll();
         ruleMgtWrapper.queryRuleByEnable(enable);
         PowerMock.verifyAll();

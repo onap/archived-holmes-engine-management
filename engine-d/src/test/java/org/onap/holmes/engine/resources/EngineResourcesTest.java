@@ -26,11 +26,8 @@ import org.onap.holmes.engine.manager.DroolsEngine;
 import org.onap.holmes.engine.request.CompileRuleRequest;
 import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.reflect.Whitebox;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.WebApplicationException;
-import java.util.Locale;
+import jakarta.ws.rs.WebApplicationException;
 
 import static org.easymock.EasyMock.*;
 
@@ -47,23 +44,20 @@ public class EngineResourcesTest {
         closedLoopControlNameCache = new ClosedLoopControlNameCache();
         engineResources = new EngineResources();
         engineResources.setClosedLoopControlNameCache(closedLoopControlNameCache);
-
-        Whitebox.setInternalState(engineResources,"droolsEngine", droolsEngine);
+        engineResources.setDroolsEngine(droolsEngine);
         PowerMock.resetAll();
     }
 
     @Test
     public void deployRule_exception() throws CorrelationException {
         DeployRuleRequest deployRuleRequest = new DeployRuleRequest();
-        HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 
         thrown.expect(WebApplicationException.class);
 
-        expect(httpRequest.getHeader("language-option")).andReturn("en_US");
         expect(droolsEngine.deployRule(anyObject(DeployRuleRequest.class))).
                 andThrow(new CorrelationException(""));
         PowerMock.replayAll();
-        engineResources.deployRule(deployRuleRequest, httpRequest);
+        engineResources.deployRule(deployRuleRequest);
         PowerMock.verifyAll();
     }
 
@@ -72,66 +66,55 @@ public class EngineResourcesTest {
         DeployRuleRequest deployRuleRequest = new DeployRuleRequest();
         deployRuleRequest.setContent("package packageName;\n\nimport xxx.xxx.xxx;");
         deployRuleRequest.setLoopControlName("loopControlName");
-        HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 
-        expect(httpRequest.getHeader("language-option")).andReturn("en_US");
         expect(droolsEngine.deployRule(anyObject(DeployRuleRequest.class))).andReturn("packageName");
         PowerMock.replayAll();
-        engineResources.deployRule(deployRuleRequest, httpRequest);
+        engineResources.deployRule(deployRuleRequest);
         PowerMock.verifyAll();
     }
 
     @Test
     public void undeployRule_exception() throws CorrelationException {
         String packageName = "packageName";
-        HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 
         thrown.expect(WebApplicationException.class);
 
-        expect(httpRequest.getHeader("language-option")).andReturn("en_US");
         droolsEngine.undeployRule(anyObject(String.class));
         expectLastCall().andThrow(new CorrelationException(""));
         PowerMock.replayAll();
-        engineResources.undeployRule(packageName, httpRequest);
+        engineResources.undeployRule(packageName);
         PowerMock.verifyAll();
     }
 
     @Test
     public void undeployRule_normal() throws CorrelationException {
         String packageName = "packageName";
-        HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 
-        expect(httpRequest.getHeader("language-option")).andReturn("en_US");
         droolsEngine.undeployRule(anyObject(String.class));
         PowerMock.replayAll();
-        engineResources.undeployRule(packageName, httpRequest);
+        engineResources.undeployRule(packageName);
         PowerMock.verifyAll();
     }
 
     @Test
     public void compileRule_exception() throws CorrelationException {
         CompileRuleRequest compileRuleRequest = new CompileRuleRequest();
-        HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
 
         thrown.expect(WebApplicationException.class);
 
-        expect(httpRequest.getHeader("language-option")).andReturn("en_US");
         droolsEngine.compileRule(anyObject(String.class));
         expectLastCall().andThrow(new CorrelationException(""));
         PowerMock.replayAll();
-        engineResources.compileRule(compileRuleRequest, httpRequest);
+        engineResources.compileRule(compileRuleRequest);
         PowerMock.verifyAll();
     }
 
     @Test
     public void compileRule_normal() throws CorrelationException {
         CompileRuleRequest compileRuleRequest = new CompileRuleRequest();
-        HttpServletRequest httpRequest = PowerMock.createMock(HttpServletRequest.class);
-
-        expect(httpRequest.getHeader("language-option")).andReturn("en_US");
         droolsEngine.compileRule(anyObject(String.class));
         PowerMock.replayAll();
-        engineResources.compileRule(compileRuleRequest, httpRequest);
+        engineResources.compileRule(compileRuleRequest);
         PowerMock.verifyAll();
     }
 }

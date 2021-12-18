@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 ZTE Corporation.
+ * Copyright 2017-2022 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,11 @@
 package org.onap.holmes.engine.db;
 
 import org.easymock.EasyMock;
-import org.hamcrest.core.IsNot;
 import org.hamcrest.core.IsNull;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.onap.holmes.common.api.entity.AlarmInfo;
-import org.onap.holmes.common.exception.AlarmInfoException;
 import org.powermock.api.easymock.PowerMock;
 
 import java.util.ArrayList;
@@ -34,20 +30,20 @@ import java.util.List;
 public class AlarmInfoDaoTest {
 
 
-    private AlarmInfoDao alarmInfoDao;
+    private AlarmInfoDaoService alarmInfoDaoService;
 
     @Before
     public void setUp() {
-        alarmInfoDao  = PowerMock.createMock(AlarmInfoDao.class);
+        alarmInfoDaoService  = PowerMock.createMock(AlarmInfoDaoService.class);
     }
 
     @Test
     public void queryAllAlarm() throws Exception {
 
-        EasyMock.expect(alarmInfoDao.queryAllAlarm()).andReturn(new ArrayList<AlarmInfo>());
+        EasyMock.expect(alarmInfoDaoService.queryAllAlarm()).andReturn(new ArrayList<AlarmInfo>());
         PowerMock.replayAll();
 
-        List<AlarmInfo> alarmInfoList = alarmInfoDao.queryAllAlarm();
+        List<AlarmInfo> alarmInfoList = alarmInfoDaoService.queryAllAlarm();
         PowerMock.verifyAll();
         Assert.assertThat(alarmInfoList, IsNull.<List<AlarmInfo>>notNullValue());
     }

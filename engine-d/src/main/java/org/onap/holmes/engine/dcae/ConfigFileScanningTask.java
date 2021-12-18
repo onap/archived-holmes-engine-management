@@ -20,14 +20,15 @@ import org.onap.holmes.common.ConfigFileScanner;
 import org.onap.holmes.common.dcae.DcaeConfigurationsCache;
 import org.onap.holmes.common.dcae.entity.DcaeConfigurations;
 import org.onap.holmes.common.dcae.utils.DcaeConfigurationParser;
-import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.Md5Util;
+import org.onap.holmes.common.utils.SpringContextUtil;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.onap.holmes.engine.dmaap.SubscriberAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigFileScanningTask implements Runnable {
@@ -35,7 +36,7 @@ public class ConfigFileScanningTask implements Runnable {
     final private static Logger LOGGER = LoggerFactory.getLogger(ConfigFileScanningTask.class);
     private String configFile = "/opt/hemtopics/cfy.json";
     private ConfigFileScanner configFileScanner;
-    private String prevConfigMd5 = Md5Util.md5(null);
+    private String prevConfigMd5 = Md5Util.md5(new HashMap<String, String>());
 
     public ConfigFileScanningTask(ConfigFileScanner configFileScanner) {
         this.configFileScanner = configFileScanner;
@@ -76,8 +77,7 @@ public class ConfigFileScanningTask implements Runnable {
     }
 
     private void addSubscribers(DcaeConfigurations dcaeConfigurations) {
-        SubscriberAction subscriberAction = ServiceLocatorHolder.getLocator()
-                .getService(SubscriberAction.class);
+        SubscriberAction subscriberAction = SpringContextUtil.getBean(SubscriberAction.class);
         for (String key : dcaeConfigurations.getSubKeys()) {
             Subscriber subscriber = new Subscriber();
             subscriber.setTopic(key);

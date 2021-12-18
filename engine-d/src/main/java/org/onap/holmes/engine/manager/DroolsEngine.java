@@ -18,7 +18,6 @@ package org.onap.holmes.engine.manager;
 import lombok.extern.slf4j.Slf4j;
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.drools.core.util.StringUtils;
-import org.jvnet.hk2.annotations.Service;
 import org.kie.api.KieServices;
 import org.kie.api.builder.*;
 import org.kie.api.builder.Message.Level;
@@ -37,14 +36,15 @@ import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.holmes.common.dmaap.store.ClosedLoopControlNameCache;
 import org.onap.holmes.common.exception.AlarmInfoException;
 import org.onap.holmes.common.exception.CorrelationException;
-import org.onap.holmes.common.utils.DbDaoUtil;
 import org.onap.holmes.common.utils.ExceptionUtil;
-import org.onap.holmes.engine.db.AlarmInfoDao;
+import org.onap.holmes.engine.db.AlarmInfoDaoService;
 import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,15 +52,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Service
-public class DroolsEngine {
-
+@Component
+public class DroolsEngine implements ApplicationRunner {
     private final static int ENABLE = 1;
     private final Map<String, String> deployed = new ConcurrentHashMap<>();
     private RuleMgtWrapper ruleMgtWrapper;
-    private DbDaoUtil daoUtil;
     private ClosedLoopControlNameCache closedLoopControlNameCache;
-    private AlarmInfoDao alarmInfoDao;
+    private AlarmInfoDaoService alarmInfoDaoService;
     private KieServices ks = KieServices.Factory.get();
     private ReleaseId releaseId = ks.newReleaseId("org.onap.holmes", "rules", "1.0.0-SNAPSHOT");
     private ReleaseId compilationRelease = ks.newReleaseId("org.onap.holmes", "compilation", "1.0.0-SNAPSHOT");
@@ -68,24 +66,23 @@ public class DroolsEngine {
     private KieSession session;
     private String instanceIp;
 
-    @Inject
+    @Autowired
+    public void setAlarmInfoDaoService(AlarmInfoDaoService alarmInfoDaoService) {
+        this.alarmInfoDaoService = alarmInfoDaoService;
+    }
+
+    @Autowired
     public void setRuleMgtWrapper(RuleMgtWrapper ruleMgtWrapper) {
         this.ruleMgtWrapper = ruleMgtWrapper;
     }
 
-    @Inject
-    public void setDaoUtil(DbDaoUtil daoUtil) {
-        this.daoUtil = daoUtil;
-    }
-
-    @Inject
+    @Autowired
     public void setClosedLoopControlNameCache(ClosedLoopControlNameCache closedLoopControlNameCache) {
         this.closedLoopControlNameCache = closedLoopControlNameCache;
     }
 
-    @PostConstruct
-    private void init() {
-        alarmInfoDao = daoUtil.getJdbiDaoByOnDemand(AlarmInfoDao.class);
+    @Override
+    public void run(ApplicationArguments args) {
         instanceIp = MicroServiceConfig.getMicroServiceIpAndPort()[0];
         try {
             log.info("Drools engine initializing...");
@@ -146,7 +143,7 @@ public class DroolsEngine {
     }
 
     public void syncAlarms() throws AlarmInfoException {
-        alarmInfoDao.queryAllAlarm().forEach(alarmInfo -> putRaisedIntoStream(convertAlarmInfo2VesAlarm(alarmInfo)));
+        alarmInfoDaoService.queryAllAlarm().forEach(alarmInfo -> putRaisedIntoStream(convertAlarmInfo2VesAlarm(alarmInfo)));
     }
 
     public String deployRule(DeployRuleRequest rule) throws CorrelationException {
@@ -330,5 +327,4 @@ public class DroolsEngine {
         Resource jarRes = ks.getResources().newByteArrayResource(jar);
         return ks.getRepository().addKieModule(jarRes);
     }
-
 }

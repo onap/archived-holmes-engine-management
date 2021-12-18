@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 ZTE Corporation.
+ * Copyright 2017-2022 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.onap.holmes.common.api.stat.VesAlarm;
-import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.JerseyClient;
+import org.onap.holmes.common.utils.SpringContextUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,8 +33,7 @@ import java.util.UUID;
 @Slf4j
 public class Subscriber {
 
-    private DMaaPResponseUtil dMaaPResponseUtil = ServiceLocatorHolder.getLocator()
-            .getService(DMaaPResponseUtil.class);
+    private DMaaPResponseUtil dMaaPResponseUtil = SpringContextUtil.getBean(DMaaPResponseUtil.class);
 
     /**
      * The number of milliseconds to wait for messages if none are immediately available. This

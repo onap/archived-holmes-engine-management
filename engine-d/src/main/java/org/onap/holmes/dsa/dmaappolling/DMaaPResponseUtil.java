@@ -15,22 +15,18 @@
  */
 package org.onap.holmes.dsa.dmaappolling;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.jvnet.hk2.annotations.Service;
-import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.api.stat.AlarmAdditionalField;
-import com.google.gson.Gson;
+import org.onap.holmes.common.api.stat.VesAlarm;
+import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.onap.holmes.common.utils.GsonUtil.*;
 
-@Service
+@Component
 public class DMaaPResponseUtil {
 
     public VesAlarm convertJsonToVesAlarm(String responseJson) {

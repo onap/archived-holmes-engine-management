@@ -17,15 +17,15 @@
 package org.onap.holmes.engine.dcae;
 
 import org.easymock.EasyMock;
-import org.glassfish.hk2.api.ServiceLocator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onap.holmes.common.dcae.DcaeConfigurationsCache;
-import org.onap.holmes.common.dropwizard.ioc.utils.ServiceLocatorHolder;
+import org.onap.holmes.common.utils.SpringContextUtil;
 import org.onap.holmes.dsa.dmaappolling.DMaaPResponseUtil;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.onap.holmes.engine.dmaap.SubscriberAction;
 import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
@@ -33,16 +33,16 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
+@PrepareForTest({SpringContextUtil.class})
 public class ConfigFileScanningTaskTest {
 
     @Test
     public void run() {
-        ServiceLocator mockedSl = PowerMock.createMock(ServiceLocator.class);
+        PowerMock.mockStatic(SpringContextUtil.class);
         SubscriberAction mockedSa = PowerMock.createMock(SubscriberAction.class);
-        ServiceLocatorHolder.setLocator(mockedSl);
-        EasyMock.expect(mockedSl.getService(SubscriberAction.class)).andReturn(mockedSa);
+        EasyMock.expect(SpringContextUtil.getBean(SubscriberAction.class)).andReturn(mockedSa);
         // This is invoked while executing new Subscriber().
-        EasyMock.expect(mockedSl.getService(DMaaPResponseUtil.class)).andReturn(new DMaaPResponseUtil());
+        EasyMock.expect(SpringContextUtil.getBean(DMaaPResponseUtil.class)).andReturn(new DMaaPResponseUtil());
         mockedSa.addSubscriber(EasyMock.anyObject(Subscriber.class));
         EasyMock.expectLastCall();
 
@@ -60,13 +60,12 @@ public class ConfigFileScanningTaskTest {
 
     @Test
     public void run_config_not_changed() {
-        ServiceLocator mockedSl = PowerMock.createMock(ServiceLocator.class);
+        PowerMock.mockStatic(SpringContextUtil.class);
         SubscriberAction mockedSa = PowerMock.createMock(SubscriberAction.class);
-        ServiceLocatorHolder.setLocator(mockedSl);
         // mocked objects will be only used once
-        EasyMock.expect(mockedSl.getService(SubscriberAction.class)).andReturn(mockedSa);
+        EasyMock.expect(SpringContextUtil.getBean(SubscriberAction.class)).andReturn(mockedSa);
         // This is invoked while executing new Subscriber().
-        EasyMock.expect(mockedSl.getService(DMaaPResponseUtil.class)).andReturn(new DMaaPResponseUtil());
+        EasyMock.expect(SpringContextUtil.getBean(DMaaPResponseUtil.class)).andReturn(new DMaaPResponseUtil());
         mockedSa.addSubscriber(EasyMock.anyObject(Subscriber.class));
         EasyMock.expectLastCall();
 

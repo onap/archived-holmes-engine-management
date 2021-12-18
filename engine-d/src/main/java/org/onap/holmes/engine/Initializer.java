@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 ZTE Corporation.
+ * Copyright 2017-2022 ZTE Corporation.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.onap.holmes.engine;
 
-import org.jvnet.hk2.annotations.Service;
 import org.onap.holmes.common.exception.CorrelationException;
 import org.onap.holmes.common.utils.CommonUtils;
 import org.onap.holmes.common.utils.MsbRegister;
@@ -24,32 +23,33 @@ import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
 import org.onap.msb.sdk.discovery.entity.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.onap.holmes.common.config.MicroServiceConfig.POD_IP;
 import static org.onap.holmes.common.config.MicroServiceConfig.getMicroServiceIpAndPort;
 import static org.onap.holmes.common.utils.CommonUtils.getEnv;
 import static org.onap.holmes.common.utils.CommonUtils.isIpAddress;
 
-@Service
-public class Initializer {
+@Component
+public class Initializer implements ApplicationRunner {
     private static final Logger logger = LoggerFactory.getLogger(Initializer.class);
     private volatile static boolean readyForMsbReg = false;
     private MsbRegister msbRegister;
 
-    @Inject
+    @Autowired
     public Initializer(MsbRegister msbRegister) {
         this.msbRegister = msbRegister;
     }
 
-    @PostConstruct
-    private void init() {
+    @Override
+    public void run(ApplicationArguments args) {
         Executors.newSingleThreadExecutor().execute(() -> {
             waitUntilReady();
             try {
@@ -93,7 +93,7 @@ public class Initializer {
         msinfo.setEnable_ssl(CommonUtils.isHttpsEnabled());
         Set<Node> nodes = new HashSet<>();
         Node node = new Node();
-        node.setIp(isIpAddress(serviceIpAndPort[0]) ? serviceIpAndPort[0] : getEnv(POD_IP));
+        node.setIp(isIpAddress(serviceIpAndPort[0]) ? serviceIpAndPort[0] : getEnv("HOLMES_ENGINE_MGMT_SERVICE_HOST"));
         node.setPort("9102");
         /* Following codes will cause an unregistration from MSB (due to MSB malfunction), comment them for now
         String msbAddrTemplate = (CommonUtils.isHttpsEnabled() ? "https" : "http")

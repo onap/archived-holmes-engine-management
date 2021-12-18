@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 ZTE Corporation.
+ * Copyright 2017-2022 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,24 +19,17 @@ package org.onap.holmes.engine.resources;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import lombok.extern.slf4j.Slf4j;
-import org.jvnet.hk2.annotations.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Service
+@RestController
 @SwaggerDefinition
-@Path("/healthcheck")
+@RequestMapping("/healthcheck")
 @Api(tags = {"Health Check"})
-@Produces(MediaType.TEXT_PLAIN)
-@Slf4j
 public class HealthCheck {
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @GetMapping
     @ApiOperation(value = "Interface for the health check of the engine management module for Holmes")
-    public boolean healthCheck(){
-        return true;
+    public void healthCheck() {
     }
 }

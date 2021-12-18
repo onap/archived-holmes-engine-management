@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 ZTE Corporation.
+ * Copyright 2017-2021 ZTE Corporation.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.onap.holmes.engine.manager;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -26,11 +25,10 @@ import org.onap.holmes.common.api.stat.VesAlarm;
 import org.onap.holmes.common.config.MicroServiceConfig;
 import org.onap.holmes.common.dmaap.store.ClosedLoopControlNameCache;
 import org.onap.holmes.common.exception.CorrelationException;
-import org.onap.holmes.common.utils.DbDaoUtil;
-import org.onap.holmes.engine.db.AlarmInfoDao;
+import org.onap.holmes.engine.db.AlarmInfoDaoService;
+import org.onap.holmes.engine.db.CorrelationRuleDaoService;
 import org.onap.holmes.engine.request.DeployRuleRequest;
 import org.onap.holmes.engine.wrapper.RuleMgtWrapper;
-import org.powermock.api.easymock.PowerMock;
 import org.powermock.reflect.Whitebox;
 
 import java.util.ArrayList;
@@ -47,31 +45,29 @@ public class DroolsEngineTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private RuleMgtWrapper ruleMgtWrapper;
+    private RuleMgtWrapper ruleMgtWrapperMock;
 
     private DroolsEngine droolsEngine;
 
-    private DbDaoUtil dbDaoUtilStub;
+    private AlarmInfoDaoService alarmInfoDaoServiceStub;
+
+    private CorrelationRuleDaoService correlationRuleDaoServiceStub;
 
     private ClosedLoopControlNameCache closedLoopControlNameCache;
 
     public DroolsEngineTest() throws Exception {
         System.setProperty(MicroServiceConfig.HOSTNAME, "127.0.0.1:80");
         droolsEngine = new DroolsEngine();
-        ruleMgtWrapper = new RuleMgtWrapperStub();
-        dbDaoUtilStub = new DbDaoUtilStub();
+        alarmInfoDaoServiceStub = new AlarmInfoDaoServiceStub();
+        droolsEngine.setAlarmInfoDaoService(alarmInfoDaoServiceStub);
+        correlationRuleDaoServiceStub = new CorrelationRuleDaoServiceStub();
+        ruleMgtWrapperMock = new RuleMgtWrapperStub(correlationRuleDaoServiceStub);
         closedLoopControlNameCache = new ClosedLoopControlNameCache();
         droolsEngine.setClosedLoopControlNameCache(closedLoopControlNameCache);
-        droolsEngine.setDaoUtil(dbDaoUtilStub);
-        droolsEngine.setRuleMgtWrapper(ruleMgtWrapper);
+        droolsEngine.setRuleMgtWrapper(ruleMgtWrapperMock);
 
-        Whitebox.invokeMethod(droolsEngine, "init");
+        Whitebox.invokeMethod(droolsEngine, "run", null);
         System.clearProperty(MicroServiceConfig.HOSTNAME);
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        PowerMock.resetAll();
     }
 
     @Test
@@ -241,78 +237,74 @@ public class DroolsEngineTest {
 
         assertThat(packages.contains("packageCheck"), is(true));
     }
-}
 
-class RuleMgtWrapperStub extends RuleMgtWrapper {
-    private List<CorrelationRule> rules;
+    class RuleMgtWrapperStub extends RuleMgtWrapper {
+        private List<CorrelationRule> rules;
 
-    public RuleMgtWrapperStub() {
-        rules = new ArrayList<>();
-        CorrelationRule rule = new CorrelationRule();
-        rule.setEnabled(1);
-        rule.setContent("package org.onap.holmes;");
-        rule.setPackageName("UT");
-        rule.setClosedControlLoopName(UUID.randomUUID().toString());
-        rule.setEngineInstance("127.0.0.1");
-        rules.add(rule);
+        public RuleMgtWrapperStub(CorrelationRuleDaoService correlationRuleDaoService) {
+            super(correlationRuleDaoService);
+            rules = new ArrayList<>();
+            CorrelationRule rule = new CorrelationRule();
+            rule.setEnabled(1);
+            rule.setContent("package org.onap.holmes;");
+            rule.setPackageName("UT");
+            rule.setClosedControlLoopName(UUID.randomUUID().toString());
+            rule.setEngineInstance("127.0.0.1");
+            rules.add(rule);
+        }
+
+        public List<CorrelationRule> getRules() {
+            return rules;
+        }
+
+        public void setRules(List<CorrelationRule> rules) {
+            this.rules = rules;
+        }
+
+        @Override
+        public List<CorrelationRule> queryRuleByEnable(int enabled) throws CorrelationException {
+            return rules.stream().filter(rule -> rule.getEnabled() == enabled).collect(Collectors.toList());
+        }
     }
 
-    public List<CorrelationRule> getRules() {
-        return rules;
+    class AlarmInfoDaoServiceStub extends AlarmInfoDaoService {
+
+        private List<AlarmInfo> alarms;
+
+        public AlarmInfoDaoServiceStub() {
+            alarms = new ArrayList<>();
+            AlarmInfo info = new AlarmInfo();
+            info.setEventId("eventId");
+            info.setEventName("eventName");
+            info.setStartEpochMicroSec(1L);
+            info.setLastEpochMicroSec(1L);
+            info.setSourceId("sourceId");
+            info.setSourceName("sourceName");
+            info.setRootFlag(0);
+            info.setAlarmIsCleared(1);
+            alarms.add(info);
+        }
+
+        @Override
+        public AlarmInfo saveAlarm(AlarmInfo alarmInfo) {
+            alarms.add(alarmInfo);
+            return alarmInfo;
+        }
+
+        @Override
+        public List<AlarmInfo> queryAllAlarm() {
+            return alarms;
+        }
+
+        @Override
+        public void deleteAlarm(AlarmInfo alarmInfo) {
+
+        }
     }
 
-    public void setRules(List<CorrelationRule> rules) {
-        this.rules = rules;
-    }
-
-    @Override
-    public List<CorrelationRule> queryRuleByEnable(int enabled) throws CorrelationException {
-        return rules.stream().filter(rule -> rule.getEnabled() == enabled).collect(Collectors.toList());
-    }
-}
-
-class AlarmInfoDaoStub extends AlarmInfoDao {
-
-    private List<AlarmInfo> alarms;
-
-    public AlarmInfoDaoStub() {
-        alarms = new ArrayList<>();
-        AlarmInfo info = new AlarmInfo();
-        info.setEventId("eventId");
-        info.setEventName("eventName");
-        info.setStartEpochMicroSec(1L);
-        info.setLastEpochMicroSec(1L);
-        info.setSourceId("sourceId");
-        info.setSourceName("sourceName");
-        info.setRootFlag(0);
-        info.setAlarmIsCleared(1);
-        alarms.add(info);
-    }
-
-    @Override
-    protected String addAlarm(AlarmInfo alarmInfo) {
-        alarms.add(alarmInfo);
-        return null;
-    }
-
-    @Override
-    protected List<AlarmInfo> queryAlarm() {
-        return alarms;
-    }
-
-    @Override
-    protected int deleteAlarmByAlarmIsCleared(String alarmName, String sourceName, String sourceId) {
-        return 1;
-    }
-}
-
-class DbDaoUtilStub extends DbDaoUtil {
-    private AlarmInfoDao dao = new AlarmInfoDaoStub();
-
-    @Override
-    public <T> T getJdbiDaoByOnDemand(Class<T> daoClazz) {
-
-        return (T) dao;
+    class CorrelationRuleDaoServiceStub extends CorrelationRuleDaoService {
 
     }
 }
+
+

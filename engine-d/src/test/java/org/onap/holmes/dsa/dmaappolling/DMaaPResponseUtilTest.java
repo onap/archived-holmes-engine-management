@@ -19,7 +19,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.onap.holmes.common.api.stat.AlarmAdditionalField;
 import org.onap.holmes.common.api.stat.VesAlarm;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
