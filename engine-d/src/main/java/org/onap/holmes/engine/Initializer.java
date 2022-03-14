@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import static org.onap.holmes.common.config.MicroServiceConfig.POD_IP;
 import static org.onap.holmes.common.config.MicroServiceConfig.getMicroServiceIpAndPort;
 import static org.onap.holmes.common.utils.CommonUtils.getEnv;
 import static org.onap.holmes.common.utils.CommonUtils.isIpAddress;
@@ -92,7 +93,7 @@ public class Initializer {
         msinfo.setEnable_ssl(CommonUtils.isHttpsEnabled());
         Set<Node> nodes = new HashSet<>();
         Node node = new Node();
-        node.setIp(isIpAddress(serviceIpAndPort[0]) ? serviceIpAndPort[0] : getEnv("HOLMES_ENGINE_MGMT_SERVICE_HOST"));
+        node.setIp(isIpAddress(serviceIpAndPort[0]) ? serviceIpAndPort[0] : getEnv(POD_IP));
         node.setPort("9102");
         /* Following codes will cause an unregistration from MSB (due to MSB malfunction), comment them for now
         String msbAddrTemplate = (CommonUtils.isHttpsEnabled() ? "https" : "http")
