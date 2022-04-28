@@ -48,5 +48,7 @@ public class EngineDActiveApp extends IOCApplication<EngineDAppConfig> {
 
         environment.servlets().addFilter("logFilter", new TransactionIdFilter()).addMappingForUrlPatterns(EnumSet
                 .allOf(DispatcherType.class), true, "/*");
+
+        Initializer.setReadyForMsbReg(true);
     }
 }
