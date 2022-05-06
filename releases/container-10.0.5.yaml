@@ -1,0 +1,9 @@
+---
+distribution_type: 'container'
+container_release_tag: '10.0.5'
+project: 'holmes-engine-management'
+log_dir: 'holmes-engine-management-master-docker-java-daily/75'
+ref: b81e54a882e35007fed7d06cc7b7ef9ce86f66e5
+containers:
+  - name: holmes/engine-management
+    version: 1.3.7-STAGING-20220506T014309Z
