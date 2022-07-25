@@ -43,16 +43,16 @@ logging:
     - type: console
       threshold: INFO
       timeZone: UTC
-      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] invocationID:{InvocationID} - %m%n"
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t][%X{RequestID}][%X{InvocationID}] - %m%n"
     - type: file
       threshold: ERROR
-      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] invocationID:{InvocationID} - %m%n"
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t][%X{RequestID}][%X{InvocationID}] - %m%n"
       currentLogFilename: /var/log/ONAP/holmes/engine-d-error.log
       archivedLogFilenamePattern: /var/log/ONAP/holmes/zip/engine-d-error-%d{yyyy-MM-dd}.log.gz
       archivedFileCount: 7
     - type: file
       threshold: INFO
-      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] invocationID:{InvocationID} - %m%n"
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t][%X{RequestID}][%X{InvocationID}] - %m%n"
       currentLogFilename: /var/log/ONAP/holmes/engine-d-debug.log
       archivedLogFilenamePattern: /var/log/ONAP/holmes/zip/engine-d-debug-%d{yyyy-MM-dd}.log.gz
       archivedFileCount: 7
