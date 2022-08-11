@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcda17fb_4de36570",
+        "filename": "engine-d-standalone/src/main/assembly/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1489
+      },
+      "writtenOn": "2022-08-11T10:44:24Z",
+      "side": 1,
+      "message": "not applicable on Internet",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "67b685594d3554c122e4f7ba603d10eb0fb4aba7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd022483_0ba4b9aa",
+        "filename": "engine-d/src/main/java/org/onap/holmes/engine/resources/HealthCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1489
+      },
+      "writtenOn": "2022-08-11T10:44:24Z",
+      "side": 1,
+      "message": "Not used. Remove it.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "67b685594d3554c122e4f7ba603d10eb0fb4aba7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f124b832_f0743274",
+        "filename": "engine-d/src/main/java/org/onap/holmes/engine/resources/SwaggerResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1489
+      },
+      "writtenOn": "2022-08-11T10:44:24Z",
+      "side": 1,
+      "message": "wrong time",
+      "range": {
+        "startLine": 2,
+        "startChar": 18,
+        "endLine": 2,
+        "endChar": 22
+      },
+      "revId": "67b685594d3554c122e4f7ba603d10eb0fb4aba7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0e131c9_7f1aa6ea",
+        "filename": "engine-d/src/test/java/org/onap/holmes/engine/db/AlarmInfoDaoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1489
+      },
+      "writtenOn": "2022-08-11T10:44:24Z",
+      "side": 1,
+      "message": "wrong time",
+      "range": {
+        "startLine": 2,
+        "startChar": 18,
+        "endLine": 2,
+        "endChar": 23
+      },
+      "revId": "67b685594d3554c122e4f7ba603d10eb0fb4aba7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f1d98f9_e25ccffa",
+        "filename": "engine-d/src/test/java/org/onap/holmes/engine/dmaap/DMaaPAlarmPollingTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1489
+      },
+      "writtenOn": "2022-08-11T10:44:24Z",
+      "side": 1,
+      "message": "wrong time",
+      "range": {
+        "startLine": 2,
+        "startChar": 18,
+        "endLine": 2,
+        "endChar": 23
+      },
+      "revId": "67b685594d3554c122e4f7ba603d10eb0fb4aba7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c683b77_489552cd",
+        "filename": "engine-d/src/test/java/org/onap/holmes/engine/manager/DroolsEngineTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1489
+      },
+      "writtenOn": "2022-08-11T10:44:24Z",
+      "side": 1,
+      "message": "wrong time",
+      "range": {
+        "startLine": 2,
+        "startChar": 18,
+        "endLine": 2,
+        "endChar": 23
+      },
+      "revId": "67b685594d3554c122e4f7ba603d10eb0fb4aba7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "280ffd31_53a62dd3",
+        "filename": "engine-d/src/test/java/org/onap/holmes/engine/wrapper/RuleMgtWrapperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1489
+      },
+      "writtenOn": "2022-08-11T10:44:24Z",
+      "side": 1,
+      "message": "wrong time",
+      "range": {
+        "startLine": 2,
+        "startChar": 18,
+        "endLine": 2,
+        "endChar": 23
+      },
+      "revId": "67b685594d3554c122e4f7ba603d10eb0fb4aba7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
