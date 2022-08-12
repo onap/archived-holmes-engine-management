@@ -101,7 +101,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.13</version>
+            <version>42.3.6</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -270,7 +270,7 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.16</version>
+            <version>1.4.19</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
@@ -323,6 +323,12 @@
             <version>1.3.2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Do NOT remove org.reflections:reflections. Otherwise, the docker will fail to start. -->
         <dependency>
@@ -343,12 +349,6 @@
                     <groupId>com.thoughtworks.xstream</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
@@ -386,7 +386,6 @@
             <version>2.0.7</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-easymock</artifactId>
