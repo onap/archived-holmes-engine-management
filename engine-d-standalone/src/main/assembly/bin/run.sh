@@ -92,17 +92,15 @@ sed -i "s|key-store:.*|key-store: $KEY_PATH|" "$main_path/conf/application.yaml"
 sed -i "s|key-store-password:.*|key-store-password: $KEY_PASSWORD|" "$main_path/conf/application.yaml"
 
 if [ "${ENABLE_ENCRYPT}"x = "true"x ]; then
-    sed -i "s|type:\s*https\?$|type: https|" "$main_path/conf/engine-d.yml"
-    sed -i "s|#\?keyStorePath|keyStorePath|" "$main_path/conf/engine-d.yml"
-    sed -i "s|#\?keyStorePassword|keyStorePassword|" "$main_path/conf/engine-d.yml"
-    sed -i "s|#\?validateCerts|validateCerts|" "$main_path/conf/engine-d.yml"
-    sed -i "s|#\?validatePeers|validatePeers|" "$main_path/conf/engine-d.yml"
+    sed -i "s|#\?ssl:|ssl:|" "$main_path/conf/application.yaml"
+    sed -i "s|#\?key-store|key-store|" "$main_path/conf/application.yaml"
+    sed -i "s|#\?key-store-password|key-store-password|" "$main_path/conf/application.yaml"
+    sed -i "s|#\?key-store-type|key-store-type|" "$main_path/conf/application.yaml"
 else
-    sed -i 's|type:\s*https\?$|type: http|' "$main_path/conf/engine-d.yml"
-    sed -i "s|#\?keyStorePath|#keyStorePath|" "$main_path/conf/engine-d.yml"
-    sed -i "s|#\?keyStorePassword|#keyStorePassword|" "$main_path/conf/engine-d.yml"
-    sed -i "s|#\?validateCerts|#validateCerts|" "$main_path/conf/engine-d.yml"
-    sed -i "s|#\?validatePeers|#validatePeers|" "$main_path/conf/engine-d.yml"
+    sed -i 's|#\?ssl:|#ssl:|' "$main_path/conf/application.yaml"
+    sed -i "s|#\?key-store|#key-store|" "$main_path/conf/application.yaml"
+    sed -i "s|#\?key-store-password|#key-store-password|" "$main_path/conf/application.yaml"
+    sed -i "s|#\?key-store-type|#key-store-type|" "$main_path/conf/application.yaml"
 fi
 
 cat "$main_path/conf/application.yaml"
