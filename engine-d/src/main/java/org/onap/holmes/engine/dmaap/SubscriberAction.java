@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 - 2022 ZTE Corporation.
+ * Copyright 2017-2022 ZTE Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,8 @@ package org.onap.holmes.engine.dmaap;
 
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
-import org.onap.holmes.common.database.DbDaoUtil;
 import org.onap.holmes.dsa.dmaappolling.Subscriber;
 import org.onap.holmes.engine.db.AlarmInfoDaoService;
-import org.onap.holmes.engine.db.jdbi.AlarmInfoDao;
 import org.onap.holmes.engine.manager.DroolsEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,8 +34,6 @@ public class SubscriberAction {
     @Autowired
     private DroolsEngine droolsEngine;
     @Autowired
-    private DbDaoUtil daoUtil;
-    @Autowired
     private AlarmInfoDaoService alarmInfoDaoService;
 
     private HashMap<String, DMaaPAlarmPolling> pollingTasks = new HashMap<>();
@@ -48,7 +44,6 @@ public class SubscriberAction {
             if (pollingTasks.containsKey(topic)) {
                 removeSubscriber(subscriber);
             }
-            AlarmInfoDao alarmInfoDao = daoUtil.getJdbiDaoByOnDemand(AlarmInfoDao.class);
             DMaaPAlarmPolling pollingTask = new DMaaPAlarmPolling(subscriber, droolsEngine, alarmInfoDaoService);
             Thread thread = new Thread(pollingTask);
             thread.start();
