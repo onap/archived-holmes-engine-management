@@ -160,7 +160,7 @@
         <dependency>
             <groupId>org.onap.holmes.common</groupId>
             <artifactId>holmes-actions</artifactId>
-            <version>1.4.3</version>
+            <version>1.4.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.swagger</groupId>

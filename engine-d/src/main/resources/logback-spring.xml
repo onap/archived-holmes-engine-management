@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
     <property name="LOG_HOME" value="/var/log/ONAP/holmes"/>
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] - %msg%n" />
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t][%X{RequestID}][%X{InvocationID}] - %m%n" />
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
