@@ -1,5 +1,8 @@
 from docs_conf.conf import *
 
+release = "master"
+version = "master"
+
 branch = 'latest'
 master_doc = 'index'
 
