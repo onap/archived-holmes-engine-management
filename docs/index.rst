@@ -4,7 +4,7 @@
 Holmes
 ------------------------------------------------
 
-Holmes provides alarm correlation and analysis for Telecom cloud infrastructure and services, including hosts, vims, VNFs and NSs. Holmes aims to find the root reason which causes the failure or degradation of services by digging into the ocean of events collected from different levels of the Telecom cloud.
+Holmes provides alarm correlation and analysis for Telecom cloud infrastructure and services, including hosts, VIMs, VNFs and NSs. Holmes aims to find the root reason which causes the failure or degradation of services by digging into the ocean of events collected from different levels of the Telecom cloud.
 
 Holmes comprises two main modules: the rule management module and the engine management module.
 
