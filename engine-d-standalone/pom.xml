@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright 2017-2020 ZTE Corporation.
+    Copyright 2017-2023 ZTE Corporation.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -126,6 +126,7 @@
                     <execution>
                         <id>linux64</id>
                         <configuration>
+                            <tarLongFileMode>gnu</tarLongFileMode>
                             <descriptors>
                                 <descriptor>linux64-assembly.xml</descriptor>
                             </descriptors>
@@ -134,7 +135,7 @@
                         </configuration>
                         <phase>package</phase>
                         <goals>
-                            <goal>attached</goal>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>

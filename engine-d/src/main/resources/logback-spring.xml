@@ -9,7 +9,7 @@
             <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>debug</level>
+            <level>DEBUG</level>
         </filter>
     </appender>
 
@@ -27,7 +27,7 @@
             <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>info</level>
+            <level>INFO</level>
         </filter>
     </appender>
 
@@ -45,9 +45,9 @@
             <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>error</level>
-            <onMatch>deny</onMatch>
-            <onMismatch>accept</onMismatch>
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
         </filter>
     </appender>
 

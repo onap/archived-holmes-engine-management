@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 ZTE Corporation.
+ * Copyright 2017-2023 ZTE Corporation.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package org.onap.holmes.engine;
 
 import org.onap.holmes.common.exception.CorrelationException;
+import org.onap.holmes.common.msb.entity.MicroServiceInfo;
 import org.onap.holmes.common.utils.CommonUtils;
-import org.onap.holmes.common.utils.MsbRegister;
-import org.onap.msb.sdk.discovery.entity.MicroServiceInfo;
-import org.onap.msb.sdk.discovery.entity.Node;
+import org.onap.holmes.common.msb.entity.Node;
+import org.onap.holmes.common.msb.MsbRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
