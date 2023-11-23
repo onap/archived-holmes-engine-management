@@ -1,0 +1,10 @@
+Code-Review+2: Thomas Kulik <thomas.kulik@telekom.de>
+Verified+1: Guangrong Fu <fu.guangrong@zte.com.cn>
+Code-Review+2: tang peng <tang.peng5@zte.com.cn>
+Code-Review+2: Guangrong Fu <fu.guangrong@zte.com.cn>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Submitted-by: Guangrong Fu <fu.guangrong@zte.com.cn>
+Submitted-at: Thu, 23 Nov 2023 00:27:04 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/holmes/engine-management/+/136611
+Project: holmes/engine-management
+Branch: refs/heads/montreal
